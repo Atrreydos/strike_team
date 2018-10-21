@@ -1,4 +1,4 @@
-package model;
+package ru.vigovskiy.strike_team.model;
 
 public class User {
 
