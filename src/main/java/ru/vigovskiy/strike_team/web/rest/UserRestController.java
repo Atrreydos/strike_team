@@ -27,7 +27,7 @@ public class UserRestController {
 
     public User getByMail(String email) {
         log.info("getByEmail {}", email);
-        return service.getByEmail(email);
+        return service.getByLogin(email);
     }
 
     public List<User> getAll() {

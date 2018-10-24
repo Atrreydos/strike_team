@@ -1,11 +1,25 @@
 package ru.vigovskiy.strike_team.model;
 
-public class User {
+import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
+
+import java.util.Objects;
+
+public class User implements Identifiable<Integer> {
 
     private Integer id;
     private String name;
     private String login;
     private String password;
+
+    public User() {
+    }
+
+    public User(Integer id, String name, String login, String password) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -37,5 +51,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, login, password);
     }
 }

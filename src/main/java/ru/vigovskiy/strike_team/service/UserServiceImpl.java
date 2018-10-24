@@ -1,5 +1,7 @@
 package ru.vigovskiy.strike_team.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vigovskiy.strike_team.model.User;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private UserRepository repository;
 
@@ -20,12 +23,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User get(int id) throws NotFoundException {
-        return repository.get(id);
+        User user = repository.get(id);
+        if (user == null) {
+            log.error("User with id {} not found", id);
+            throw new NotFoundException("Not found user with id = " + id);
+        }
+        return user;
     }
 
     @Override
-    public User getByEmail(String email) throws NotFoundException {
-        return repository.getByEmail(email);
+    public User getByLogin(String login) throws NotFoundException {
+        User user = repository.getByLogin(login);
+        if (user == null) {
+            log.info("User with login {} not found", login);
+            throw new NotFoundException("Not found user with login = " + login);
+        }
+        return user;
     }
 
     @Override
@@ -45,6 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(int id) throws NotFoundException {
-        repository.delete(id);
+        boolean deleted = repository.delete(id);
+        if (!deleted) {
+            log.info("User with id {} not found for deleting", id);
+            throw new NotFoundException("Not found user for deleting with id = " + id);
+        }
     }
 }
