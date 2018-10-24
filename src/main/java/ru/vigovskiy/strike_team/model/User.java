@@ -2,13 +2,26 @@ package ru.vigovskiy.strike_team.model;
 
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
-public class User implements Identifiable<Integer> {
+@Entity
+@Table(name = "users")
+public class User extends AbstractNamedEntity implements Identifiable<Integer> {
 
+    @Id
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
-    private String name;
+    @Column(name = "login", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 100)
     private String login;
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 100)
     private String password;
 
     public User() {
@@ -27,14 +40,6 @@ public class User implements Identifiable<Integer> {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLogin() {
@@ -56,16 +61,16 @@ public class User implements Identifiable<Integer> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
+        if (!super.equals(o)) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) &&
-                Objects.equals(name, user.name) &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, password);
+        return Objects.hash(super.hashCode(), id, login, password);
     }
 }
