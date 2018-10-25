@@ -1,6 +1,8 @@
 package ru.vigovskiy.strike_team.repository.jpa;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.repository.UserRepository;
 
@@ -10,12 +12,14 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 public class JpaUserRepositoryImpl implements UserRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
+    @Transactional
     public User save(User user) {
         if (user.isNew()) {
             em.persist(user);
@@ -32,10 +36,14 @@ public class JpaUserRepositoryImpl implements UserRepository {
 
     @Override
     public User getByLogin(String login) {
-        return null;
+        List<User> users = em.createNamedQuery(User.BY_LOGIN, User.class)
+                .setParameter("login", login)
+                .getResultList();
+        return DataAccessUtils.singleResult(users);
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
 
 /*      User ref = em.getReference(User.class, id);
@@ -43,11 +51,15 @@ public class JpaUserRepositoryImpl implements UserRepository {
 */
         Query query = em.createQuery("DELETE FROM User u WHERE u.id=:id");
         return query.setParameter("id", id).executeUpdate() != 0;
+
+//        return em.createNamedQuery(User.DELETE)
+//                .setParameter("id", id)
+//                .executeUpdate() != 0;
     }
 
 
     @Override
     public List<User> getAll() {
-        return null;
+        return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
     }
 }

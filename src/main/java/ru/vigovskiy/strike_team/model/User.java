@@ -7,13 +7,22 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
+        @NamedQuery(name = User.BY_LOGIN, query = "SELECT u FROM User u WHERE u.login=:login"),
+        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.name, u.login"),
+})
 @Entity
 @Table(name = "users")
 public class User extends AbstractNamedEntity implements Identifiable<Integer> {
 
+    public static final String DELETE = "User.delete";
+    public static final String BY_LOGIN = "User.getByLogin";
+    public static final String ALL_SORTED = "User.getAllSorted";
+
     @Id
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Integer id;
     @Column(name = "login", nullable = false)
     @NotBlank

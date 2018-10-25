@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -72,7 +72,7 @@ public class UserServiceTest {
         assertThat(userService.getAll()).isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
     }
 
-    @Test(expected = DuplicateKeyException.class)
+    @Test(expected = DataIntegrityViolationException.class)
     public void duplicateLoginCreate() {
         User newUser = new User(null, "name", "user1_login", "password");
         userService.create(newUser);
