@@ -13,6 +13,7 @@ import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +39,7 @@ public class UserServiceTest {
     @Test
     public void get() {
         User user = userService.get(USER1_ID);
-        assertThat(user).isEqualToComparingFieldByField(USER_1);
+        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
     }
 
     @Test(expected = NotFoundException.class)
@@ -49,7 +50,7 @@ public class UserServiceTest {
     @Test
     public void getByLogin() {
         User user = userService.getByLogin("user1_login");
-        assertThat(user).isEqualToComparingFieldByField(USER_1);
+        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
     }
 
     @Test(expected = NotFoundException.class)
@@ -85,13 +86,13 @@ public class UserServiceTest {
         updatedUser.setName("new_name");
         updatedUser.setPassword("new_password");
         userService.update(updatedUser);
-        assertThat(updatedUser).isEqualToComparingFieldByField(userService.get(USER1_ID));
+        assertThat(updatedUser).isEqualTo(userService.get(USER1_ID));
     }
 
     @Test
     public void delete() {
         userService.delete(USER1_ID);
-        assertThat(userService.getAll()).isEqualTo(Arrays.asList(ADMIN_1));
+        assertThat(userService.getAll()).isEqualTo(Collections.singletonList(ADMIN_1));
     }
 
     @Test(expected = NotFoundException.class)

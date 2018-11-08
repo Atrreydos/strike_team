@@ -5,6 +5,8 @@ import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @NamedQueries({
@@ -24,14 +26,19 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Integer id;
+
     @Column(name = "login", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
     private String login;
+
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vote> votes;
 
     public User() {
     }
@@ -41,6 +48,14 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         this.name = name;
         this.login = login;
         this.password = password;
+    }
+
+    public User(Integer id, String name, String login, String password, List<Vote> votes) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.votes = votes;
     }
 
     public Integer getId() {
@@ -65,6 +80,22 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public void addVote(Vote vote) {
+        if (votes == null) {
+            votes = new ArrayList<>();
+        }
+        vote.setUser(this);
+        votes.add(vote);
     }
 
     @Override
