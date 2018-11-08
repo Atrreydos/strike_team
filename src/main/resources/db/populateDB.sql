@@ -17,3 +17,12 @@ VALUES ('2018-10-30', 'ACCEPT', 1),
        ('2018-10-29', 'ACCEPT', 2),
        ('2018-10-31', 'REJECT', 2);
 
+DELETE
+FROM events;
+ALTER SEQUENCE event_seq
+  RESTART WITH 1;
+
+INSERT INTO events (name, description)
+VALUES ('событие 1', 'описание события 1'),
+       ('событие 2', 'описание события 2')
+
