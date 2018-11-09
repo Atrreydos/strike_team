@@ -26,7 +26,7 @@ import static ru.vigovskiy.strike_team.VoteTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class VoteServiceImplTest {
+public class VoteServiceTest {
 
     static {
         // Only for postgres driver logging
