@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS votes;
 DROP SEQUENCE IF EXISTS vote_seq;
+DROP TABLE IF EXISTS event_days;
+DROP SEQUENCE IF EXISTS event_day_seq;
 DROP TABLE IF EXISTS events;
 DROP SEQUENCE IF EXISTS event_seq;
 DROP TABLE IF EXISTS users;
@@ -38,4 +40,13 @@ CREATE TABLE events
   id          INTEGER PRIMARY KEY DEFAULT nextval('event_seq'),
   name        VARCHAR NOT NULL,
   description VARCHAR
+);
+
+CREATE SEQUENCE event_day_seq
+  START 1;
+
+CREATE TABLE event_days
+(
+  id       INTEGER PRIMARY KEY DEFAULT nextval('event_day_seq'),
+  day      DATE    NOT NULL
 );

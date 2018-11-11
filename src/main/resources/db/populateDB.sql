@@ -18,6 +18,15 @@ VALUES ('2018-10-30', 'ACCEPT', 1),
        ('2018-10-31', 'REJECT', 2);
 
 DELETE
+FROM event_days;
+ALTER SEQUENCE event_day_seq
+  RESTART WITH 1;
+
+INSERT INTO event_days (day)
+VALUES ('2018-10-30'),
+       ('2018-10-31');
+
+DELETE
 FROM events;
 ALTER SEQUENCE event_seq
   RESTART WITH 1;

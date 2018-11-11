@@ -1,4 +1,4 @@
-package ru.vigovskiy.strike_team.service;
+package ru.vigovskiy.strike_team.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.repository.VoteRepository;
+import ru.vigovskiy.strike_team.service.VoteService;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
