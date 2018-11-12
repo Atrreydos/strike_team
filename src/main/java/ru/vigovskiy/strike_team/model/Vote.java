@@ -29,14 +29,20 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
     @NotNull
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "event_day_id", nullable = false)
+    @NotNull
+    private EventDay eventDay;
+
     public Vote() {
     }
 
-    public Vote(Integer id, LocalDate day, DecisionType decisionType, User user) {
+    public Vote(Integer id, LocalDate day, DecisionType decisionType, User user, EventDay eventDay) {
         this.id = id;
         this.day = day;
         this.decisionType = decisionType;
         this.user = user;
+        this.eventDay = eventDay;
     }
 
     @Override
@@ -73,14 +79,12 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Vote{" +
-                "id=" + id +
-                ", day=" + day +
-                ", decisionType=" + decisionType +
-                ", user=" + user +
-                '}';
+    public EventDay getEventDay() {
+        return eventDay;
+    }
+
+    public void setEventDay(EventDay eventDay) {
+        this.eventDay = eventDay;
     }
 
     @Override
@@ -90,11 +94,32 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
 
         Vote vote = (Vote) o;
 
-        return id.equals(vote.id);
+        if (!id.equals(vote.id)) return false;
+        if (day != null ? !day.equals(vote.day) : vote.day != null) return false;
+        if (decisionType != vote.decisionType) return false;
+        if (!user.equals(vote.user)) return false;
+        return eventDay.equals(vote.eventDay);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + (day != null ? day.hashCode() : 0);
+        result = 31 * result + decisionType.hashCode();
+        result = 31 * result + user.hashCode();
+        result = 31 * result + eventDay.hashCode();
+        return result;
     }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "id=" + id +
+                ", day=" + day +
+                ", decisionType=" + decisionType +
+                ", user=" + user +
+                ", eventDay=" + eventDay +
+                '}';
+    }
+
 }

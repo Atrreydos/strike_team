@@ -39,7 +39,7 @@ public class EventDayServiceTest {
     @Test
     public void get() {
         EventDay eventDay = service.get(EVENT_DAY1_ID);
-        assertThat(eventDay).isEqualToComparingFieldByField(EVENT_DAY_1);
+        assertThat(eventDay).isEqualToIgnoringGivenFields(EVENT_DAY_1, "votes");
     }
 
     @Test(expected = NotFoundException.class)
@@ -55,7 +55,7 @@ public class EventDayServiceTest {
 
     @Test
     public void create() {
-        EventDay newEventDay = new EventDay(null, LocalDate.of(2018, 10, 28));
+        EventDay newEventDay = new EventDay(null, LocalDate.of(2018, 10, 28), null);
         EventDay createdEventDate = service.create(newEventDay);
         newEventDay.setId(createdEventDate.getId());
         assertThat(newEventDay).isEqualToComparingFieldByField(createdEventDate);
@@ -67,7 +67,7 @@ public class EventDayServiceTest {
         EventDay updatedEventDate = service.get(EVENT_DAY1_ID);
         updatedEventDate.setDay(LocalDate.of(2018, 9, 27));
         service.update(updatedEventDate);
-        assertThat(updatedEventDate).isEqualToComparingFieldByField(service.get(EVENT_DAY1_ID));
+        assertThat(updatedEventDate).isEqualTo(service.get(EVENT_DAY1_ID));
     }
 
     @Test

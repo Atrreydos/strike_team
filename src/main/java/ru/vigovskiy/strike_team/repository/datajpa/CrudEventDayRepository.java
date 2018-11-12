@@ -13,4 +13,7 @@ public interface CrudEventDayRepository extends JpaRepository<EventDay, Integer>
     @Modifying
     @Query("DELETE FROM EventDay ed WHERE ed.id=:id")
     int delete(@Param("id") int id);
+
+    @Query(value = "SELECT ed FROM EventDay ed LEFT JOIN FETCH ed.votes where ed.id = :id")
+    EventDay findByIdWithVotes(@Param("id") int id);
 }

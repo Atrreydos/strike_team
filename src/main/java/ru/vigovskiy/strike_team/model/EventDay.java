@@ -5,6 +5,7 @@ import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "event_days")
@@ -19,12 +20,21 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
     @NotNull
     private LocalDate day;
 
+    @OneToMany(mappedBy = "eventDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vote> votes;
+
     public EventDay() {
     }
 
     public EventDay(Integer id, LocalDate day) {
         this.id = id;
         this.day = day;
+    }
+
+    public EventDay(Integer id, LocalDate day, List<Vote> votes) {
+        this.id = id;
+        this.day = day;
+        this.votes = votes;
     }
 
     @Override
@@ -43,6 +53,14 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
 
     public void setDay(LocalDate day) {
         this.day = day;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 
     @Override

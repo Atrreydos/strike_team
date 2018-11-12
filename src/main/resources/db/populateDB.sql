@@ -12,10 +12,10 @@ FROM votes;
 ALTER SEQUENCE vote_seq
   RESTART WITH 1;
 
-INSERT INTO votes (day, decision, user_id)
-VALUES ('2018-10-30', 'ACCEPT', 1),
-       ('2018-10-29', 'ACCEPT', 2),
-       ('2018-10-31', 'REJECT', 2);
+INSERT INTO votes (day, decision, user_id, event_day_id)
+VALUES ('2018-10-30', 'ACCEPT', 1, 1),
+       ('2018-10-29', 'ACCEPT', 2, 2),
+       ('2018-10-31', 'REJECT', 2, 1);
 
 DELETE
 FROM event_days;

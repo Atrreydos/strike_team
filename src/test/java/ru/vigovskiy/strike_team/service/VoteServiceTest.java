@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.vigovskiy.strike_team.EventDayTestData.EVENT_DAY_2;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
 
@@ -56,11 +57,11 @@ public class VoteServiceTest {
 
     @Test
     public void create() {
-        Vote newVote = new Vote(null, LocalDate.of(2018, 10, 29), DecisionType.ACCEPT, USER_1);
+        Vote newVote = new Vote(null, LocalDate.of(2018, 10, 29), DecisionType.ACCEPT, USER_1, EVENT_DAY_2);
         Vote createdVote = voteService.create(newVote);
         newVote.setId(createdVote.getId());
         assertThat(newVote).isEqualToComparingFieldByField(createdVote);
-        assertThat(voteService.getAll()).isEqualTo(Arrays.asList(VOTE_1, VOTE_2, VOTE_3, newVote));
+        assertThat(newVote).isEqualToComparingFieldByField(voteService.get(createdVote.getId()));
     }
 
     @Test
@@ -69,7 +70,7 @@ public class VoteServiceTest {
         updatedVote.setDay(LocalDate.of(2018, 9, 29));
         updatedVote.setDecisionType(DecisionType.REJECT);
         voteService.update(updatedVote);
-        assertThat(updatedVote).isEqualToComparingFieldByField(voteService.get(VOTE1_ID));
+        assertThat(updatedVote).isEqualTo(voteService.get(VOTE1_ID));
     }
 
     @Test
