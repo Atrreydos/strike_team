@@ -50,14 +50,6 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         this.password = password;
     }
 
-    public User(Integer id, String name, String login, String password, List<Vote> votes) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        this.votes = votes;
-    }
-
     public Integer getId() {
         return id;
     }

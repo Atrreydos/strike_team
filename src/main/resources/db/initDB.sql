@@ -26,7 +26,6 @@ CREATE SEQUENCE vote_seq
 CREATE TABLE votes
 (
   id           INTEGER PRIMARY KEY DEFAULT nextval('vote_seq'),
-  day          DATE    NOT NULL,
   decision     VARCHAR NOT NULL,
   user_id      INTEGER NOT NULL,
   event_day_id INTEGER NOT NULL,

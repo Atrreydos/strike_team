@@ -12,7 +12,6 @@ import ru.vigovskiy.strike_team.model.DecisionType;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,7 +56,7 @@ public class VoteServiceTest {
 
     @Test
     public void create() {
-        Vote newVote = new Vote(null, LocalDate.of(2018, 10, 29), DecisionType.ACCEPT, USER_1, EVENT_DAY_2);
+        Vote newVote = new Vote(null, DecisionType.ACCEPT, USER_1, EVENT_DAY_2);
         Vote createdVote = voteService.create(newVote);
         newVote.setId(createdVote.getId());
         assertThat(newVote).isEqualToComparingFieldByField(createdVote);
@@ -67,7 +66,6 @@ public class VoteServiceTest {
     @Test
     public void update() {
         Vote updatedVote = voteService.get(VOTE1_ID);
-        updatedVote.setDay(LocalDate.of(2018, 9, 29));
         updatedVote.setDecisionType(DecisionType.REJECT);
         voteService.update(updatedVote);
         assertThat(updatedVote).isEqualTo(voteService.get(VOTE1_ID));

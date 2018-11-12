@@ -4,7 +4,6 @@ import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "votes")
@@ -14,10 +13,6 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
     @SequenceGenerator(name = "vote_seq", sequenceName = "vote_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vote_seq")
     private Integer id;
-
-    @Column(name = "day", nullable = false)
-    @NotNull
-    private LocalDate day;
 
     @Column(name = "decision")
     @NotNull
@@ -37,9 +32,8 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
     public Vote() {
     }
 
-    public Vote(Integer id, LocalDate day, DecisionType decisionType, User user, EventDay eventDay) {
+    public Vote(Integer id, DecisionType decisionType, User user, EventDay eventDay) {
         this.id = id;
-        this.day = day;
         this.decisionType = decisionType;
         this.user = user;
         this.eventDay = eventDay;
@@ -53,14 +47,6 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
     @Override
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public LocalDate getDay() {
-        return day;
-    }
-
-    public void setDay(LocalDate day) {
-        this.day = day;
     }
 
     public DecisionType getDecisionType() {
@@ -95,7 +81,6 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
         Vote vote = (Vote) o;
 
         if (!id.equals(vote.id)) return false;
-        if (day != null ? !day.equals(vote.day) : vote.day != null) return false;
         if (decisionType != vote.decisionType) return false;
         if (!user.equals(vote.user)) return false;
         return eventDay.equals(vote.eventDay);
@@ -104,7 +89,6 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + (day != null ? day.hashCode() : 0);
         result = 31 * result + decisionType.hashCode();
         result = 31 * result + user.hashCode();
         result = 31 * result + eventDay.hashCode();
@@ -115,7 +99,6 @@ public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", day=" + day +
                 ", decisionType=" + decisionType +
                 ", user=" + user +
                 ", eventDay=" + eventDay +

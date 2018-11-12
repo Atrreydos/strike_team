@@ -55,7 +55,7 @@ public class EventDayServiceTest {
 
     @Test
     public void create() {
-        EventDay newEventDay = new EventDay(null, LocalDate.of(2018, 10, 28), null);
+        EventDay newEventDay = new EventDay(null, LocalDate.of(2018, 10, 28));
         EventDay createdEventDate = service.create(newEventDay);
         newEventDay.setId(createdEventDate.getId());
         assertThat(newEventDay).isEqualToComparingFieldByField(createdEventDate);

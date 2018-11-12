@@ -31,12 +31,6 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
         this.day = day;
     }
 
-    public EventDay(Integer id, LocalDate day, List<Vote> votes) {
-        this.id = id;
-        this.day = day;
-        this.votes = votes;
-    }
-
     @Override
     public Integer getId() {
         return id;
