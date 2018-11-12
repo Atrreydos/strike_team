@@ -20,15 +20,21 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
     @NotNull
     private LocalDate day;
 
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
+    @NotNull
+    private Event event;
+
     @OneToMany(mappedBy = "eventDay", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes;
 
     public EventDay() {
     }
 
-    public EventDay(Integer id, LocalDate day) {
+    public EventDay(Integer id, LocalDate day, Event event) {
         this.id = id;
         this.day = day;
+        this.event = event;
     }
 
     @Override
@@ -49,6 +55,14 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
         this.day = day;
     }
 
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
     public List<Vote> getVotes() {
         return votes;
     }
@@ -62,6 +76,7 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
         return "EventDay{" +
                 "id=" + id +
                 ", day=" + day +
+                ", event=" + event +
                 '}';
     }
 
@@ -73,13 +88,15 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
         EventDay eventDay = (EventDay) o;
 
         if (!id.equals(eventDay.id)) return false;
-        return day.equals(eventDay.day);
+        if (!day.equals(eventDay.day)) return false;
+        return event.equals(eventDay.event);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + day.hashCode();
+        result = 31 * result + event.hashCode();
         return result;
     }
 }

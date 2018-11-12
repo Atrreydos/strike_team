@@ -17,7 +17,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.vigovskiy.strike_team.EventTestData.*;
-import static ru.vigovskiy.strike_team.VoteTestData.VOTE1_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -68,7 +67,7 @@ public class EventServiceTest {
         updatedEvent.setName("updated name");
         updatedEvent.setDescription("updated description");
         eventService.update(updatedEvent);
-        assertThat(updatedEvent).isEqualToComparingFieldByField(eventService.get(VOTE1_ID));
+        assertThat(updatedEvent).isEqualToIgnoringGivenFields(eventService.get(EVENT1_ID), "eventDays");
     }
 
     @Test

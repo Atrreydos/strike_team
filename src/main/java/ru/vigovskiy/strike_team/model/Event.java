@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.model;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -15,6 +16,9 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EventDay> eventDays;
 
     public Event() {
     }
@@ -41,6 +45,14 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<EventDay> getEventDays() {
+        return eventDays;
+    }
+
+    public void setEventDays(List<EventDay> eventDays) {
+        this.eventDays = eventDays;
     }
 
     @Override

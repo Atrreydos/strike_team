@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.vigovskiy.strike_team.EventDayTestData.*;
+import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -55,7 +56,7 @@ public class EventDayServiceTest {
 
     @Test
     public void create() {
-        EventDay newEventDay = new EventDay(null, LocalDate.of(2018, 10, 28));
+        EventDay newEventDay = new EventDay(null, LocalDate.of(2018, 10, 28), EVENT_1);
         EventDay createdEventDate = service.create(newEventDay);
         newEventDay.setId(createdEventDate.getId());
         assertThat(newEventDay).isEqualToComparingFieldByField(createdEventDate);

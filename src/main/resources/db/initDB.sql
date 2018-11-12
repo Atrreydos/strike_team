@@ -49,6 +49,8 @@ CREATE SEQUENCE event_day_seq
 
 CREATE TABLE event_days
 (
-  id  INTEGER PRIMARY KEY DEFAULT nextval('event_day_seq'),
-  day DATE NOT NULL
+  id       INTEGER PRIMARY KEY DEFAULT nextval('event_day_seq'),
+  day      DATE    NOT NULL,
+  event_id INTEGER NOT NULL,
+  FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
