@@ -20,20 +20,6 @@ CREATE TABLE users
 CREATE UNIQUE INDEX users_unique_login_idx
   ON users (login);
 
-CREATE SEQUENCE vote_seq
-  START 1;
-
-CREATE TABLE votes
-(
-  id           INTEGER PRIMARY KEY DEFAULT nextval('vote_seq'),
-  decision     VARCHAR NOT NULL,
-  user_id      INTEGER NOT NULL,
-  event_day_id INTEGER NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
-);
-CREATE UNIQUE INDEX votes_unique_user_event_idx
-  ON votes (user_id, event_day_id);
-
 CREATE SEQUENCE event_seq
   START 1;
 
@@ -51,6 +37,18 @@ CREATE TABLE event_days
 (
   id       INTEGER PRIMARY KEY DEFAULT nextval('event_day_seq'),
   day      DATE    NOT NULL,
-  event_id INTEGER NOT NULL,
-  FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
+  event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
 );
+
+CREATE SEQUENCE vote_seq
+  START 1;
+
+CREATE TABLE votes
+(
+  id           INTEGER PRIMARY KEY DEFAULT nextval('vote_seq'),
+  decision     VARCHAR NOT NULL,
+  user_id      INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+  event_day_id INTEGER NOT NULL REFERENCES event_days (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX votes_unique_user_event_idx
+  ON votes (user_id, event_day_id);

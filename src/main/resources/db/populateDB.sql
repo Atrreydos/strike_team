@@ -8,16 +8,6 @@ VALUES ('User1', 'user1_login', 'password'),
        ('Admin1', 'admin1_login', 'password');
 
 DELETE
-FROM votes;
-ALTER SEQUENCE vote_seq
-  RESTART WITH 1;
-
-INSERT INTO votes (decision, user_id, event_day_id)
-VALUES ('ACCEPT', 1, 1),
-       ('ACCEPT', 2, 2),
-       ('REJECT', 2, 1);
-
-DELETE
 FROM events;
 ALTER SEQUENCE event_seq
   RESTART WITH 1;
@@ -34,6 +24,16 @@ ALTER SEQUENCE event_day_seq
 INSERT INTO event_days (day, event_id)
 VALUES ('2018-10-30', 1),
        ('2018-10-31', 2);
+
+DELETE
+FROM votes;
+ALTER SEQUENCE vote_seq
+  RESTART WITH 1;
+
+INSERT INTO votes (decision, user_id, event_day_id)
+VALUES ('ACCEPT', 1, 1),
+       ('ACCEPT', 2, 2),
+       ('REJECT', 2, 1);
 
 
 
