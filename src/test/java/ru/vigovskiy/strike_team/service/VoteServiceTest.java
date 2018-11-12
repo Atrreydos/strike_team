@@ -9,6 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.vigovskiy.strike_team.model.DecisionType;
+import ru.vigovskiy.strike_team.model.UserEventDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -16,7 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.vigovskiy.strike_team.EventDayTestData.EVENT_DAY2_ID;
 import static ru.vigovskiy.strike_team.EventDayTestData.EVENT_DAY_2;
+import static ru.vigovskiy.strike_team.UserTestData.USER1_ID;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
 
@@ -40,12 +43,12 @@ public class VoteServiceTest {
     @Test
     public void get() {
         Vote vote = voteService.get(VOTE1_ID);
-        assertThat(vote).isEqualToIgnoringGivenFields(VOTE_1, "user");
+        assertThat(vote).isEqualTo(VOTE_1);
     }
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() {
-        voteService.get(0);
+        voteService.get(new UserEventDayPK(0,0));
     }
 
     @Test
@@ -56,7 +59,7 @@ public class VoteServiceTest {
 
     @Test
     public void create() {
-        Vote newVote = new Vote(null, DecisionType.ACCEPT, USER_1, EVENT_DAY_2);
+        Vote newVote = new Vote(new UserEventDayPK(USER1_ID, EVENT_DAY2_ID), DecisionType.ACCEPT, USER_1, EVENT_DAY_2);
         Vote createdVote = voteService.create(newVote);
         newVote.setId(createdVote.getId());
         assertThat(newVote).isEqualToComparingFieldByField(createdVote);
@@ -79,6 +82,6 @@ public class VoteServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() {
-        voteService.delete(0);
+        voteService.delete(new UserEventDayPK(0,0));
     }
 }

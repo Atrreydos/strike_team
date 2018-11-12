@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.vigovskiy.strike_team.model.UserEventDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.repository.VoteRepository;
 
@@ -10,8 +11,12 @@ import java.util.List;
 @Repository
 public class DataJpaVoteRepositoryImpl implements VoteRepository {
 
+    private final CrudVoteRepository repository;
+
     @Autowired
-    private CrudVoteRepository repository;
+    public DataJpaVoteRepositoryImpl(CrudVoteRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Vote save(Vote vote) {
@@ -19,12 +24,12 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(UserEventDayPK id) {
         return repository.delete(id) != 0;
     }
 
     @Override
-    public Vote get(int id) {
+    public Vote get(UserEventDayPK id) {
         return repository.findById(id).orElse(null);
     }
 

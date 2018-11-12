@@ -45,10 +45,10 @@ CREATE SEQUENCE vote_seq
 
 CREATE TABLE votes
 (
-  id           INTEGER PRIMARY KEY DEFAULT nextval('vote_seq'),
   decision     VARCHAR NOT NULL,
   user_id      INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-  event_day_id INTEGER NOT NULL REFERENCES event_days (id) ON DELETE CASCADE
+  event_day_id INTEGER NOT NULL REFERENCES event_days (id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, event_day_id)
 );
 CREATE UNIQUE INDEX votes_unique_user_event_idx
   ON votes (user_id, event_day_id);
