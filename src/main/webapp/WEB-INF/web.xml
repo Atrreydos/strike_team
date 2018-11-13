@@ -16,4 +16,14 @@
         <!--<url-pattern>/users</url-pattern>-->
     <!--</servlet-mapping>-->
 
+    <!--<servlet>-->
+        <!--<servlet-name>eventServlet</servlet-name>-->
+        <!--<servlet-class>ru.vigovskiy.strike_team.web.EventServlet</servlet-class>-->
+        <!--<load-on-startup>0</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>eventServlet</servlet-name>-->
+        <!--<url-pattern>/events</url-pattern>-->
+    <!--</servlet-mapping>-->
+
 </web-app>

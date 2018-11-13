@@ -36,7 +36,7 @@ public class Vote extends AbstractBaseEntity implements Identifiable<UserEventDa
         this.eventDay = eventDay;
     }
 
-    public Vote(UserEventDayPK id, @NotNull DecisionType decisionType, @NotNull User user, @NotNull EventDay eventDay) {
+    public Vote(UserEventDayPK id, DecisionType decisionType, User user, EventDay eventDay) {
         this.id = id;
         this.decisionType = decisionType;
         this.user = user;
