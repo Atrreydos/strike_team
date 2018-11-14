@@ -10,8 +10,12 @@ import java.util.List;
 @Repository
 public class DataJpaEventRepositoryImpl implements EventRepository {
 
+    private final CrudEventRepository repository;
+
     @Autowired
-    private CrudEventRepository repository;
+    public DataJpaEventRepositoryImpl(CrudEventRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Event save(Event event) {
@@ -25,7 +29,7 @@ public class DataJpaEventRepositoryImpl implements EventRepository {
 
     @Override
     public Event get(int id) {
-        return repository.findById(id).orElse(null);
+        return repository.findByIdWithEventDays(id);
     }
 
     @Override

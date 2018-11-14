@@ -36,20 +36,28 @@ public class EventServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        int id;
+        Event event;
 
         switch (action == null ? "all" : action) {
+            case "get":
+                id = getId(request);
+                event = eventController.get(id);
+                request.setAttribute("event", event);
+                request.getRequestDispatcher("/event.jsp").forward(request, response);
+                break;
             case "delete":
-                int id = getId(request);
+                id = getId(request);
                 eventController.delete(id);
-                response.sendRedirect("meals");
+                response.sendRedirect("events");
                 break;
             case "create":
-                final Event newEvent = new Event();
-                request.setAttribute("event", newEvent);
+                event = new Event();
+                request.setAttribute("event", event);
                 request.getRequestDispatcher("/eventForm.jsp").forward(request, response);
                 break;
             case "update":
-                final Event event = eventController.get(getId(request));
+                event = eventController.get(getId(request));
                 request.setAttribute("event", event);
                 request.getRequestDispatcher("/eventForm.jsp").forward(request, response);
                 break;
@@ -59,9 +67,6 @@ public class EventServlet extends HttpServlet {
                 request.getRequestDispatcher("/events.jsp").forward(request, response);
                 break;
         }
-
-        request.setAttribute("events", eventController.getAll());
-        request.getRequestDispatcher("/events.jsp").forward(request, response);
     }
 
     @Override

@@ -3,13 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Event list</title>
+    <title>Event</title>
     <%--<link rel="stylesheet" href="css/style.css">--%>
 </head>
 <body>
 <section>
     <h3><a href="index.html">Начальная страница</a></h3>
-    <h2>Events</h2>
+    <h2>Event</h2>
     <%--<form method="post" action="events?action=filter">--%>
         <%--<dl>--%>
             <%--<dt>From Date:</dt>--%>
@@ -30,7 +30,7 @@
         <%--<button type="submit">Filter</button>--%>
     <%--</form>--%>
     <hr/>
-    <a href="events?action=create">Add Event</a>
+    <a href="event-days?action=create">Add EventDay</a>
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -42,14 +42,13 @@
             <th></th>
         </tr>
         </thead>
-        <c:forEach items="${events}" var="event">
-            <jsp:useBean id="event" scope="page" type="ru.vigovskiy.strike_team.model.Event"/>
+        <jsp:useBean id="event" scope="request" type="ru.vigovskiy.strike_team.model.Event"/>
+        <c:forEach items="${event.eventDays}" var="eventDay">
+            <jsp:useBean id="eventDay" scope="page" type="ru.vigovskiy.strike_team.model.EventDay"/>
             <tr>
-                <td>${event.name}</td>
-                <td>${event.description}</td>
-                <td><a href="events?action=get&id=${event.id}">Get</a></td>
-                <td><a href="events?action=update&id=${event.id}">Update</a></td>
-                <td><a href="events?action=delete&id=${event.id}">Delete</a></td>
+                <td>${eventDay.day}</td>
+                <td><a href="events?action=update&id=${eventDay.id}">Update</a></td>
+                <td><a href="events?action=delete&id=${eventDay.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
