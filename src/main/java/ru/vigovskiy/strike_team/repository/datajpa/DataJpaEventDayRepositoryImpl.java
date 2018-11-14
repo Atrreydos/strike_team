@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.model.EventDay;
 import ru.vigovskiy.strike_team.repository.EventDayRepository;
 
@@ -14,11 +15,13 @@ public class DataJpaEventDayRepositoryImpl implements EventDayRepository {
     private CrudEventDayRepository repository;
 
     @Override
+    @Transactional
     public EventDay save(EventDay event) {
         return repository.save(event);
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         return repository.delete(id) != 0;
     }

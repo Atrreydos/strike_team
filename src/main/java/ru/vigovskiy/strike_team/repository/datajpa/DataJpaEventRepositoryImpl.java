@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.repository.EventRepository;
 
@@ -18,11 +19,13 @@ public class DataJpaEventRepositoryImpl implements EventRepository {
     }
 
     @Override
+    @Transactional
     public Event save(Event event) {
         return repository.save(event);
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         return repository.delete(id) != 0;
     }
