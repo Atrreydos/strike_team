@@ -1,7 +1,7 @@
 package ru.vigovskiy.strike_team.web;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.web.rest.EventController;
 
@@ -17,20 +17,13 @@ import java.util.Objects;
 @WebServlet("/events")
 public class EventServlet extends HttpServlet {
 
-    private ConfigurableApplicationContext springContext;
     private EventController eventController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
+        WebApplicationContext springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         eventController = springContext.getBean(EventController.class);
-    }
-
-    @Override
-    public void destroy() {
-        springContext.close();
-        super.destroy();
     }
 
     @Override

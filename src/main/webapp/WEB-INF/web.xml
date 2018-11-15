@@ -6,6 +6,18 @@
 
     <display-name>strike-team</display-name>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring/spring-app.xml
+            classpath:spring/spring-db.xml
+        </param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <!--<servlet>-->
         <!--<servlet-name>userServlet</servlet-name>-->
         <!--<servlet-class>ru.vigovskiy.strike_team.web.UserServlet</servlet-class>-->
