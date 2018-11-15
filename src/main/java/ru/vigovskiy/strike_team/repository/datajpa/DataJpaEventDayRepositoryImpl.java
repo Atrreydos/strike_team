@@ -11,8 +11,12 @@ import java.util.List;
 @Repository
 public class DataJpaEventDayRepositoryImpl implements EventDayRepository {
 
+    private final CrudEventDayRepository repository;
+
     @Autowired
-    private CrudEventDayRepository repository;
+    public DataJpaEventDayRepositoryImpl(CrudEventDayRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     @Transactional
@@ -28,6 +32,11 @@ public class DataJpaEventDayRepositoryImpl implements EventDayRepository {
 
     @Override
     public EventDay get(int id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public EventDay getWithVotes(int id) {
         return repository.findByIdWithVotes(id);
     }
 

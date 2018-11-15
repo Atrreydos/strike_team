@@ -33,6 +33,16 @@ public class EventDayServiceImpl implements EventDayService {
     }
 
     @Override
+    public EventDay getWithVotes(int id) throws NotFoundException {
+        EventDay eventDay = repository.getWithVotes(id);
+        if (eventDay == null) {
+            log.error("EventDay with id {} not found", id);
+            throw new NotFoundException("Not found eventDay with id = " + id);
+        }
+        return eventDay;
+    }
+
+    @Override
     public List<EventDay> getAll() {
         return repository.getAll();
     }

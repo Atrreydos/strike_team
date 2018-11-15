@@ -12,5 +12,7 @@ public interface EventDayRepository {
 
     EventDay get(int id);
 
+    EventDay getWithVotes(int id);
+
     List<EventDay> getAll();
 }

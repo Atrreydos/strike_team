@@ -1,13 +1,7 @@
 package ru.vigovskiy.strike_team.service;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -16,21 +10,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.vigovskiy.strike_team.EventDayTestData.EVENT_DAY_1;
 import static ru.vigovskiy.strike_team.EventTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class EventServiceTest {
-
-    static {
-        // Only for postgres driver logging
-        // It uses java.util.logging and logged via jul-to-slf4j bridge
-        SLF4JBridgeHandler.install();
-    }
+public class EventServiceTest extends AbstractServiceTest {
 
     @Autowired
     private EventService eventService;
@@ -38,12 +21,24 @@ public class EventServiceTest {
     @Test
     public void get() {
         Event event = eventService.get(EVENT1_ID);
-        assertThat(event).isEqualTo(EVENT_1);
+        assertThat(event).isEqualToIgnoringGivenFields(EVENT_1, "eventDays");
     }
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() {
         eventService.get(0);
+    }
+
+    @Test
+    public void getWithEventDays() {
+        Event event = eventService.getWithEventDays(EVENT1_ID);
+        assertThat(event).isEqualToIgnoringGivenFields(EVENT_1, "eventDays");
+        assertThat(event.getEventDays()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(EVENT_DAY_1));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getWithEventDaysNotFound() {
+        eventService.getWithEventDays(0);
     }
 
     @Test
@@ -80,4 +75,5 @@ public class EventServiceTest {
     public void deleteNotFound() {
         eventService.delete(0);
     }
+
 }

@@ -1,13 +1,7 @@
 package ru.vigovskiy.strike_team.service;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.vigovskiy.strike_team.model.DecisionType;
 import ru.vigovskiy.strike_team.model.UserEventDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
@@ -23,19 +17,7 @@ import static ru.vigovskiy.strike_team.UserTestData.USER1_ID;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class VoteServiceTest {
-
-    static {
-        // Only for postgres driver logging
-        // It uses java.util.logging and logged via jul-to-slf4j bridge
-        SLF4JBridgeHandler.install();
-    }
+public class VoteServiceTest extends AbstractServiceTest {
 
     @Autowired
     private VoteService voteService;
@@ -43,7 +25,7 @@ public class VoteServiceTest {
     @Test
     public void get() {
         Vote vote = voteService.get(VOTE1_ID);
-        assertThat(vote).isEqualTo(VOTE_1);
+        assertThat(vote).isEqualToComparingFieldByField(VOTE_1);
     }
 
     @Test(expected = NotFoundException.class)
@@ -71,7 +53,7 @@ public class VoteServiceTest {
         Vote updatedVote = voteService.get(VOTE1_ID);
         updatedVote.setDecisionType(DecisionType.REJECT);
         voteService.update(updatedVote);
-        assertThat(updatedVote).isEqualTo(voteService.get(VOTE1_ID));
+        assertThat(updatedVote).isEqualToComparingFieldByField(voteService.get(VOTE1_ID));
     }
 
     @Test

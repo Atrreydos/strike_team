@@ -1,13 +1,7 @@
 package ru.vigovskiy.strike_team.service;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.vigovskiy.strike_team.model.EventDay;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -19,20 +13,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.vigovskiy.strike_team.EventDayTestData.*;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
+import static ru.vigovskiy.strike_team.VoteTestData.VOTE_1;
+import static ru.vigovskiy.strike_team.VoteTestData.VOTE_3;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class EventDayServiceTest {
-
-    static {
-        // Only for postgres driver logging
-        // It uses java.util.logging and logged via jul-to-slf4j bridge
-        SLF4JBridgeHandler.install();
-    }
+public class EventDayServiceTest extends AbstractServiceTest{
 
     @Autowired
     private EventDayService service;
@@ -46,6 +30,18 @@ public class EventDayServiceTest {
     @Test(expected = NotFoundException.class)
     public void getNotFound() {
         service.get(0);
+    }
+
+    @Test
+    public void getWithVotes() {
+        EventDay eventDay = service.getWithVotes(EVENT_DAY1_ID);
+        assertThat(eventDay).isEqualToIgnoringGivenFields(EVENT_DAY_1, "votes");
+        assertThat(eventDay.getVotes()).usingElementComparatorIgnoringFields().isEqualTo(Arrays.asList(VOTE_1, VOTE_3));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getWithVotesNotFound() {
+        service.getWithVotes(0);
     }
 
     @Test
@@ -81,4 +77,5 @@ public class EventDayServiceTest {
     public void deleteNotFound() {
         service.delete(0);
     }
+
 }

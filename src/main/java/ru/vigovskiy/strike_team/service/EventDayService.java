@@ -9,6 +9,8 @@ public interface EventDayService {
 
     EventDay get(int id) throws NotFoundException;
 
+    EventDay getWithVotes(int id) throws NotFoundException;
+
     List<EventDay> getAll();
 
     EventDay create(EventDay event);

@@ -13,8 +13,12 @@ import java.util.List;
 public class DataJpaUserRepositoryImpl implements UserRepository {
     private static final Sort SORT_LOGIN_NAME_ASC = new Sort(Sort.Direction.ASC, "login", "name");
 
+    private final CrudUserRepository repository;
+
     @Autowired
-    private CrudUserRepository repository;
+    public DataJpaUserRepositoryImpl(CrudUserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     @Transactional
@@ -30,7 +34,7 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
 
     @Override
     public User get(int id) {
-        return repository.findByIdWithVotes(id);
+        return repository.findById(id).orElse(null);
     }
 
     @Override

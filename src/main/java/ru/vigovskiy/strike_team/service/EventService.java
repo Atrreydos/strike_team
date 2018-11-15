@@ -9,6 +9,8 @@ public interface EventService {
 
     Event get(int id) throws NotFoundException;
 
+    Event getWithEventDays(int id) throws NotFoundException;
+
     List<Event> getAll();
 
     Event create(Event event);
