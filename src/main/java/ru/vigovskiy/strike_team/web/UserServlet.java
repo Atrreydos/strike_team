@@ -11,14 +11,13 @@ import java.io.IOException;
 
 @WebServlet("/users")
 public class UserServlet extends javax.servlet.http.HttpServlet {
-    
+
     private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirecting to users.jsp");
 
-        //        request.getRequestDispatcher("/users.jsp").forward(request, response);
-        response.sendRedirect("users.jsp");
+        request.getRequestDispatcher("/users.jsp").forward(request, response);
     }
 
     @Override

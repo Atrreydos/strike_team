@@ -22,7 +22,7 @@ public class EventController {
 
     public Event get(int id) {
         log.info("get {}", id);
-        return service.get(id);
+        return service.getWithEventDays(id);
     }
 
     public List<Event> getAll() {

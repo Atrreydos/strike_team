@@ -2,14 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
-<head>
-    <title>Event</title>
-    <%--<link rel="stylesheet" href="css/style.css">--%>
-</head>
+<jsp:include page="fragments/headTag.jsp"/>
 <body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h3><a href="index.html">Начальная страница</a></h3>
-    <h2>Event</h2>
+    <h2>Событие</h2>
     <%--<form method="post" action="events?action=filter">--%>
         <%--<dl>--%>
             <%--<dt>From Date:</dt>--%>
@@ -47,11 +44,13 @@
             <jsp:useBean id="eventDay" scope="page" type="ru.vigovskiy.strike_team.model.EventDay"/>
             <tr>
                 <td>${eventDay.day}</td>
+                <%--<td><fmt:formatDate value="${eventDay.day}" pattern="dd-MM-yyyy"/></td>--%>
                 <td><a href="events?action=update&id=${eventDay.id}">Update</a></td>
                 <td><a href="events?action=delete&id=${eventDay.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
 </section>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
