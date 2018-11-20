@@ -10,13 +10,13 @@ import ru.vigovskiy.strike_team.service.EventService;
 import java.util.List;
 
 @Controller
-public class EventController {
-    private static final Logger log = LoggerFactory.getLogger(EventController.class);
+public class OldEventController {
+    private static final Logger log = LoggerFactory.getLogger(OldEventController.class);
 
     private EventService service;
 
     @Autowired
-    public EventController(EventService service) {
+    public OldEventController(EventService service) {
         this.service = service;
     }
 

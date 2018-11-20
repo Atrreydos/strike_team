@@ -3,27 +3,26 @@ package ru.vigovskiy.strike_team.web;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.vigovskiy.strike_team.model.Event;
-import ru.vigovskiy.strike_team.web.rest.EventController;
+import ru.vigovskiy.strike_team.web.rest.OldEventController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-@WebServlet("/events")
+//@WebServlet("/events")
 public class EventServlet extends HttpServlet {
 
-    private EventController eventController;
+    private OldEventController eventController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         WebApplicationContext springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-        eventController = springContext.getBean(EventController.class);
+        eventController = springContext.getBean(OldEventController.class);
     }
 
     @Override

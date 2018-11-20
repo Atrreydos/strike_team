@@ -22,6 +22,7 @@
     </appender>
 
     <logger name="ru.vigovskiy.strike_team" level="debug"/>
+    <logger name="org.springframework.web.servlet" level="debug"/>
 
     <root level="info">
         <appender-ref ref="file"/>

@@ -6,6 +6,7 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
+    <jsp:useBean id="event" scope="request" type="ru.vigovskiy.strike_team.model.Event"/>
     <h2>Событие</h2>
     <%--<form method="post" action="events?action=filter">--%>
         <%--<dl>--%>
@@ -27,19 +28,17 @@
         <%--<button type="submit">Filter</button>--%>
     <%--</form>--%>
     <hr/>
-    <a href="event-days?action=create">Add EventDay</a>
-    <hr/>
+    <h3>Имя события : ${event.name}</h3><br>
+    <h3>Описание события : ${event.description}</h3><br>
+    <h3>Дни события:</h3><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th>Имя</th>
-            <th>Описание</th>
-            <th>Детали</th>
+            <th>Дата</th>
             <th></th>
             <th></th>
         </tr>
         </thead>
-        <jsp:useBean id="event" scope="request" type="ru.vigovskiy.strike_team.model.Event"/>
         <c:forEach items="${event.eventDays}" var="eventDay">
             <jsp:useBean id="eventDay" scope="page" type="ru.vigovskiy.strike_team.model.EventDay"/>
             <tr>
@@ -50,6 +49,8 @@
             </tr>
         </c:forEach>
     </table>
+    <a href="event-days?action=create">Add EventDay</a>
+    <hr/>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
