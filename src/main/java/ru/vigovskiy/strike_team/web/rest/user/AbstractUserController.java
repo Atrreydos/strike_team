@@ -1,4 +1,4 @@
-package ru.vigovskiy.strike_team.web.rest;
+package ru.vigovskiy.strike_team.web.rest.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,14 +8,13 @@ import ru.vigovskiy.strike_team.service.UserService;
 
 import java.util.List;
 
-//@Controller
-public class UserRestController {
-    private static final Logger log = LoggerFactory.getLogger(UserRestController.class);
+public class AbstractUserController {
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private UserService service;
 
     @Autowired
-    public UserRestController(UserService service) {
+    public AbstractUserController(UserService service) {
         this.service = service;
     }
 
@@ -39,8 +38,8 @@ public class UserRestController {
         return service.create(user);
     }
 
-    public void update(User user, int id) {
-        log.info("update {} with id={}", user, id);
+    public void update(User user) {
+        log.info("update {}", user);
         service.update(user);
     }
 
