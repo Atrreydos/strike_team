@@ -1,19 +1,27 @@
 package ru.vigovskiy.strike_team.web;
 
-import org.junit.runner.RunWith;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@ContextConfiguration({
+import javax.annotation.PostConstruct;
+
+//@ContextConfiguration({
+//        "classpath:spring/spring-app.xml",
+//        "classpath:spring/spring-db.xml"
+//})
+//@RunWith(SpringRunner.class)
+@SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",
+        "classpath:spring/spring-mvc.xml",
         "classpath:spring/spring-db.xml"
 })
-@RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public abstract class AbstractControllerTest {
+abstract class AbstractControllerTest {
 
     static {
         // Only for postgres driver logging

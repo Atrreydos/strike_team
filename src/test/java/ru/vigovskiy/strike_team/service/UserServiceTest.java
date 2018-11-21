@@ -1,6 +1,6 @@
 package ru.vigovskiy.strike_team.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import ru.vigovskiy.strike_team.model.User;
@@ -11,43 +11,44 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 
-public class UserServiceTest extends AbstractServiceTest {
+class UserServiceTest extends AbstractServiceTest {
 
-    @Autowired
+    @Autowired(required = false)
     private UserService userService;
 
     @Test
-    public void get() {
+    void get() {
         User user = userService.get(USER1_ID);
         assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
     }
 
-    @Test(expected = NotFoundException.class)
-    public void getNotFound() {
-        userService.get(0);
+    @Test
+    void getNotFound() {
+        assertThrows(NotFoundException.class, () -> userService.get(0));
     }
 
     @Test
-    public void getByLogin() {
+    void getByLogin() {
         User user = userService.getByLogin("user1_login");
         assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
     }
 
-    @Test(expected = NotFoundException.class)
-    public void getByLoginNotFound() {
-        userService.getByLogin("login");
+    @Test
+    void getByLoginNotFound() {
+        assertThrows(NotFoundException.class, () -> userService.getByLogin("login"));
     }
 
     @Test
-    public void getAll() {
+    void getAll() {
         List<User> users = userService.getAll();
         assertThat(users).isEqualTo(Arrays.asList(ADMIN_1, USER_1));
     }
 
     @Test
-    public void create() {
+    void create() {
         User newUser = new User(null, "name", "login", "password");
         User createdUser = userService.create(newUser);
         newUser.setId(createdUser.getId());
@@ -55,14 +56,14 @@ public class UserServiceTest extends AbstractServiceTest {
         assertThat(userService.getAll()).isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
-    public void duplicateLoginCreate() {
+    @Test
+    void duplicateLoginCreate() {
         User newUser = new User(null, "name", "user1_login", "password");
-        userService.create(newUser);
+        assertThrows(DataIntegrityViolationException.class, () -> userService.create(newUser));
     }
 
     @Test
-    public void update() {
+    void update() {
         User updatedUser = userService.get(USER1_ID);
         updatedUser.setLogin("new_login");
         updatedUser.setName("new_name");
@@ -72,13 +73,13 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void delete() {
+    void delete() {
         userService.delete(USER1_ID);
         assertThat(userService.getAll()).isEqualTo(Collections.singletonList(ADMIN_1));
     }
 
-    @Test(expected = NotFoundException.class)
-    public void deleteNotFound() {
-        userService.delete(0);
+    @Test
+    void deleteNotFound() {
+        assertThrows(NotFoundException.class, () -> userService.delete(0));
     }
 }

@@ -1,6 +1,6 @@
 package ru.vigovskiy.strike_team.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.model.EventDay;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
@@ -18,7 +18,7 @@ import static ru.vigovskiy.strike_team.VoteTestData.VOTE_3;
 
 public class EventDayServiceTest extends AbstractServiceTest{
 
-    @Autowired
+    @Autowired(required = false)
     private EventDayService service;
 
     @Test
