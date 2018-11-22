@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
@@ -38,6 +39,7 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Vote> votes;
 
     public User() {

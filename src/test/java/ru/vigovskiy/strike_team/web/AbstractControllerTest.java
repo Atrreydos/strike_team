@@ -10,24 +10,19 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 
-//@ContextConfiguration({
-//        "classpath:spring/spring-app.xml",
-//        "classpath:spring/spring-db.xml"
-//})
-//@RunWith(SpringRunner.class)
 @SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-mvc.xml",
         "classpath:spring/spring-db.xml"
 })
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-abstract class AbstractControllerTest {
+public abstract class AbstractControllerTest {
 
 
-    MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    protected WebApplicationContext webApplicationContext;
 
     @PostConstruct
     private void postConstruct() {

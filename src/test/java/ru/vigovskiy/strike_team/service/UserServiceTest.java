@@ -44,7 +44,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getAll() {
         List<User> users = userService.getAll();
-        assertThat(users).isEqualTo(Arrays.asList(ADMIN_1, USER_1));
+        assertThat(users).isEqualTo(USERS);
     }
 
     @Test
