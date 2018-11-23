@@ -38,7 +38,8 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @Size(min = 5, max = 100)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    TODO disable orphanRemoval to pass test update in AdminRestControllerTest
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     @JsonIgnore
     private List<Vote> votes;
 

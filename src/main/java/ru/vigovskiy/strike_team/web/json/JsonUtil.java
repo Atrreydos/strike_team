@@ -19,7 +19,7 @@ public class JsonUtil {
     private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
     private static ObjectMapper mapper;
 
-    @Autowired
+    @Autowired(required = false)
     public JsonUtil(RequestMappingHandlerAdapter requestMappingHandlerAdapter) {
         this.requestMappingHandlerAdapter = requestMappingHandlerAdapter;
     }
@@ -34,19 +34,29 @@ public class JsonUtil {
         });
     }
 
-    public static ObjectMapper getMapper() {
+    private static ObjectMapper getMapper() {
         return mapper;
     }
 
-    public static String convertToJson(Object o) throws JsonProcessingException {
-        return mapper.writeValueAsString(o);
+    public static String convertToJson(Object o) {
+        try {
+            return mapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public static <T> T convertToObject(String json, Class<T> clazz) throws IOException {
-        return mapper.readValue(json, clazz);
+    public static <T> T convertToObject(String json, Class<T> clazz) {
+        try {
+            return mapper.readValue(json, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public static <T> List<T> convertToObjects(String json, Class<T> clazz) throws IOException {
+    static <T> List<T> convertToObjects(String json, Class<T> clazz) throws IOException {
         ObjectReader reader = getMapper().readerFor(clazz);
         return reader.<T>readValues(json).readAll();
     }

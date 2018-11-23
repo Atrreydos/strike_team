@@ -18,7 +18,7 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EventDay> eventDays = new ArrayList<>();
 
     public Event() {
