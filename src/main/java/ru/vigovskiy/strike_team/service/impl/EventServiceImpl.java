@@ -4,12 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vigovskiy.strike_team.dto.EventDto;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.repository.EventRepository;
 import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -23,13 +25,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event get(int id) throws NotFoundException {
+    public EventDto get(int id) throws NotFoundException {
         Event event = repository.get(id);
         if (event == null) {
             log.error("Event with id {} not found", id);
             throw new NotFoundException("Not found event with id = " + id);
         }
-        return event;
+        return new EventDto(event);
     }
 
     @Override
@@ -43,17 +45,25 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getAll() {
-        return repository.getAll();
+    public List<EventDto> getAll() {
+        return repository.getAll().stream()
+                .map(EventDto::new)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Event create(Event event) {
-        return repository.save(event);
+    public EventDto create(EventDto eventDto) {
+        Event event = new Event();
+        event.setName(eventDto.getName());
+        event.setDescription(eventDto.getDescription());
+        return new EventDto(repository.save(event));
     }
 
     @Override
-    public void update(Event event) {
+    public void update(EventDto eventDto) {
+        Event event = repository.get(eventDto.getId());
+        event.setName(eventDto.getName());
+        event.setDescription(eventDto.getDescription());
         repository.save(event);
     }
 

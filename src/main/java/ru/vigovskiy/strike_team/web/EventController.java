@@ -7,19 +7,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.vigovskiy.strike_team.dto.EventDto;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.Objects;
 
 @Controller
 @RequestMapping("events")
 public class EventController {
 
+    private final EventService eventService;
+
     @Autowired
-    private EventService eventService;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @GetMapping
     public String events(Model model, @RequestParam(value = "action", required = false) String action
@@ -43,8 +47,8 @@ public class EventController {
                 result = "eventForm";
                 break;
             case "update":
-                event = eventService.get(eventId);
-                model.addAttribute("event", event);
+                EventDto eventDto = eventService.get(eventId);
+                model.addAttribute("event", eventDto);
                 result = "eventForm";
                 break;
             case "all":
@@ -58,14 +62,14 @@ public class EventController {
     }
 
     @PostMapping
-    public String saveEvent(HttpServletRequest request) throws UnsupportedEncodingException {
+    public String saveEvent(HttpServletRequest request) {
         Integer id = request.getParameter("id").isEmpty() ? null : getId(request);
-        Event event = new Event(id, request.getParameter("name"), request.getParameter("description"));
+        EventDto eventDto = new EventDto(id, request.getParameter("name"), request.getParameter("description"));
 
         if (id == null) {
-            eventService.create(event);
+            eventService.create(eventDto);
         } else {
-            eventService.update(event);
+            eventService.update(eventDto);
         }
         return  "redirect:events";
     }

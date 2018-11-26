@@ -7,9 +7,9 @@ import ru.vigovskiy.strike_team.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping(AdminRestController.ADMIN_REST_URL)
+@RequestMapping(AdminRestController.REST_URL)
 public class AdminRestController extends AbstractUserController {
-    static final String ADMIN_REST_URL = "/admin/users";
+    static final String REST_URL = "/admin/users";
 
     public AdminRestController(UserService service) {
         super(service);

@@ -1,10 +1,12 @@
 package ru.vigovskiy.strike_team.web.rest.user;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.vigovskiy.strike_team.TestUtil;
 import ru.vigovskiy.strike_team.model.User;
+import ru.vigovskiy.strike_team.service.UserService;
 import ru.vigovskiy.strike_team.web.AbstractControllerTest;
 import ru.vigovskiy.strike_team.web.json.JsonUtil;
 
@@ -23,14 +25,16 @@ import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
 
 class AdminRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = AdminRestController.ADMIN_REST_URL + '/';
+    @Autowired(required = false)
+    protected UserService service;
+
+    private static final String REST_URL = AdminRestController.REST_URL + '/';
 
     @Test
     void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + USER1_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(convertToJson(USER_1)));
     }
@@ -66,12 +70,12 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expected.setId(returned.getId());
 
         assertThat(returned).isEqualToComparingFieldByField(expected);
-        assertThat(userService.getAll()).isEqualTo(Arrays.asList(ADMIN_1, expected, USER_1));
+        assertThat(service.getAll()).isEqualTo(Arrays.asList(ADMIN_1, expected, USER_1));
     }
 
     @Test
     void update() throws Exception {
-        User expected = userService.get(USER1_ID);
+        User expected = service.get(USER1_ID);
         expected.setName("updated name");
         expected.setLogin("updated login");
         expected.setPassword("updated Password");
@@ -80,7 +84,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .content(Objects.requireNonNull(JsonUtil.convertToJson(expected))))
                 .andExpect(status().isOk());
 
-        assertThat(userService.get(USER1_ID)).isEqualToIgnoringGivenFields(expected, "votes");
+        assertThat(service.get(USER1_ID)).isEqualToIgnoringGivenFields(expected, "votes");
     }
 
     @Test
@@ -88,6 +92,6 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(delete(REST_URL + USER1_ID))
                 .andExpect(status().isOk());
 
-        assertThat(userService.getAll()).isEqualTo(Collections.singletonList(ADMIN_1));
+        assertThat(service.getAll()).isEqualTo(Collections.singletonList(ADMIN_1));
     }
 }

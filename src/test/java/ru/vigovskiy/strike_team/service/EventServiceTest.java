@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.vigovskiy.strike_team.dto.EventDto;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -21,8 +22,8 @@ class EventServiceTest extends AbstractServiceTest {
 
     @Test
     void get() {
-        Event event = eventService.get(EVENT1_ID);
-        assertThat(event).isEqualToIgnoringGivenFields(EVENT_1, "eventDays");
+        EventDto eventDto = eventService.get(EVENT1_ID);
+        assertThat(eventDto).isEqualToComparingFieldByField(new EventDto(EVENT_1));
     }
 
     @Test
@@ -44,22 +45,22 @@ class EventServiceTest extends AbstractServiceTest {
 
     @Test
     void getAll() {
-        List<Event> events = eventService.getAll();
-        assertThat(events).isEqualTo(Arrays.asList(EVENT_1, EVENT_2));
+        List<EventDto> events = eventService.getAll();
+        assertThat(events).isEqualTo(Arrays.asList(new EventDto(EVENT_1), new EventDto(EVENT_2)));
     }
 
     @Test
     void create() {
-        Event newEvent = new Event(null, "new name", "new description");
-        Event createdEvent = eventService.create(newEvent);
-        newEvent.setId(createdEvent.getId());
-        assertThat(newEvent).isEqualToComparingFieldByField(createdEvent);
-        assertThat(eventService.getAll()).isEqualTo(Arrays.asList(EVENT_1, EVENT_2, newEvent));
+        EventDto newEventDto = new EventDto(null, "new name", "new description");
+        EventDto createdEventDto = eventService.create(newEventDto);
+        newEventDto.setId(createdEventDto.getId());
+        assertThat(newEventDto).isEqualToComparingFieldByField(createdEventDto);
+        assertThat(eventService.getAll()).isEqualTo(Arrays.asList(new EventDto(EVENT_1), new EventDto(EVENT_2), newEventDto));
     }
 
     @Test
     void update() {
-        Event updatedEvent = eventService.get(EVENT1_ID);
+        EventDto updatedEvent = eventService.get(EVENT1_ID);
         updatedEvent.setName("updated name");
         updatedEvent.setDescription("updated description");
         eventService.update(updatedEvent);
@@ -69,7 +70,7 @@ class EventServiceTest extends AbstractServiceTest {
     @Test
     void delete() {
         eventService.delete(EVENT1_ID);
-        assertThat(eventService.getAll()).isEqualTo(Collections.singletonList(EVENT_2));
+        assertThat(eventService.getAll()).isEqualTo(Collections.singletonList(new EventDto(EVENT_2)));
     }
 
     @Test
