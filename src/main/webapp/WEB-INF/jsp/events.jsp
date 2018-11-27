@@ -40,7 +40,7 @@
         </tr>
         </thead>
         <c:forEach items="${events}" var="event">
-            <jsp:useBean id="event" scope="page" type="ru.vigovskiy.strike_team.model.Event"/>
+            <jsp:useBean id="event" scope="page" type="ru.vigovskiy.strike_team.dto.EventDto"/>
             <tr>
                 <td>${event.name}</td>
                 <td>${event.description}</td>

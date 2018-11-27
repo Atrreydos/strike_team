@@ -1,9 +1,41 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
-<h3><a href="/">Home</a></h3>
-<h2>Users</h2>
+
+<div class="jumbotron pt-4">
+    <div class="container">
+        <h3><%--<spring:message code="user.title"/>--%>Пользователи</h3>
+        <br/>
+        <button class="btn btn-primary">
+            <span class="fa fa-plus"></span>
+            <%--<spring:message code="common.add"/>--%>Добавить
+        </button>
+        <br/><br/>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><%--<spring:message code="user.name"/>--%>Имя</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <c:forEach items="${users}" var="user">
+                <jsp:useBean id="user" type="ru.vigovskiy.strike_team.model.User"/>
+                <tr>
+                    <td><c:out value="${user.name}"/></td>
+                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a><span class="fa fa-remove"></span></a></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</div>
+
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
