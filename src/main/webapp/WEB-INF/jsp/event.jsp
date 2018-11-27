@@ -6,7 +6,7 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <jsp:useBean id="event" scope="request" type="ru.vigovskiy.strike_team.model.Event"/>
+    <jsp:useBean id="event" scope="request" type="ru.vigovskiy.strike_team.dto.EventDto"/>
     <h2>Событие</h2>
     <%--<form method="post" action="events?action=filter">--%>
         <%--<dl>--%>

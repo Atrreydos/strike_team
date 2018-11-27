@@ -16,7 +16,7 @@
                 <option value="1" selected>User</option>
                 <option value="2">Admin</option>
             </select>
-            <button type="submit" class="btn btn-primary"><%--<spring:message code="common.select"/>--%>Выбрать</button>
+            <button type="submit" class="btn btn-primary"><spring:message code="common.select"/></button>
         </form>
     </div>
 </div>

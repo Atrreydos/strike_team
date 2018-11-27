@@ -9,17 +9,17 @@
 
 <div class="jumbotron pt-4">
     <div class="container">
-        <h3><%--<spring:message code="user.title"/>--%>Пользователи</h3>
+        <h3><spring:message code="user.title"/></h3>
         <br/>
         <button class="btn btn-primary">
             <span class="fa fa-plus"></span>
-            <%--<spring:message code="common.add"/>--%>Добавить
+            <spring:message code="common.add"/>
         </button>
         <br/><br/>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th><%--<spring:message code="user.name"/>--%>Имя</th>
+                <th><spring:message code="user.name"/></th>
                 <th></th>
                 <th></th>
             </tr>
