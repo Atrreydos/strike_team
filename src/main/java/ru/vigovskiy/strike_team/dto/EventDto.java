@@ -1,8 +1,9 @@
 package ru.vigovskiy.strike_team.dto;
 
 import ru.vigovskiy.strike_team.model.Event;
+import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
-public class EventDto {
+public class EventDto implements Identifiable<Integer> {
 
     private Integer id;
 

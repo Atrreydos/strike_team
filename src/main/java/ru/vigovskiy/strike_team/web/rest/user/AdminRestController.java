@@ -33,10 +33,15 @@ public class AdminRestController extends AbstractUserController {
         return super.getAll();
     }
 
-    @Override
     @PostMapping
-    public User create(@RequestBody User user) {
-        return super.create(user);
+    public void create(@RequestParam("id") Integer id,
+                       @RequestParam("name") String name,
+                       @RequestParam("login") String login,
+                       @RequestParam("password") String password) {
+        User user = new User(id, name, login, password);
+        if (user.isNew()) {
+            super.create(user);
+        }
     }
 
     @Override
