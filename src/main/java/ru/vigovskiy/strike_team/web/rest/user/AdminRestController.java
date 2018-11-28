@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping(AdminRestController.REST_URL)
 public class AdminRestController extends AbstractUserController {
-    static final String REST_URL = "/admin/users";
+    static final String REST_URL = "/rest/admin/users";
 
     public AdminRestController(UserService service) {
         super(service);

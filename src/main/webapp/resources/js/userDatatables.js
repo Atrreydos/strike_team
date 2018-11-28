@@ -1,4 +1,4 @@
-var ajaxUrl = "admin/users/";
+var ajaxUrl = "rest/admin/users/";
 var datatableApi;
 
 $(document).ready(function () {
