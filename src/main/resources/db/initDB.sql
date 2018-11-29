@@ -15,8 +15,7 @@ CREATE TABLE users
   id       INTEGER PRIMARY KEY DEFAULT nextval('user_seq'),
   name     VARCHAR NOT NULL,
   login    VARCHAR NOT NULL,
-  password VARCHAR NOT NULL,
-  enabled  BOOLEAN NOT NULL DEFAULT false
+  password VARCHAR NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_login_idx
   ON users (login);
@@ -38,7 +37,7 @@ CREATE TABLE event_days
 (
   id       INTEGER PRIMARY KEY DEFAULT nextval('event_day_seq'),
   day      DATE    NOT NULL,
-  event_id INTEGER NOT NULL REFERENCES events (id)
+  event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE vote_seq
@@ -47,8 +46,8 @@ CREATE SEQUENCE vote_seq
 CREATE TABLE votes
 (
   decision     VARCHAR NOT NULL,
-  user_id      INTEGER NOT NULL REFERENCES users (id),
-  event_day_id INTEGER NOT NULL REFERENCES event_days (id),
+  user_id      INTEGER REFERENCES users (id) ON DELETE CASCADE,
+  event_day_id INTEGER REFERENCES event_days (id) ON DELETE CASCADE,
   PRIMARY KEY (user_id, event_day_id)
 );
 CREATE UNIQUE INDEX votes_unique_user_event_idx

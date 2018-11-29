@@ -26,7 +26,7 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void get() {
         Vote vote = voteService.get(VOTE1_ID);
-        assertThat(vote).isEqualToComparingFieldByField(VOTE_1);
+        assertThat(vote).isEqualTo(VOTE_1);
     }
 
     @Test
@@ -45,8 +45,7 @@ class VoteServiceTest extends AbstractServiceTest {
         Vote newVote = new Vote(new UserEventDayPK(USER1_ID, EVENT_DAY2_ID), DecisionType.ACCEPT, USER_1, EVENT_DAY_2);
         Vote createdVote = voteService.create(newVote);
         newVote.setId(createdVote.getId());
-        assertThat(newVote).isEqualToComparingFieldByField(createdVote);
-        assertThat(newVote).isEqualToComparingFieldByField(voteService.get(createdVote.getId()));
+        assertThat(newVote).isEqualTo(createdVote);
     }
 
     @Test
@@ -54,7 +53,7 @@ class VoteServiceTest extends AbstractServiceTest {
         Vote updatedVote = voteService.get(VOTE1_ID);
         updatedVote.setDecisionType(DecisionType.REJECT);
         voteService.update(updatedVote);
-        assertThat(updatedVote).isEqualToComparingFieldByField(voteService.get(VOTE1_ID));
+        assertThat(updatedVote).isEqualTo(voteService.get(VOTE1_ID));
     }
 
     @Test

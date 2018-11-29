@@ -37,13 +37,10 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @Size(min = 5, max = 100)
     private String password;
 
-//    TODO disable orphanRemoval to pass test update in AdminRestControllerTest
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     @JsonIgnore
     private List<Vote> votes;
 
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled = false;
 
     public User() {
     }
@@ -53,14 +50,6 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         this.name = name;
         this.login = login;
         this.password = password;
-    }
-
-    public User(Integer id, String name, String login, String password, boolean enabled) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        this.enabled = enabled;
     }
 
     public Integer getId() {
@@ -103,22 +92,12 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         votes.add(vote);
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", votes=" + votes +
-                ", enabled=" + enabled +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -131,7 +110,6 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
 
         User user = (User) o;
 
-        if (enabled != user.enabled) return false;
         if (!id.equals(user.id)) return false;
         if (!login.equals(user.login)) return false;
         if (!password.equals(user.password)) return false;
@@ -145,7 +123,6 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         result = 31 * result + login.hashCode();
         result = 31 * result + password.hashCode();
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
-        result = 31 * result + (enabled ? 1 : 0);
         return result;
     }
 }

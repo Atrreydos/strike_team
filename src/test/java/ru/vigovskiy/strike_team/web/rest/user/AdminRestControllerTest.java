@@ -92,6 +92,6 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(delete(REST_URL + USER1_ID))
                 .andExpect(status().isOk());
 
-        assertThat(service.getAll()).isEqualTo(Collections.singletonList(ADMIN_1));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));
     }
 }

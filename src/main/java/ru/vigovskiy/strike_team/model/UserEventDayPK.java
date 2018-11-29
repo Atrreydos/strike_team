@@ -1,16 +1,13 @@
 package ru.vigovskiy.strike_team.model;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
 public class UserEventDayPK implements Serializable {
 
-    @Column(name = "user_id", insertable = false, updatable = false)
     private Integer userId;
 
-    @Column(name = "event_day_id", insertable = false, updatable = false)
     private int eventDayId;
 
     public UserEventDayPK() {

@@ -17,11 +17,13 @@ public class Vote extends AbstractBaseEntity implements Identifiable<UserEventDa
     @Enumerated(EnumType.STRING)
     private DecisionType decisionType;
 
+    @MapsId("userId")
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @NotNull
     private User user;
 
+    @MapsId("eventDayId")
     @ManyToOne
     @JoinColumn(name = "event_day_id", insertable = false, updatable = false)
     @NotNull
@@ -84,19 +86,12 @@ public class Vote extends AbstractBaseEntity implements Identifiable<UserEventDa
 
         Vote vote = (Vote) o;
 
-        if (!id.equals(vote.id)) return false;
-        if (decisionType != vote.decisionType) return false;
-        if (!user.equals(vote.user)) return false;
-        return eventDay.equals(vote.eventDay);
+        return id.equals(vote.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + decisionType.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + eventDay.hashCode();
-        return result;
+        return id.hashCode();
     }
 
     @Override

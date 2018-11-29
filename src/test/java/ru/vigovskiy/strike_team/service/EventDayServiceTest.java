@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.model.EventDay;
+import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -37,7 +38,8 @@ class EventDayServiceTest extends AbstractServiceTest {
     void getWithVotes() {
         EventDay eventDay = service.getWithVotes(EVENT_DAY1_ID);
         assertThat(eventDay).isEqualToIgnoringGivenFields(EVENT_DAY_1, "votes");
-        assertThat(eventDay.getVotes()).usingElementComparatorIgnoringFields().isEqualTo(Arrays.asList(VOTE_1, VOTE_3));
+        List<Vote> votes = eventDay.getVotes();
+        assertThat(votes).usingElementComparatorOnFields("id").isEqualTo(Arrays.asList(VOTE_1, VOTE_3));
     }
 
     @Test
@@ -48,7 +50,7 @@ class EventDayServiceTest extends AbstractServiceTest {
     @Test
     void getAll() {
         List<EventDay> eventDays = service.getAll();
-        assertThat(eventDays).isEqualTo(Arrays.asList(EVENT_DAY_1, EVENT_DAY_2));
+        assertThat(eventDays).usingElementComparatorIgnoringFields("votes").isEqualTo(Arrays.asList(EVENT_DAY_1, EVENT_DAY_2));
     }
 
     @Test
@@ -57,7 +59,7 @@ class EventDayServiceTest extends AbstractServiceTest {
         EventDay createdEventDate = service.create(newEventDay);
         newEventDay.setId(createdEventDate.getId());
         assertThat(newEventDay).isEqualToComparingFieldByField(createdEventDate);
-        assertThat(service.getAll()).isEqualTo(Arrays.asList(EVENT_DAY_1, EVENT_DAY_2, newEventDay));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Arrays.asList(EVENT_DAY_1, EVENT_DAY_2, newEventDay));
     }
 
     @Test
@@ -65,13 +67,13 @@ class EventDayServiceTest extends AbstractServiceTest {
         EventDay updatedEventDate = service.get(EVENT_DAY1_ID);
         updatedEventDate.setDay(LocalDate.of(2018, 9, 27));
         service.update(updatedEventDate);
-        assertThat(updatedEventDate).isEqualTo(service.get(EVENT_DAY1_ID));
+        assertThat(updatedEventDate).isEqualToIgnoringGivenFields(service.get(EVENT_DAY1_ID), "votes");
     }
 
     @Test
     void delete() {
         service.delete(EVENT_DAY1_ID);
-        assertThat(service.getAll()).isEqualTo(Collections.singletonList(EVENT_DAY_2));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(EVENT_DAY_2));
     }
 
     @Test

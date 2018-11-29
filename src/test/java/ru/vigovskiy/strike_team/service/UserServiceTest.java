@@ -44,7 +44,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getAll() {
         List<User> users = userService.getAll();
-        assertThat(users).isEqualTo(USERS);
+        assertThat(users).usingElementComparatorIgnoringFields("votes").isEqualTo(USERS);
     }
 
     @Test
@@ -53,7 +53,7 @@ class UserServiceTest extends AbstractServiceTest {
         User createdUser = userService.create(newUser);
         newUser.setId(createdUser.getId());
         assertThat(newUser).isEqualToComparingFieldByField(createdUser);
-        assertThat(userService.getAll()).isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
+        assertThat(userService.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
     }
 
     @Test
@@ -69,13 +69,13 @@ class UserServiceTest extends AbstractServiceTest {
         updatedUser.setName("new_name");
         updatedUser.setPassword("new_password");
         userService.update(updatedUser);
-        assertThat(updatedUser).isEqualTo(userService.get(USER1_ID));
+        assertThat(updatedUser).isEqualToIgnoringGivenFields(userService.get(USER1_ID), "votes");
     }
 
     @Test
     void delete() {
         userService.delete(USER1_ID);
-        assertThat(userService.getAll()).isEqualTo(Collections.singletonList(ADMIN_1));
+        assertThat(userService.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));
     }
 
     @Test

@@ -25,7 +25,7 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
     @NotNull
     private Event event;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "eventDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes;
 
     public EventDay() {
@@ -80,23 +80,23 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof EventDay)) return false;
-
-        EventDay eventDay = (EventDay) o;
-
-        if (!id.equals(eventDay.id)) return false;
-        if (!day.equals(eventDay.day)) return false;
-        return event.equals(eventDay.event);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + day.hashCode();
-        result = 31 * result + event.hashCode();
-        return result;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof EventDay)) return false;
+//
+//        EventDay eventDay = (EventDay) o;
+//
+//        if (!id.equals(eventDay.id)) return false;
+//        if (!day.equals(eventDay.day)) return false;
+//        return event.equals(eventDay.event);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = id.hashCode();
+//        result = 31 * result + day.hashCode();
+//        result = 31 * result + event.hashCode();
+//        return result;
+//    }
 }
