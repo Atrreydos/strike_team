@@ -7,8 +7,6 @@ import ru.vigovskiy.strike_team.service.UserService;
 
 import java.util.List;
 
-import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
-
 @RestController
 @RequestMapping(AdminRestController.REST_URL)
 public class AdminRestController extends AbstractUserController {
@@ -36,22 +34,20 @@ public class AdminRestController extends AbstractUserController {
         return super.getAll();
     }
 
+    @Override
     @PostMapping
     public void create(UserDto dto) {
-        User user = createUserFromDto(dto);
-        if (user.isNew()) {
-            super.create(user);
-        }
+        super.create(dto);
     }
 
     @Override
     @PutMapping
-    public void update(@RequestBody User user) {
-        super.update(user);
+    public void update(UserDto dto) {
+        super.update(dto);
     }
 
     @Override
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/enabled")
     public void setEnabled(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
         super.setEnabled(id, enabled);
     }

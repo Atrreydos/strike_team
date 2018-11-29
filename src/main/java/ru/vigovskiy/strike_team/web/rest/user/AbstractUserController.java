@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.web.rest.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.vigovskiy.strike_team.dto.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
@@ -33,14 +34,14 @@ public class AbstractUserController {
         return service.getAll();
     }
 
-    public User create(User user) {
-        log.info("create {}", user);
-        return service.create(user);
+    public void create(UserDto dto) {
+        log.info("create {}", dto);
+        service.create(dto);
     }
 
-    public void update(User user) {
-        log.info("update {}", user);
-        service.update(user);
+    public void update(UserDto dto) {
+        log.info("update {}", dto);
+        service.update(dto);
     }
 
     public void delete(int id) {

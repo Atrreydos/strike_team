@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.service;
 
+import ru.vigovskiy.strike_team.dto.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -13,9 +14,9 @@ public interface UserService {
 
     List<User> getAll();
 
-    User create(User user);
+    User create(UserDto dto);
 
-    void update(User user);
+    User update(UserDto dto);
 
     void delete(int id) throws NotFoundException;
 

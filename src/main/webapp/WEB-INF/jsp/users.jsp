@@ -32,7 +32,7 @@
                     <td><c:out value="${user.name}"/></td>
                     <td><input type="checkbox"
                                <c:if test="${user.enabled}">checked</c:if> onclick="enable($(this), ${user.id})"/></td>
-                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a onclick=updateRow(${user.id})><span class="fa fa-pencil"></span></a></td>
                     <td><a class="delete" onclick="deleteRow(${user.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>

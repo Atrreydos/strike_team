@@ -8,4 +8,11 @@ public class UserUtil {
     public static User createUserFromDto(UserDto dto) {
         return new User(dto.getId(), dto.getName(), dto.getLogin(), dto.getPassword());
     }
+
+    public static User updateUserFromDto(User user, UserDto dto) {
+        user.setName(dto.getName());
+        user.setLogin(dto.getLogin());
+        user.setPassword(dto.getPassword());
+        return user;
+    }
 }

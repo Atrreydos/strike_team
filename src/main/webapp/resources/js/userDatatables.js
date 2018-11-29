@@ -5,7 +5,7 @@ function enable(chkbox, id) {
     let enabled = chkbox.is(":checked");
 //  https://stackoverflow.com/a/22213543/548473
     $.ajax({
-        url: ajaxUrl + id,
+        url: ajaxUrl + id + "/enabled",
         type: "POST",
         data: "enabled=" + enabled
     }).done(function () {

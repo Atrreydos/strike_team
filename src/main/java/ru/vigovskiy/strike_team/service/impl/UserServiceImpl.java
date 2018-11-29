@@ -5,12 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.vigovskiy.strike_team.dto.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.repository.UserRepository;
 import ru.vigovskiy.strike_team.service.UserService;
+import ru.vigovskiy.strike_team.util.UserUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
+
+import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,13 +53,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
-        return repository.save(user);
+    public User create(UserDto dto) {
+        if (dto.isNew()) {
+            User user = createUserFromDto(dto);
+            return repository.save(user);
+        }
+        else {
+            return update(dto);
+        }
     }
 
+    @Transactional
     @Override
-    public void update(User user) {
-        repository.save(user);
+    public User update(UserDto dto) {
+        if (!dto.isNew()) {
+            User user = get(dto.getId());
+            return repository.save(UserUtil.updateUserFromDto(user, dto));
+        }
+        else {
+            return create(dto);
+        }
     }
 
     @Override
