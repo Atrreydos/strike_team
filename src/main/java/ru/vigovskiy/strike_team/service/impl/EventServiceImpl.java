@@ -13,6 +13,8 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.vigovskiy.strike_team.util.EventUtil.createEventFromDto;
+
 @Service
 public class EventServiceImpl implements EventService {
     private static final Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
@@ -53,9 +55,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDto create(EventDto eventDto) {
-        Event event = new Event();
-        event.setName(eventDto.getName());
-        event.setDescription(eventDto.getDescription());
+        Event event = createEventFromDto(eventDto);
         return new EventDto(repository.save(event));
     }
 

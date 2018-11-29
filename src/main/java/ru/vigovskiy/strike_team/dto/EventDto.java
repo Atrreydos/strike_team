@@ -11,6 +11,9 @@ public class EventDto implements Identifiable<Integer> {
 
     private String description;
 
+    public EventDto() {
+    }
+
     public EventDto(Integer id, String name, String description) {
         this.id = id;
         this.name = name;

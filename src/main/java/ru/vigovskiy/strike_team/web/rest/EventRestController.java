@@ -30,10 +30,7 @@ public class EventRestController {
     }
 
     @PostMapping
-    public void create(@RequestParam("id") Integer id,
-                       @RequestParam("name") String name,
-                       @RequestParam("description") String description) {
-        EventDto eventDto = new EventDto(id, name, description);
+    public void create(EventDto eventDto) {
         if (eventDto.isNew()) {
             service.create(eventDto);
         }

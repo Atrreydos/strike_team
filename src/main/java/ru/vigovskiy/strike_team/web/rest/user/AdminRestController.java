@@ -1,10 +1,13 @@
 package ru.vigovskiy.strike_team.web.rest.user;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vigovskiy.strike_team.dto.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
 import java.util.List;
+
+import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
 
 @RestController
 @RequestMapping(AdminRestController.REST_URL)
@@ -34,11 +37,8 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @PostMapping
-    public void create(@RequestParam("id") Integer id,
-                       @RequestParam("name") String name,
-                       @RequestParam("login") String login,
-                       @RequestParam("password") String password) {
-        User user = new User(id, name, login, password);
+    public void create(UserDto dto) {
+        User user = createUserFromDto(dto);
         if (user.isNew()) {
             super.create(user);
         }
