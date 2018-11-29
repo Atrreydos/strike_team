@@ -41,6 +41,9 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @JsonIgnore
     private List<Vote> votes;
 
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled = false;
+
 
     public User() {
     }
@@ -92,37 +95,22 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         votes.add(vote);
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", enableed=" + enabled +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        if (!super.equals(o)) return false;
-
-        User user = (User) o;
-
-        if (!id.equals(user.id)) return false;
-        if (!login.equals(user.login)) return false;
-        if (!password.equals(user.password)) return false;
-        return votes != null ? votes.equals(user.votes) : user.votes == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + id.hashCode();
-        result = 31 * result + login.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + (votes != null ? votes.hashCode() : 0);
-        return result;
     }
 }

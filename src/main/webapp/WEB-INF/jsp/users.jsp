@@ -21,14 +21,17 @@
             <thead>
             <tr>
                 <th><spring:message code="common.name"/></th>
+                <th><spring:message code="user.active"/></th>
                 <th></th>
                 <th></th>
             </tr>
             </thead>
             <c:forEach items="${users}" var="user">
                 <jsp:useBean id="user" type="ru.vigovskiy.strike_team.model.User"/>
-                <tr>
+                <tr data-userEnabled="${user.enabled}">
                     <td><c:out value="${user.name}"/></td>
+                    <td><input type="checkbox"
+                               <c:if test="${user.enabled}">checked</c:if> onclick="enable($(this), ${user.id})"/></td>
                     <td><a><span class="fa fa-pencil"></span></a></td>
                     <td><a class="delete" onclick="deleteRow(${user.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>

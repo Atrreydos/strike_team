@@ -11,75 +11,85 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 
 class UserServiceTest extends AbstractServiceTest {
 
     @Autowired(required = false)
-    private UserService userService;
+    private UserService service;
 
     @Test
     void get() {
-        User user = userService.get(USER1_ID);
+        User user = service.get(USER1_ID);
         assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> userService.get(0));
+        assertThrows(NotFoundException.class, () -> service.get(0));
     }
 
     @Test
     void getByLogin() {
-        User user = userService.getByLogin("user1_login");
+        User user = service.getByLogin("user1_login");
         assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
     }
 
     @Test
     void getByLoginNotFound() {
-        assertThrows(NotFoundException.class, () -> userService.getByLogin("login"));
+        assertThrows(NotFoundException.class, () -> service.getByLogin("login"));
     }
 
     @Test
     void getAll() {
-        List<User> users = userService.getAll();
+        List<User> users = service.getAll();
         assertThat(users).usingElementComparatorIgnoringFields("votes").isEqualTo(USERS);
     }
 
     @Test
     void create() {
         User newUser = new User(null, "name", "login", "password");
-        User createdUser = userService.create(newUser);
+        User createdUser = service.create(newUser);
         newUser.setId(createdUser.getId());
         assertThat(newUser).isEqualToComparingFieldByField(createdUser);
-        assertThat(userService.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
     }
 
     @Test
     void duplicateLoginCreate() {
         User newUser = new User(null, "name", "user1_login", "password");
-        assertThrows(DataIntegrityViolationException.class, () -> userService.create(newUser));
+        assertThrows(DataIntegrityViolationException.class, () -> service.create(newUser));
     }
 
     @Test
     void update() {
-        User updatedUser = userService.get(USER1_ID);
+        User updatedUser = service.get(USER1_ID);
         updatedUser.setLogin("new_login");
         updatedUser.setName("new_name");
         updatedUser.setPassword("new_password");
-        userService.update(updatedUser);
-        assertThat(updatedUser).isEqualToIgnoringGivenFields(userService.get(USER1_ID), "votes");
+        service.update(updatedUser);
+        assertThat(updatedUser).isEqualToIgnoringGivenFields(service.get(USER1_ID), "votes");
     }
 
     @Test
     void delete() {
-        userService.delete(USER1_ID);
-        assertThat(userService.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));
+        service.delete(USER1_ID);
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));
     }
 
     @Test
     void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> userService.delete(0));
+        assertThrows(NotFoundException.class, () -> service.delete(0));
+    }
+
+    @Test
+    void setEnabled() {
+        service.setEnabled(USER1_ID, true);
+        assertTrue(service.get(USER1_ID).isEnabled());
+        service.setEnabled(USER1_ID, false);
+        assertFalse(service.get(USER1_ID).isEnabled());
     }
 }

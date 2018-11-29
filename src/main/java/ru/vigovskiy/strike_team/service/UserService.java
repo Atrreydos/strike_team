@@ -18,4 +18,6 @@ public interface UserService {
     void update(User user);
 
     void delete(int id) throws NotFoundException;
+
+    void setEnabled(int id, boolean enabled);
 }

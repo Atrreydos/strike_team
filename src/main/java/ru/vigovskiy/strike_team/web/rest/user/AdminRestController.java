@@ -51,6 +51,12 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @Override
+    @PostMapping("/{id}")
+    public void setEnabled(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
+        super.setEnabled(id, enabled);
+    }
+
+    @Override
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);

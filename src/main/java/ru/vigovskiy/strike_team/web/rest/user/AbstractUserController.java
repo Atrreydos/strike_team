@@ -47,4 +47,9 @@ public class AbstractUserController {
         log.info("delete {}", id);
         service.delete(id);
     }
+
+    public void setEnabled(int id, boolean enabled) {
+        log.info(enabled ? "enable {}" : "disable {}", id);
+        service.setEnabled(id, enabled);
+    }
 }
