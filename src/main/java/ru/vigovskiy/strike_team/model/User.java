@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
@@ -43,6 +42,9 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @JsonIgnore
     private List<Vote> votes;
 
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled = false;
+
     public User() {
     }
 
@@ -51,6 +53,14 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         this.name = name;
         this.login = login;
         this.password = password;
+    }
+
+    public User(Integer id, String name, String login, String password, boolean enabled) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.enabled = enabled;
     }
 
     public Integer getId() {
@@ -93,12 +103,22 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         votes.add(vote);
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", votes=" + votes +
+                ", enabled=" + enabled +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -108,14 +128,24 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         if (!super.equals(o)) return false;
+
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password);
+
+        if (enabled != user.enabled) return false;
+        if (!id.equals(user.id)) return false;
+        if (!login.equals(user.login)) return false;
+        if (!password.equals(user.password)) return false;
+        return votes != null ? votes.equals(user.votes) : user.votes == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, login, password);
+        int result = super.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + (votes != null ? votes.hashCode() : 0);
+        result = 31 * result + (enabled ? 1 : 0);
+        return result;
     }
 }

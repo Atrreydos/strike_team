@@ -15,7 +15,8 @@ CREATE TABLE users
   id       INTEGER PRIMARY KEY DEFAULT nextval('user_seq'),
   name     VARCHAR NOT NULL,
   login    VARCHAR NOT NULL,
-  password VARCHAR NOT NULL
+  password VARCHAR NOT NULL,
+  enabled  BOOLEAN NOT NULL DEFAULT false
 );
 CREATE UNIQUE INDEX users_unique_login_idx
   ON users (login);

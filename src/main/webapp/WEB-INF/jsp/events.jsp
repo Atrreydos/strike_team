@@ -11,7 +11,7 @@
 
 <div class="jumbotron pt-4">
     <div class="container">
-        <h3><spring:message code="event.title"/></h3>
+        <h3 class="text-center"><spring:message code="event.title"/></h3>
         <br/>
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
@@ -33,7 +33,7 @@
                     <td><c:out value="${event.name}"/></td>
                     <td><c:out value="${event.description}"/></td>
                     <td><a><span class="fa fa-pencil"></span></a></td>
-                    <td><a class="delete" id="${event.id}"><span class="fa fa-remove"></span></a></td>
+                    <td><a class="delete" onclick="deleteRow(${event.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>
         </table>

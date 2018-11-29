@@ -11,8 +11,7 @@
 
 <div class="jumbotron pt-4">
     <div class="container">
-        <h3><spring:message code="user.title"/></h3>
-        <br/>
+        <h3 class="text-center"><spring:message code="user.title"/></h3>
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
@@ -31,7 +30,7 @@
                 <tr>
                     <td><c:out value="${user.name}"/></td>
                     <td><a><span class="fa fa-pencil"></span></a></td>
-                    <td><a class="delete" id="${user.id}"><span class="fa fa-remove"></span></a></td>
+                    <td><a class="delete" onclick="deleteRow(${user.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>
         </table>

@@ -1,5 +1,5 @@
-var ajaxUrl = "rest/admin/users/";
-var datatableApi;
+const ajaxUrl = "rest/admin/users/";
+let datatableApi;
 
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
