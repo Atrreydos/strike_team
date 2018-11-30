@@ -1,11 +1,16 @@
 package ru.vigovskiy.strike_team.web.rest.user;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vigovskiy.strike_team.dto.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.StringJoiner;
 
 @RestController
 @RequestMapping(AdminRestController.REST_URL)
@@ -34,10 +39,21 @@ public class AdminRestController extends AbstractUserController {
         return super.getAll();
     }
 
-    @Override
     @PostMapping
-    public User create(@RequestBody UserDto dto) {
-        return super.create(dto);
+    public ResponseEntity create(@Valid UserDto dto, BindingResult result) {
+        if (result.hasErrors()) {
+            StringJoiner joiner = new StringJoiner("<br>");
+            result.getFieldErrors().forEach(
+                    fe -> {
+                        String msg = fe.getDefaultMessage();
+                        if (!msg.startsWith(fe.getField())) {
+                            msg = fe.getField() + ' ' + msg;
+                        }
+                        joiner.add(msg);
+                    });
+            return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return new ResponseEntity<>(super.create(dto), HttpStatus.OK);
     }
 
     @Override
