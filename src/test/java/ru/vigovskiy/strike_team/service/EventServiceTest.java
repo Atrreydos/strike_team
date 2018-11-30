@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.vigovskiy.strike_team.EventDayTestData.EVENT_DAY_1;
 import static ru.vigovskiy.strike_team.EventTestData.*;
+import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 
 class EventServiceTest extends AbstractServiceTest {
 
@@ -23,7 +24,7 @@ class EventServiceTest extends AbstractServiceTest {
     @Test
     void get() {
         EventDto eventDto = eventService.get(EVENT1_ID);
-        assertThat(eventDto).isEqualToComparingFieldByField(new EventDto(EVENT_1));
+        assertThat(eventDto).isEqualToComparingFieldByField(createDtoFromEvent(EVENT_1));
     }
 
     @Test
@@ -46,16 +47,16 @@ class EventServiceTest extends AbstractServiceTest {
     @Test
     void getAll() {
         List<EventDto> events = eventService.getAll();
-        assertThat(events).isEqualTo(Arrays.asList(new EventDto(EVENT_1), new EventDto(EVENT_2)));
+        assertThat(events).isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2)));
     }
 
     @Test
     void create() {
         EventDto newEventDto = new EventDto(null, "new name", "new description");
-        EventDto createdEventDto = eventService.create(newEventDto);
+        Event createdEventDto = eventService.create(newEventDto);
         newEventDto.setId(createdEventDto.getId());
         assertThat(newEventDto).isEqualToComparingFieldByField(createdEventDto);
-        assertThat(eventService.getAll()).isEqualTo(Arrays.asList(new EventDto(EVENT_1), new EventDto(EVENT_2), newEventDto));
+        assertThat(eventService.getAll()).isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2), newEventDto));
     }
 
     @Test
@@ -70,7 +71,7 @@ class EventServiceTest extends AbstractServiceTest {
     @Test
     void delete() {
         eventService.delete(EVENT1_ID);
-        assertThat(eventService.getAll()).isEqualTo(Collections.singletonList(new EventDto(EVENT_2)));
+        assertThat(eventService.getAll()).isEqualTo(Collections.singletonList(createDtoFromEvent(EVENT_2)));
     }
 
     @Test

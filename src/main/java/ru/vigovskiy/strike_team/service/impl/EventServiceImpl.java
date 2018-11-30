@@ -8,11 +8,13 @@ import ru.vigovskiy.strike_team.dto.EventDto;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.repository.EventRepository;
 import ru.vigovskiy.strike_team.service.EventService;
+import ru.vigovskiy.strike_team.util.EventUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 import static ru.vigovskiy.strike_team.util.EventUtil.createEventFromDto;
 
 @Service
@@ -33,7 +35,7 @@ public class EventServiceImpl implements EventService {
             log.error("Event with id {} not found", id);
             throw new NotFoundException("Not found event with id = " + id);
         }
-        return new EventDto(event);
+        return createDtoFromEvent(event);
     }
 
     @Override
@@ -49,22 +51,30 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventDto> getAll() {
         return repository.getAll().stream()
-                .map(EventDto::new)
+                .map(EventUtil::createDtoFromEvent)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public EventDto create(EventDto eventDto) {
-        Event event = createEventFromDto(eventDto);
-        return new EventDto(repository.save(event));
+    public Event create(EventDto dto) {
+        if (dto.isNew()) {
+            Event event = createEventFromDto(dto);
+            return repository.save(event);
+        }
+        else {
+            return update(dto);
+        }
     }
 
     @Override
-    public void update(EventDto eventDto) {
-        Event event = repository.get(eventDto.getId());
-        event.setName(eventDto.getName());
-        event.setDescription(eventDto.getDescription());
-        repository.save(event);
+    public Event update(EventDto dto) {
+        if (!dto.isNew()) {
+            Event event = repository.get(dto.getId());
+            return repository.save(EventUtil.updateEventFromDto(event, dto));
+        }
+        else {
+            return create(dto);
+        }
     }
 
     @Override

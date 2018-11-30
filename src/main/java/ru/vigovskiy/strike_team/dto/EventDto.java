@@ -1,6 +1,5 @@
 package ru.vigovskiy.strike_team.dto;
 
-import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 public class EventDto implements Identifiable<Integer> {
@@ -18,12 +17,6 @@ public class EventDto implements Identifiable<Integer> {
         this.id = id;
         this.name = name;
         this.description = description;
-    }
-
-    public EventDto(Event event) {
-        this.id = event.getId();
-        this.name = event.getName();
-        this.description = event.getDescription();
     }
 
     public Integer getId() {

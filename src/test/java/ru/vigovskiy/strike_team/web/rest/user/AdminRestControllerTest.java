@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.vigovskiy.strike_team.TestUtil;
+import ru.vigovskiy.strike_team.dto.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 import ru.vigovskiy.strike_team.web.AbstractControllerTest;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.vigovskiy.strike_team.UserTestData.*;
+import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
 import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
 
 
@@ -61,9 +63,11 @@ class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     void create() throws Exception {
         User expected = new User(null, "new name", "new login", "new password");
+        UserDto dto = createDtoFromUser(expected);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(JsonUtil.convertToJson(expected))))
+                .content(Objects.requireNonNull(JsonUtil.convertToJson(dto))))
+                .andDo(print())
                 .andExpect(status().isOk());
 
         User returned = TestUtil.readFromJson(action, User.class);
@@ -79,9 +83,10 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expected.setName("updated name");
         expected.setLogin("updated login");
         expected.setPassword("updated Password");
+        UserDto dto = createDtoFromUser(expected);
         mockMvc.perform(put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(JsonUtil.convertToJson(expected))))
+                .content(Objects.requireNonNull(JsonUtil.convertToJson(dto))))
                 .andExpect(status().isOk());
 
         assertThat(service.get(USER1_ID)).isEqualToIgnoringGivenFields(expected, "votes");

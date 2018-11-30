@@ -36,13 +36,13 @@ public class AdminRestController extends AbstractUserController {
 
     @Override
     @PostMapping
-    public void create(UserDto dto) {
-        super.create(dto);
+    public User create(@RequestBody UserDto dto) {
+        return super.create(dto);
     }
 
     @Override
     @PutMapping
-    public void update(UserDto dto) {
+    public void update(@RequestBody UserDto dto) {
         super.update(dto);
     }
 

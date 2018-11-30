@@ -8,4 +8,14 @@ public class EventUtil {
     public static Event createEventFromDto(EventDto dto) {
         return new Event(dto.getId(), dto.getName(), dto.getDescription());
     }
+
+    public static Event updateEventFromDto(Event event, EventDto dto) {
+        event.setName(dto.getName());
+        event.setDescription(dto.getDescription());
+        return event;
+    }
+
+    public static EventDto createDtoFromEvent(Event event) {
+        return new EventDto(event.getId(), event.getName(), event.getDescription());
+    }
 }

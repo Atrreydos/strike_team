@@ -14,9 +14,9 @@ public interface EventService {
 
     List<EventDto> getAll();
 
-    EventDto create(EventDto event);
+    Event create(EventDto event);
 
-    void update(EventDto eventDto);
+    Event update(EventDto dto);
 
     void delete(int id) throws NotFoundException;
 }

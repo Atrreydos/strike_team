@@ -1,7 +1,6 @@
 package ru.vigovskiy.strike_team.dto;
 
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
-import ru.vigovskiy.strike_team.model.User;
 
 public class UserDto implements Identifiable<Integer> {
 
@@ -21,13 +20,6 @@ public class UserDto implements Identifiable<Integer> {
         this.name = name;
         this.login = login;
         this.password = password;
-    }
-
-    public UserDto(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
-        this.login = user.getLogin();
-        this.password = user.getPassword();
     }
 
     public Integer getId() {

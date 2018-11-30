@@ -34,9 +34,9 @@ public class AbstractUserController {
         return service.getAll();
     }
 
-    public void create(UserDto dto) {
+    public User create(UserDto dto) {
         log.info("create {}", dto);
-        service.create(dto);
+        return service.create(dto);
     }
 
     public void update(UserDto dto) {

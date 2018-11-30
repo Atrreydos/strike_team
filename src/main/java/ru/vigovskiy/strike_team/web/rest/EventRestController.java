@@ -31,13 +31,11 @@ public class EventRestController {
 
     @PostMapping
     public void create(EventDto eventDto) {
-        if (eventDto.isNew()) {
-            service.create(eventDto);
-        }
+        service.create(eventDto);
     }
 
     @PutMapping
-    public void update(@RequestBody EventDto eventDto) {
+    public void update(EventDto eventDto) {
         service.update(eventDto);
     }
 

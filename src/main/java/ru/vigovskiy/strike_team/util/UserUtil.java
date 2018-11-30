@@ -15,4 +15,8 @@ public class UserUtil {
         user.setPassword(dto.getPassword());
         return user;
     }
+
+    public static UserDto createDtoFromUser(User user) {
+        return new UserDto(user.getId(), user.getName(), user.getLogin(), user.getPassword());
+    }
 }

@@ -32,7 +32,7 @@
                 <tr>
                     <td><c:out value="${event.name}"/></td>
                     <td><c:out value="${event.description}"/></td>
-                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a onclick=updateRow(${event.id})><span class="fa fa-pencil"></span></a></td>
                     <td><a class="delete" onclick="deleteRow(${event.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>
