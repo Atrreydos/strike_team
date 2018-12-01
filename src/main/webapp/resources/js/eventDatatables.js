@@ -3,6 +3,10 @@ let datatableApi;
 
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
+        "ajax": {
+            "url": ajaxUrl,
+            "dataSrc": ""
+        },
         "paging": false,
         "info": true,
         "columns": [
@@ -13,12 +17,14 @@ $(document).ready(function () {
                 "data": "description"
             },
             {
-                "defaultContent": "Edit",
-                "orderable": false
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderEditBtn
             },
             {
-                "defaultContent": "Delete",
-                "orderable": false
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderDeleteBtn
             }
         ],
         "order": [
@@ -26,7 +32,8 @@ $(document).ready(function () {
                 0,
                 "asc"
             ]
-        ]
+        ],
+        "initComplete": makeEditable
     });
-    makeEditable();
 });
+

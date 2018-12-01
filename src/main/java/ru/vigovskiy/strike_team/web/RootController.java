@@ -1,23 +1,13 @@
 package ru.vigovskiy.strike_team.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.vigovskiy.strike_team.service.EventService;
-import ru.vigovskiy.strike_team.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class RootController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private EventService eventService;
 
     @GetMapping("/")
     public String root() {
@@ -25,8 +15,7 @@ public class RootController {
     }
 
     @GetMapping("/users")
-    public String users(Model model) {
-        model.addAttribute("users", userService.getAll());
+    public String users() {
         return "users";
     }
 
@@ -37,9 +26,8 @@ public class RootController {
         return "redirect:events";
     }
 
-//    @GetMapping("/events")
-//    public String events(Model model) {
-//        model.addAttribute("events", eventService.getAll());
-//        return "events";
-//    }
+    @GetMapping("/events")
+    public String events() {
+        return "events";
+    }
 }

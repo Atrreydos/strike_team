@@ -27,15 +27,6 @@
                 <th></th>
             </tr>
             </thead>
-            <c:forEach items="${events}" var="event">
-                <jsp:useBean id="event" type="ru.vigovskiy.strike_team.dto.EventDto"/>
-                <tr>
-                    <td><c:out value="${event.name}"/></td>
-                    <td><c:out value="${event.description}"/></td>
-                    <td><a onclick=updateRow(${event.id})><span class="fa fa-pencil"></span></a></td>
-                    <td><a class="delete" onclick="deleteRow(${event.id})"><span class="fa fa-remove"></span></a></td>
-                </tr>
-            </c:forEach>
         </table>
     </div>
 </div>
