@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.vigovskiy.strike_team.TestUtil;
-import ru.vigovskiy.strike_team.dto.UserDto;
+import ru.vigovskiy.strike_team.dto.user.UserDto;
+import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 import ru.vigovskiy.strike_team.web.AbstractControllerTest;
@@ -62,7 +63,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        User expected = new User(null, "new name", "new login", "new password");
+        User expected = new User(null, "new name", "new login", "new password", Role.USER, Role.ADMIN);
         UserDto dto = createDtoFromUser(expected);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -83,6 +84,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expected.setName("updated name");
         expected.setLogin("updated login");
         expected.setPassword("updated Password");
+        expected.setRoles(Arrays.asList(Role.USER, Role.ADMIN));
         UserDto dto = createDtoFromUser(expected);
         mockMvc.perform(put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)

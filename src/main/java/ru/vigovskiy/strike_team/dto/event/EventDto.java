@@ -1,4 +1,4 @@
-package ru.vigovskiy.strike_team.dto;
+package ru.vigovskiy.strike_team.dto.event;
 
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 

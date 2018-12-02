@@ -1,6 +1,6 @@
 package ru.vigovskiy.strike_team.service;
 
-import ru.vigovskiy.strike_team.dto.EventDto;
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 

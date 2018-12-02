@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vigovskiy.strike_team.dto.UserDto;
+import ru.vigovskiy.strike_team.dto.user.UserDto;
+import ru.vigovskiy.strike_team.dto.user.UserDtoMin;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.repository.UserRepository;
 import ru.vigovskiy.strike_team.service.UserService;
@@ -15,6 +16,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 import java.util.List;
 
 import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
+import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDtoMin;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -53,6 +55,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User create(UserDtoMin dto) {
+        if (dto.isNew()) {
+            User user = createUserFromDtoMin(dto);
+            return repository.save(user);
+        }
+        else {
+            return update(dto);
+        }
+    }
+
+    @Override
     public User create(UserDto dto) {
         if (dto.isNew()) {
             User user = createUserFromDto(dto);
@@ -60,6 +73,18 @@ public class UserServiceImpl implements UserService {
         }
         else {
             return update(dto);
+        }
+    }
+
+    @Transactional
+    @Override
+    public User update(UserDtoMin dto) {
+        if (!dto.isNew()) {
+            User user = get(dto.getId());
+            return repository.save(UserUtil.updateUserFromDtoMin(user, dto));
+        }
+        else {
+            return create(dto);
         }
     }
 

@@ -3,7 +3,8 @@ package ru.vigovskiy.strike_team.web.rest.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.vigovskiy.strike_team.dto.UserDto;
+import ru.vigovskiy.strike_team.dto.user.UserDto;
+import ru.vigovskiy.strike_team.dto.user.UserDtoMin;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
@@ -34,7 +35,7 @@ public class AbstractUserController {
         return service.getAll();
     }
 
-    public User create(UserDto dto) {
+    public User create(UserDtoMin dto) {
         log.info("create {}", dto);
         return service.create(dto);
     }
@@ -42,6 +43,11 @@ public class AbstractUserController {
     public void update(UserDto dto) {
         log.info("update {}", dto);
         service.update(dto);
+    }
+
+    public User create(UserDto dto) {
+        log.info("create {}", dto);
+        return service.create(dto);
     }
 
     public void delete(int id) {

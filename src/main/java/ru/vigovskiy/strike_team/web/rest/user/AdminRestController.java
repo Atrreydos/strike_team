@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.vigovskiy.strike_team.dto.UserDto;
+import ru.vigovskiy.strike_team.dto.user.UserDto;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
@@ -40,7 +40,7 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @PostMapping
-    public ResponseEntity create(@Valid UserDto dto, BindingResult result) {
+    public ResponseEntity create(@Valid @RequestBody UserDto dto, BindingResult result) {
         if (result.hasErrors()) {
             StringJoiner joiner = new StringJoiner("<br>");
             result.getFieldErrors().forEach(
@@ -58,7 +58,7 @@ public class AdminRestController extends AbstractUserController {
 
     @Override
     @PutMapping
-    public void update(@RequestBody UserDto dto) {
+    public void update(@Valid @RequestBody UserDto dto) {
         super.update(dto);
     }
 

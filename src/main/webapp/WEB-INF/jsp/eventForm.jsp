@@ -9,7 +9,7 @@
     <h3><a href="/">Начальная страница</a></h3>
     <h2>${param.action == 'create' ? 'Create event' : 'Edit event'}</h2>
     <hr>
-    <jsp:useBean id="event" type="ru.vigovskiy.strike_team.dto.EventDto" scope="request"/>
+    <jsp:useBean id="event" type="ru.vigovskiy.strike_team.dto.event.EventDto" scope="request"/>
     <form method="post" action="events">
         <input type="hidden" name="id" value="${event.id}">
         <dl>

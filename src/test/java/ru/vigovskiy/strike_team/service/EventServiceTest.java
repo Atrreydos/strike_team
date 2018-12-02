@@ -2,7 +2,7 @@ package ru.vigovskiy.strike_team.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.vigovskiy.strike_team.dto.EventDto;
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 

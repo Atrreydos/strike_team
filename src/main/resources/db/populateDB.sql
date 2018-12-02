@@ -1,4 +1,7 @@
 DELETE
+FROM user_roles;
+
+DELETE
 FROM votes;
 ALTER SEQUENCE vote_seq
   RESTART WITH 1;
@@ -16,6 +19,11 @@ ALTER SEQUENCE user_seq
 INSERT INTO users (name, login, password)
 VALUES ('User1', 'user1_login', 'password'),
        ('Admin1', 'admin1_login', 'password');
+
+INSERT INTO user_roles (role, user_id)
+VALUES ('USER', 1),
+       ('ADMIN', 2),
+       ('USER', 2);
 
 DELETE
 FROM events;

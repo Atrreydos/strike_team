@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.model;
 
+import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;

@@ -1,11 +1,11 @@
-package ru.vigovskiy.strike_team.dto;
+package ru.vigovskiy.strike_team.dto.user;
 
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserDto implements Identifiable<Integer> {
+public class UserDtoMin implements Identifiable<Integer> {
 
     private Integer id;
 
@@ -21,10 +21,10 @@ public class UserDto implements Identifiable<Integer> {
     @Size(min = 5, max = 32, message = "password length must be between 5 and 32 characters")
     private String password;
 
-    public UserDto() {
+    public UserDtoMin() {
     }
 
-    public UserDto(Integer id, String name, String login, String password) {
+    public UserDtoMin(Integer id, String name, String login, String password) {
         this.id = id;
         this.name = name;
         this.login = login;

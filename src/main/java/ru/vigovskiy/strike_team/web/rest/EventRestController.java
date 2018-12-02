@@ -2,7 +2,7 @@ package ru.vigovskiy.strike_team.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.vigovskiy.strike_team.dto.EventDto;
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.service.EventService;
 
 import java.util.List;

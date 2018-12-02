@@ -1,13 +1,14 @@
 package ru.vigovskiy.strike_team.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.util.CollectionUtils;
+import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
@@ -41,6 +42,12 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @JsonIgnore
     private List<Vote> votes;
 
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
     @Column(name = "enabled", nullable = false)
     private boolean enabled = false;
 
@@ -48,11 +55,16 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     public User() {
     }
 
-    public User(Integer id, String name, String login, String password) {
+    public User(Integer id, String name, String login, String password, Collection<Role> roles) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
+        setRoles(roles);
+    }
+
+    public User(Integer id, String name, String login, String password, Role role, Role... roles) {
+        this(id, name, login, password, EnumSet.of(role, roles));
     }
 
     public Integer getId() {
@@ -95,6 +107,14 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         votes.add(vote);
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -109,7 +129,8 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", enableed=" + enabled +
+                ", roles=" + roles +
+                ", enabled=" + enabled +
                 ", name='" + name + '\'' +
                 '}';
     }

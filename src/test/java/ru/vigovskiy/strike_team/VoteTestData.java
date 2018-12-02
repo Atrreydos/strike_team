@@ -1,7 +1,7 @@
 package ru.vigovskiy.strike_team;
 
 
-import ru.vigovskiy.strike_team.model.DecisionType;
+import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.UserEventDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 

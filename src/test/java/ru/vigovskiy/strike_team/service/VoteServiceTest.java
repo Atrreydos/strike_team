@@ -2,7 +2,7 @@ package ru.vigovskiy.strike_team.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.vigovskiy.strike_team.model.DecisionType;
+import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.UserEventDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
