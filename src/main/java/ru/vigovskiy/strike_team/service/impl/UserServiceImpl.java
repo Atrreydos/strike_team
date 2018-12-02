@@ -3,8 +3,12 @@ package ru.vigovskiy.strike_team.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.vigovskiy.strike_team.AuthorizedUser;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
 import ru.vigovskiy.strike_team.dto.user.UserDtoMin;
 import ru.vigovskiy.strike_team.model.User;
@@ -19,7 +23,7 @@ import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
 import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDtoMin;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private UserRepository repository;
@@ -115,5 +119,14 @@ public class UserServiceImpl implements UserService {
         User user = get(id);
         user.setEnabled(enabled);
         repository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = repository.getByLogin(login);
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + login + " is not found");
+        }
+        return new AuthorizedUser(user);
     }
 }

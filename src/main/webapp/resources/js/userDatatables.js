@@ -29,6 +29,9 @@ $(document).ready(function () {
                 "data": "name"
             },
             {
+                "data": "roles"
+            },
+            {
                 "data": "enabled",
                 "render": function (data, type, row) {
                     if (type === "display") {

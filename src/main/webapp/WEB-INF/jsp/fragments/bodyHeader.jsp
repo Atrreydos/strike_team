@@ -9,6 +9,9 @@
             <a class="btn btn-primary" href="">
                 <span class="fa fa-sign-in"></span>
             </a>
+            <a class="btn btn-primary" href="logout">
+                <span class="fa fa-sign-out"></span>
+            </a>
         </form>
     </div>
 </nav>

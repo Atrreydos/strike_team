@@ -5,6 +5,7 @@ import ru.vigovskiy.strike_team.model.Enums.Role;
 import java.util.Set;
 
 public class UserDto extends UserDtoMin {
+    private static final long serialVersionUID = 1L;
 
     private Set<Role> roles;
 

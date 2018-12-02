@@ -39,8 +39,9 @@ public class AdminRestController extends AbstractUserController {
         return super.getAll();
     }
 
+    /*TODO без @RequestBody не проходят тесты, а с ним не работает на Томкате*/
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody UserDto dto, BindingResult result) {
+    public ResponseEntity create(@Valid /*@RequestBody*/ UserDto dto, BindingResult result) {
         if (result.hasErrors()) {
             StringJoiner joiner = new StringJoiner("<br>");
             result.getFieldErrors().forEach(
