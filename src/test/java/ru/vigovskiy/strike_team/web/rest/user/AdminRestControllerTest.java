@@ -21,6 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.vigovskiy.strike_team.TestUtil.userAuth;
+import static ru.vigovskiy.strike_team.TestUtil.userHttpBasic;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
 import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
@@ -34,10 +36,24 @@ class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
     @Test
+    void testGetUnAuth() throws Exception {
+        mockMvc.perform(get(REST_URL))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testGetForbidden() throws Exception {
+        mockMvc.perform(get(REST_URL)
+                .with(userHttpBasic(ADMIN_1)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + USER1_ID))
-                .andExpect(status().isOk())
+        mockMvc.perform(get(REST_URL + USER1_ID)
+                .with(userAuth(ADMIN_1)))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(convertToJson(USER_1)));
     }
@@ -54,7 +70,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAll() throws Exception {
-        mockMvc.perform(get(REST_URL ))
+        mockMvc.perform(get(REST_URL )
+                .with(userHttpBasic(ADMIN_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

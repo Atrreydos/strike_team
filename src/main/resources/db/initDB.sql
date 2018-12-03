@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS event_days;
 DROP SEQUENCE IF EXISTS event_day_seq;
 DROP TABLE IF EXISTS events;
 DROP SEQUENCE IF EXISTS event_seq;
+DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS user_seq;
 
@@ -21,10 +22,12 @@ CREATE TABLE users
 CREATE UNIQUE INDEX users_unique_login_idx
   ON users (login);
 
+CREATE TYPE roles AS ENUM ('USER', 'ADMIN');
+
 CREATE TABLE user_roles
 (
   user_id INTEGER NOT NULL,
-  role    VARCHAR NOT NULL,
+  role    roles NOT NULL,
   CONSTRAINT user_roles_idx UNIQUE (user_id, role),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
