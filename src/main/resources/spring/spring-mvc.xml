@@ -33,4 +33,8 @@
         <property name="basenames" value="file:///#{systemEnvironment['STRIKE_TEAM_ROOT']}/config/messages/messages"/>
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
+
+    <mvc:interceptors>
+        <bean class="ru.vigovskiy.strike_team.web.interceptor.ModelInterceptor"/>
+    </mvc:interceptors>
 </beans>
