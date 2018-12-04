@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.web;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +56,25 @@ public class RootController extends AbstractUserController {
             SecurityUtil.get().update(userTo);
             status.setComplete();
             return "redirect:events";
+        }
+    }
+
+    @GetMapping("/register")
+    public String register(ModelMap model) {
+        model.addAttribute("userDto", new UserDto());
+        model.addAttribute("register", true);
+        return "profile";
+    }
+
+    @PostMapping("/register")
+    public String saveRegister(@Valid UserDto userDto, BindingResult result, SessionStatus status, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("register", true);
+            return "profile";
+        } else {
+            super.create(userDto);
+            status.setComplete();
+            return "redirect:login?message=app.registered&username=" + userDto.getLogin();
         }
     }
 }
