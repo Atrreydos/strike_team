@@ -14,6 +14,7 @@ import ru.vigovskiy.strike_team.web.json.JsonUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.TestUtil.userHttpBasic;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
@@ -44,14 +44,14 @@ class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     void testGetForbidden() throws Exception {
         mockMvc.perform(get(REST_URL)
-                .with(userHttpBasic(ADMIN_1)))
+                .with(userHttpBasic(USER_1)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + USER1_ID)
-                .with(userAuth(ADMIN_1)))
+                .with(userHttpBasic(ADMIN_1)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -60,7 +60,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByLogin() throws Exception {
-        mockMvc.perform(get(REST_URL + "by/login/" +USER_1.getLogin()))
+        mockMvc.perform(get(REST_URL + "by/login/" +USER_1.getLogin())
+                .with(userHttpBasic(ADMIN_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -80,9 +81,10 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        User expected = new User(null, "new name", "new login", "new password", Role.USER, Role.ADMIN);
+        User expected = new User(null, "new name", "new login", "new password", true, Role.ROLE_USER, Role.ROLE_ADMIN);
         UserDto dto = createDtoFromUser(expected);
         ResultActions action = mockMvc.perform(post(REST_URL)
+                .with(userHttpBasic(ADMIN_1))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(Objects.requireNonNull(JsonUtil.convertToJson(dto))))
                 .andDo(print())
@@ -101,9 +103,10 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expected.setName("updated name");
         expected.setLogin("updated login");
         expected.setPassword("updated Password");
-        expected.setRoles(Arrays.asList(Role.USER, Role.ADMIN));
+        expected.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
         UserDto dto = createDtoFromUser(expected);
         mockMvc.perform(put(REST_URL)
+                .with(userHttpBasic(ADMIN_1))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(Objects.requireNonNull(JsonUtil.convertToJson(dto))))
                 .andExpect(status().isOk());
@@ -113,7 +116,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + USER1_ID))
+        mockMvc.perform(delete(REST_URL + USER1_ID)
+                .with(userHttpBasic(ADMIN_1)))
                 .andExpect(status().isOk());
 
         assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));

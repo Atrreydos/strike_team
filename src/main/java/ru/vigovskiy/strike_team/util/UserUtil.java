@@ -5,10 +5,12 @@ import ru.vigovskiy.strike_team.dto.user.UserDtoMin;
 import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.model.User;
 
+import java.util.Collections;
+
 public class UserUtil {
 
     public static User createUserFromDtoMin(UserDtoMin dto) {
-        return new User(dto.getId(), dto.getName(), dto.getLogin(), dto.getPassword(), Role.USER);
+        return new User(dto.getId(), dto.getName(), dto.getLogin(), dto.getPassword(), Collections.singleton(Role.ROLE_USER));
     }
 
     public static UserDtoMin createDtoMinFromUser(User user) {

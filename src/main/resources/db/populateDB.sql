@@ -21,9 +21,9 @@ VALUES ('User1', 'user1_login', 'password', true),
        ('Admin1', 'admin1_login', 'password', true);
 
 INSERT INTO user_roles (role, user_id)
-VALUES ('USER', 1),
-       ('ADMIN', 2),
-       ('USER', 2);
+VALUES ('ROLE_USER', 1),
+       ('ROLE_ADMIN', 2),
+       ('ROLE_USER', 2);
 
 DELETE
 FROM events;

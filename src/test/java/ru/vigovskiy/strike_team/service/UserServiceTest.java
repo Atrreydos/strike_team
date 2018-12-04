@@ -51,7 +51,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        User newUser = new User(null, "name", "login", "password", Role.USER);
+        User newUser = new User(null, "name", "login", "password", false, Role.ROLE_USER);
         User createdUser = service.create(createDtoMinFromUser(newUser));
         newUser.setId(createdUser.getId());
         assertThat(newUser).isEqualToComparingFieldByField(createdUser);
@@ -60,7 +60,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void duplicateLoginCreate() {
-        User newUser = new User(null, "name", "user1_login", "password", Role.USER);
+        User newUser = new User(null, "name", "user1_login", "password", false, Role.ROLE_USER);
         assertThrows(DataIntegrityViolationException.class, () -> service.create(createDtoMinFromUser(newUser)));
     }
 

@@ -10,7 +10,8 @@ import ru.vigovskiy.strike_team.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.StringJoiner;
+
+import static ru.vigovskiy.strike_team.util.ValidationUtil.getErrorResponse;
 
 @RestController
 @RequestMapping(AdminRestController.REST_URL)
@@ -43,33 +44,28 @@ public class AdminRestController extends AbstractUserController {
     @PostMapping
     public ResponseEntity create(@Valid /*@RequestBody*/ UserDto dto, BindingResult result) {
         if (result.hasErrors()) {
-            StringJoiner joiner = new StringJoiner("<br>");
-            result.getFieldErrors().forEach(
-                    fe -> {
-                        String msg = fe.getDefaultMessage();
-                        if (!msg.startsWith(fe.getField())) {
-                            msg = fe.getField() + ' ' + msg;
-                        }
-                        joiner.add(msg);
-                    });
-            return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return getErrorResponse(result);
         }
         return new ResponseEntity<>(super.create(dto), HttpStatus.OK);
     }
 
+    /*TODO не полуается сделать AJAX запрос через PUT*/
     @Override
     @PutMapping
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody UserDto dto) {
         super.update(dto);
     }
 
     @Override
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PostMapping("/{id}/enabled")
     public void setEnabled(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
         super.setEnabled(id, enabled);
     }
 
     @Override
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);

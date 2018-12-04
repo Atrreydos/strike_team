@@ -55,16 +55,21 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     public User() {
     }
 
-    public User(Integer id, String name, String login, String password, Collection<Role> roles) {
+    public User(Integer id, String name, String login, String password, boolean enabled, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
+        this.enabled = enabled;
         setRoles(roles);
     }
 
-    public User(Integer id, String name, String login, String password, Role role, Role... roles) {
-        this(id, name, login, password, EnumSet.of(role, roles));
+    public User(Integer id, String name, String login, String password, boolean enabled, Role role, Role... roles) {
+        this(id, name, login, password, enabled, EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, String name, String login, String password, Set<Role> roles) {
+        this(id, name, login, password, false, roles);
     }
 
     public Integer getId() {
@@ -111,8 +116,8 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+    public void setRoles(Set<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : roles;
     }
 
     public boolean isEnabled() {

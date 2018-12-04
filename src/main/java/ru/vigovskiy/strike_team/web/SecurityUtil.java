@@ -9,7 +9,7 @@ import static java.util.Objects.requireNonNull;
 
 public class SecurityUtil {
 
-    private static AuthorizedUser safeGet() {
+    public static AuthorizedUser safeGet() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             return null;

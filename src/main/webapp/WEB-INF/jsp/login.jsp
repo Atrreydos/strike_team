@@ -5,18 +5,7 @@
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <div class="navbar-brand"><img src="resources/images/icon.ico"> <spring:message code="app.title"/></div>
-        <form class="form-inline my-2" action="spring_security_check" method="post">
-            <input class="form-control mr-1" type="text" placeholder="Login" name="username">
-            <input class="form-control mr-1" type="password" placeholder="Password" name="password">
-            <button class="btn btn-success" type="submit">
-                <span class="fa fa-sign-in"></span>
-            </button>
-        </form>
-    </div>
-</nav>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron pt-0">
     <div class="container">
@@ -28,10 +17,10 @@
         </c:if>
         <br/>
         <p>
-            <button type="submit" class="btn btn-lg btn-primary" onclick="setCredentials('user@yandex.ru', 'password')">
+            <button type="submit" class="btn btn-lg btn-primary" onclick="login('user1_login', 'password')">
                 <spring:message code="app.login"/> User
             </button>
-            <button type="submit" class="btn btn-lg btn-primary" onclick="setCredentials('admin@gmail.com', 'admin')">
+            <button type="submit" class="btn btn-lg btn-primary" onclick="login('admin1_login', 'password')">
                 <spring:message code="app.login"/> Admin
             </button>
         </p>
@@ -73,6 +62,11 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 <script type="text/javascript">
+    function login(username, password) {
+        setCredentials(username, password);
+        $("#login_form").submit();
+    }
+
     function setCredentials(login, password) {
         $('input[name="username"]').val(login);
         $('input[name="password"]').val(password);
