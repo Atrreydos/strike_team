@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.TestUtil.userHttpBasic;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
@@ -51,11 +52,20 @@ class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + USER1_ID)
-                .with(userHttpBasic(ADMIN_1)))
+                .with(userAuth(ADMIN_1)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(convertToJson(USER_1)));
+    }
+
+    @Test
+    void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 0)
+                .with(userAuth(ADMIN_1)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
     }
 
     @Test
@@ -121,5 +131,13 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));
+    }
+
+    @Test
+    void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + 0)
+                .with(userAuth(ADMIN_1)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
     }
 }
