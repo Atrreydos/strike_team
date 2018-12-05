@@ -1,6 +1,7 @@
 package ru.vigovskiy.strike_team.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.CollectionUtils;
 import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
@@ -36,6 +37,8 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
+    // https://stackoverflow.com/a/12505165/548473
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)

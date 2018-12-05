@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT1_ID;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
-import static ru.vigovskiy.strike_team.TestUtil.userHttpBasic;
+import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
@@ -27,7 +27,7 @@ class EventRestControllerTest extends AbstractControllerTest {
     @Test
     void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + EVENT1_ID)
-                .with(userHttpBasic(USER_1)))
+                .with(userAuth(USER_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

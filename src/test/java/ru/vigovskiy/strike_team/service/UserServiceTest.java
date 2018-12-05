@@ -24,7 +24,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void get() {
         User user = service.get(USER1_ID);
-        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
+        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes", "password");
     }
 
     @Test
@@ -35,7 +35,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getByLogin() {
         User user = service.getByLogin("user1_login");
-        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes");
+        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes", "password");
     }
 
     @Test
@@ -46,7 +46,7 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getAll() {
         List<User> users = service.getAll();
-        assertThat(users).usingElementComparatorIgnoringFields("votes").isEqualTo(USERS);
+        assertThat(users).usingElementComparatorIgnoringFields("votes", "password").isEqualTo(USERS);
     }
 
     @Test
@@ -54,8 +54,8 @@ class UserServiceTest extends AbstractServiceTest {
         User newUser = new User(null, "name", "login", "password", false, Role.ROLE_USER);
         User createdUser = service.create(createDtoMinFromUser(newUser));
         newUser.setId(createdUser.getId());
-        assertThat(newUser).isEqualToComparingFieldByField(createdUser);
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
+        assertThat(newUser).isEqualToIgnoringGivenFields(createdUser, "password");
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes", "password").isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
     }
 
     @Test
@@ -71,13 +71,13 @@ class UserServiceTest extends AbstractServiceTest {
         updatedUser.setName("new_name");
         updatedUser.setPassword("new_password");
         service.update(createDtoMinFromUser(updatedUser));
-        assertThat(updatedUser).isEqualToIgnoringGivenFields(service.get(USER1_ID), "votes");
+        assertThat(updatedUser).isEqualToIgnoringGivenFields(service.get(USER1_ID), "votes", "password");
     }
 
     @Test
     void delete() {
         service.delete(USER1_ID);
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(ADMIN_1));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes", "password").isEqualTo(Collections.singletonList(ADMIN_1));
     }
 
     @Test

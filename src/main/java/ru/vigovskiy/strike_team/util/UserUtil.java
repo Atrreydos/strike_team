@@ -1,5 +1,7 @@
 package ru.vigovskiy.strike_team.util;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
 import ru.vigovskiy.strike_team.dto.user.UserDtoMin;
 import ru.vigovskiy.strike_team.model.Enums.Role;
@@ -37,6 +39,12 @@ public class UserUtil {
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setRoles(dto.getRoles());
+        return user;
+    }
+
+    public static User prepareToSave(User user, PasswordEncoder passwordEncoder) {
+        String password = user.getPassword();
+        user.setPassword(StringUtils.isEmpty(password) ? password : passwordEncoder.encode(password));
         return user;
     }
 }

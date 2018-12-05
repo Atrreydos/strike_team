@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.AuthorizedUser;
@@ -21,16 +22,21 @@ import java.util.List;
 
 import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
 import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDtoMin;
+import static ru.vigovskiy.strike_team.util.UserUtil.prepareToSave;
 
+/*TODO сделать тип возвращаемы на DTO*/
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private UserRepository repository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User create(UserDtoMin dto) {
         if (dto.isNew()) {
             User user = createUserFromDtoMin(dto);
-            return repository.save(user);
+            return repository.save(prepareToSave(user, passwordEncoder));
         }
         else {
             return update(dto);
@@ -73,7 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User create(UserDto dto) {
         if (dto.isNew()) {
             User user = createUserFromDto(dto);
-            return repository.save(user);
+            return repository.save(prepareToSave(user, passwordEncoder));
         }
         else {
             return update(dto);
@@ -84,8 +90,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User update(UserDtoMin dto) {
         if (!dto.isNew()) {
-            User user = get(dto.getId());
-            return repository.save(UserUtil.updateUserFromDtoMin(user, dto));
+            User user = UserUtil.updateUserFromDtoMin(get(dto.getId()), dto);
+            return repository.save(prepareToSave(user, passwordEncoder));
         }
         else {
             return create(dto);
@@ -96,8 +102,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User update(UserDto dto) {
         if (!dto.isNew()) {
-            User user = get(dto.getId());
-            return repository.save(UserUtil.updateUserFromDto(user, dto));
+            User user = UserUtil.updateUserFromDto(get(dto.getId()), dto);
+            return repository.save(prepareToSave(user, passwordEncoder));
         }
         else {
             return create(dto);

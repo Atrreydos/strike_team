@@ -1,12 +1,16 @@
 package ru.vigovskiy.strike_team.web.json;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import ru.vigovskiy.strike_team.UserTestData;
 import ru.vigovskiy.strike_team.model.User;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static ru.vigovskiy.strike_team.UserTestData.USERS;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 
@@ -22,7 +26,7 @@ class JsonUtilTest {
     void testReadWriteValue() throws Exception {
         String json = JsonUtil.convertToJson(USER_1);
         User user = JsonUtil.convertToObject(json, User.class);
-        assertThat(user).isEqualToComparingFieldByField(USER_1);
+        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "password");
     }
 
     @Test
@@ -30,6 +34,13 @@ class JsonUtilTest {
         String json = JsonUtil.convertToJson(USERS);
         List<User> meals = JsonUtil.convertToObjects(json, User.class);
         assertThat(meals).isEqualTo(USERS);
+    }
+
+    @Test
+    void testWriteOnlyAccess() throws Exception {
+        String json = JsonUtil.convertToJson(UserTestData.USER_1);
+        System.out.println(json);
+        MatcherAssert.assertThat(json, not(containsString("password")));
     }
 
 }

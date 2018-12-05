@@ -17,8 +17,8 @@ ALTER SEQUENCE user_seq
   RESTART WITH 1;
 
 INSERT INTO users (name, login, password, enabled)
-VALUES ('User1', 'user1_login', 'password', true),
-       ('Admin1', 'admin1_login', 'password', true);
+VALUES ('User1', 'user1_login', '{noop}password', true),
+       ('Admin1', 'admin1_login', '{noop}password', true);
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('ROLE_USER', 1),
