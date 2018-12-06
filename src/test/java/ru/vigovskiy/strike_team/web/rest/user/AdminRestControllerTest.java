@@ -20,9 +20,7 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
@@ -141,4 +139,30 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
+
+//    @Test
+//    void testCreateInvalid() throws Exception {
+//        User expected = new User(null, null, "", "newPass", false, Role.ROLE_USER, Role.ROLE_ADMIN);
+//        ResultActions action = mockMvc.perform(post(REST_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .with(userAuth(ADMIN_1))
+//                .content(JsonUtil.convertToJson(expected)))
+//                .andExpect(status().isUnprocessableEntity())
+//                .andExpect(jsonPath("$.type").value(ErrorType.VALIDATION_ERROR.name()))
+//                .andDo(print());
+//    }
+//
+//    @Test
+//    void testUpdateInvalid() throws Exception {
+//        User updated = service.get(USER1_ID);
+//        updated.setName("");
+//        mockMvc.perform(put(REST_URL + USER1_ID)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .with(userAuth(ADMIN_1))
+//                .content(JsonUtil.convertToJson(updated)))
+//                .andExpect(status().isUnprocessableEntity())
+//                .andDo(print())
+//                .andExpect(jsonPath("$.type").value(ErrorType.VALIDATION_ERROR.name()))
+//                .andDo(print());
+//    }
 }

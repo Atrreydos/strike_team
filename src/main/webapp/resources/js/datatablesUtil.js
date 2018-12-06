@@ -83,6 +83,15 @@ function failNoty(jqXHR) {
     }).show();
 }
 
+closeNoty();
+// https://stackoverflow.com/questions/48229776
+const errorInfo = JSON.parse(jqXHR.responseText);
+failedNote = new Noty({
+    text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + ": " + jqXHR.status + "<br>" + errorInfo.type + "<br>" + errorInfo.details.join("<br>"),
+    type: "error",
+    layout: "bottomRight"
+}).show();
+
 function renderEditBtn(data, type, row) {
     if (type === "display") {
         return "<a onclick='updateRow(" + row.id + ");'><span class='fa fa-pencil'></span></a>";
