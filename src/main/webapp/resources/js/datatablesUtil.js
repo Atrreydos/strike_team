@@ -22,6 +22,7 @@ function deleteRow(id) {
 }
 
 function add() {
+    $("#modalTitle").html(i18n["addTitle"]);
     form.find(":input").val("");
     $("#editRow").modal();
 }
@@ -39,6 +40,7 @@ function save() {
 }
 
 function updateRow(id) {
+    $("#modalTitle").html(i18n["editTitle"]);
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
