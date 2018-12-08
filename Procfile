@@ -1,0 +1,1 @@
+web:    java $JAVA_OPTS -Dspring.profiles.active="heroku" -DSTRIKE_TEAM_ROOT="." -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
