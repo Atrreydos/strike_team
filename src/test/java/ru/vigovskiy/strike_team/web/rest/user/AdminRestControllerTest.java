@@ -63,7 +63,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + 0)
                 .with(userAuth(ADMIN_1)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
@@ -136,7 +136,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
     void testDeleteNotFound() throws Exception {
         mockMvc.perform(delete(REST_URL + 0)
                 .with(userAuth(ADMIN_1)))
-                .andExpect(status().isUnprocessableEntity())
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 

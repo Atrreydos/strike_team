@@ -4,9 +4,11 @@
 
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
-        <a href="events" class="navbar-brand"><img src="resources/images/icon.ico"> <spring:message code="app.title"/></a>
+        <img src="resources/images/icon.ico">
         <sec:authorize access="isAuthenticated()">
             <form class="form-inline my-2">
+                <a class="btn btn-info mr-1" href="events">События</a>
+                <a class="btn btn-info mr-1" href="event_votes">Голосования по событиям</a>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <a class="btn btn-info mr-1" href="users"><spring:message code="user.title"/></a>
                 </sec:authorize>

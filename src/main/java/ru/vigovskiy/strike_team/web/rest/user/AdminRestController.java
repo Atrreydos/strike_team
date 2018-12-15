@@ -42,7 +42,7 @@ public class AdminRestController extends AbstractUserController {
 
     /*TODO без @RequestBody не проходят тесты, а с ним не работает на Томкате*/
     @PostMapping
-    public ResponseEntity create(@Valid /*@RequestBody*/ UserDto dto, BindingResult result) {
+    public ResponseEntity create(@Valid @RequestBody UserDto dto, BindingResult result) {
         if (result.hasErrors()) {
             return getErrorResponse(result);
         }

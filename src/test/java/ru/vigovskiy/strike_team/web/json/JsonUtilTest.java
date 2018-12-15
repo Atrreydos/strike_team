@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.web.json;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import ru.vigovskiy.strike_team.UserTestData;
 import ru.vigovskiy.strike_team.model.User;
@@ -19,6 +20,7 @@ import static ru.vigovskiy.strike_team.UserTestData.USER_1;
         "classpath:spring/spring-mvc.xml",
         "classpath:spring/spring-db.xml"
 })
+@ActiveProfiles("postgres")
 class JsonUtilTest {
 
 

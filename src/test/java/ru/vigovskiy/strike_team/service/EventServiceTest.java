@@ -53,7 +53,7 @@ class EventServiceTest extends AbstractServiceTest {
     @Test
     void create() {
         EventDto newEventDto = new EventDto(null, "new name", "new description");
-        Event createdEventDto = eventService.create(newEventDto);
+        EventDto createdEventDto = eventService.create(newEventDto);
         newEventDto.setId(createdEventDto.getId());
         assertThat(newEventDto).isEqualToComparingFieldByField(createdEventDto);
         assertThat(eventService.getAll()).isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2), newEventDto));

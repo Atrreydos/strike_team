@@ -56,10 +56,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event create(EventDto dto) {
+    public EventDto create(EventDto dto) {
         if (dto.isNew()) {
             Event event = createEventFromDto(dto);
-            return repository.save(event);
+            event = repository.save(event);
+            return createDtoFromEvent(event);
         }
         else {
             return update(dto);
@@ -67,10 +68,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event update(EventDto dto) {
+    public EventDto update(EventDto dto) {
         if (!dto.isNew()) {
             Event event = repository.get(dto.getId());
-            return repository.save(EventUtil.updateEventFromDto(event, dto));
+            event = repository.save(EventUtil.updateEventFromDto(event, dto));
+            return createDtoFromEvent(event);
         }
         else {
             return create(dto);
