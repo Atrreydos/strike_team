@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
@@ -12,6 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_2;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
 
@@ -43,6 +45,12 @@ class VoteServiceTest extends AbstractServiceTest {
         Vote createdVote = voteService.create(newVote);
         newVote.setId(createdVote.getId());
         assertThat(newVote).isEqualToIgnoringGivenFields(createdVote, "voteDay");
+    }
+
+    @Test
+    void createDuplicate() {
+        Vote newVote = new Vote(null, DecisionType.REJECT, USER_1, VOTE_DAY_1);
+        assertThrows(DataIntegrityViolationException.class, () -> voteService.create(newVote));
     }
 
     @Test
