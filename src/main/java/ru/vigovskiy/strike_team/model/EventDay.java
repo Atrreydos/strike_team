@@ -25,7 +25,7 @@ public class EventDay extends AbstractBaseEntity implements Identifiable<Integer
     @NotNull
     private Event event;
 
-    @OneToMany(mappedBy = "eventDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "voteDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes;
 
     public EventDay() {

@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "votes")
-public class Vote extends AbstractBaseEntity implements Identifiable<UserEventDayPK> {
+public class Vote extends AbstractBaseEntity implements Identifiable<UserVoteDayPK> {
 
     @EmbeddedId
-    private UserEventDayPK id;
+    private UserVoteDayPK id;
 
     @Column(name = "decision")
     @NotNull
@@ -24,35 +24,35 @@ public class Vote extends AbstractBaseEntity implements Identifiable<UserEventDa
     @NotNull
     private User user;
 
-    @MapsId("eventDayId")
+    @MapsId("voteDayId")
     @ManyToOne
-    @JoinColumn(name = "event_day_id", insertable = false, updatable = false)
+    @JoinColumn(name = "vote_day_id", insertable = false, updatable = false)
     @NotNull
-    private EventDay eventDay;
+    private VoteDay voteDay;
 
     public Vote() {
     }
 
-    public Vote(DecisionType decisionType, User user, EventDay eventDay) {
+    public Vote(DecisionType decisionType, User user, VoteDay voteDay) {
         this.decisionType = decisionType;
         this.user = user;
-        this.eventDay = eventDay;
+        this.voteDay = voteDay;
     }
 
-    public Vote(UserEventDayPK id, DecisionType decisionType, User user, EventDay eventDay) {
+    public Vote(UserVoteDayPK id, DecisionType decisionType, User user, VoteDay voteDay) {
         this.id = id;
         this.decisionType = decisionType;
         this.user = user;
-        this.eventDay = eventDay;
+        this.voteDay = voteDay;
     }
 
     @Override
-    public UserEventDayPK getId() {
+    public UserVoteDayPK getId() {
         return id;
     }
 
     @Override
-    public void setId(UserEventDayPK id) {
+    public void setId(UserVoteDayPK id) {
         this.id = id;
     }
 
@@ -72,37 +72,11 @@ public class Vote extends AbstractBaseEntity implements Identifiable<UserEventDa
         this.user = user;
     }
 
-    public EventDay getEventDay() {
-        return eventDay;
+    public VoteDay getVoteDay() {
+        return voteDay;
     }
 
-    public void setEventDay(EventDay eventDay) {
-        this.eventDay = eventDay;
+    public void setVoteDay(VoteDay voteDay) {
+        this.voteDay = voteDay;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Vote)) return false;
-
-        Vote vote = (Vote) o;
-
-        return id.equals(vote.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Vote{" +
-                "id=" + id +
-                ", decisionType=" + decisionType +
-                ", user=" + user +
-                ", eventDay=" + eventDay +
-                '}';
-    }
-
 }

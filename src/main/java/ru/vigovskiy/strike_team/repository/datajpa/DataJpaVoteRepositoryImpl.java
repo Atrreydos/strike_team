@@ -3,7 +3,7 @@ package ru.vigovskiy.strike_team.repository.datajpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vigovskiy.strike_team.model.UserEventDayPK;
+import ru.vigovskiy.strike_team.model.UserVoteDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.repository.VoteRepository;
 
@@ -27,12 +27,12 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
 
     @Override
     @Transactional
-    public boolean delete(UserEventDayPK id) {
+    public boolean delete(UserVoteDayPK id) {
         return repository.delete(id) != 0;
     }
 
     @Override
-    public Vote get(UserEventDayPK id) {
+    public Vote get(UserVoteDayPK id) {
         return repository.findById(id).orElse(null);
     }
 

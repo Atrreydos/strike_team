@@ -4,18 +4,18 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class UserEventDayPK implements Serializable {
+public class UserVoteDayPK implements Serializable {
 
     private Integer userId;
 
-    private int eventDayId;
+    private int voteDayId;
 
-    public UserEventDayPK() {
+    public UserVoteDayPK() {
     }
 
-    public UserEventDayPK(Integer userId, int eventDayId) {
+    public UserVoteDayPK(Integer userId, int voteDayId) {
         this.userId = userId;
-        this.eventDayId = eventDayId;
+        this.voteDayId = voteDayId;
     }
 
     public Integer getUserId() {
@@ -26,29 +26,29 @@ public class UserEventDayPK implements Serializable {
         this.userId = userId;
     }
 
-    public int getEventDayId() {
-        return eventDayId;
+    public int getVoteDayId() {
+        return voteDayId;
     }
 
-    public void setEventDayId(int eventDayId) {
-        this.eventDayId = eventDayId;
+    public void setVoteDayId(int voteDayId) {
+        this.voteDayId = voteDayId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserEventDayPK)) return false;
+        if (!(o instanceof UserVoteDayPK)) return false;
 
-        UserEventDayPK that = (UserEventDayPK) o;
+        UserVoteDayPK that = (UserVoteDayPK) o;
 
-        if (eventDayId != that.eventDayId) return false;
+        if (voteDayId != that.voteDayId) return false;
         return userId.equals(that.userId);
     }
 
     @Override
     public int hashCode() {
         int result = userId.hashCode();
-        result = 31 * result + eventDayId;
+        result = 31 * result + voteDayId;
         return result;
     }
 }
