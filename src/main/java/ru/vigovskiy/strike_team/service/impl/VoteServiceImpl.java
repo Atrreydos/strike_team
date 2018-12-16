@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.vigovskiy.strike_team.model.UserVoteDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.repository.VoteRepository;
 import ru.vigovskiy.strike_team.service.VoteService;
@@ -24,7 +23,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Vote get(UserVoteDayPK id) throws NotFoundException {
+    public Vote get(Integer id) throws NotFoundException {
         Vote vote = repository.get(id);
         if (vote == null) {
             log.error("User with id {} not found", id);
@@ -49,7 +48,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public void delete(UserVoteDayPK id) throws NotFoundException {
+    public void delete(Integer id) throws NotFoundException {
         boolean deleted = repository.delete(id);
         if (!deleted) {
             log.info("Vote with id {} not found for deleting", id);

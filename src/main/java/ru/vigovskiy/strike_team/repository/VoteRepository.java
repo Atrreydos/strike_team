@@ -1,6 +1,5 @@
 package ru.vigovskiy.strike_team.repository;
 
-import ru.vigovskiy.strike_team.model.UserVoteDayPK;
 import ru.vigovskiy.strike_team.model.Vote;
 
 import java.util.List;
@@ -9,9 +8,9 @@ public interface VoteRepository {
 
     Vote save(Vote vote);
 
-    boolean delete(UserVoteDayPK id);
+    boolean delete(Integer id);
 
-    Vote get(UserVoteDayPK id);
+    Vote get(Integer id);
 
     List<Vote> getAll();
 }

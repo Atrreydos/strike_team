@@ -8,38 +8,32 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "votes")
-public class Vote extends AbstractBaseEntity implements Identifiable<UserVoteDayPK> {
+public class Vote extends AbstractBaseEntity implements Identifiable<Integer> {
 
-    @EmbeddedId
-    private UserVoteDayPK id;
+    @Id
+    @SequenceGenerator(name = "vote_seq", sequenceName = "vote_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vote_seq")
+    private Integer id;
 
     @Column(name = "decision")
     @NotNull
     @Enumerated(EnumType.STRING)
     private DecisionType decisionType;
 
-    @MapsId("userId")
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", updatable = false)
     @NotNull
     private User user;
 
-    @MapsId("voteDayId")
     @ManyToOne
-    @JoinColumn(name = "vote_day_id", insertable = false, updatable = false)
+    @JoinColumn(name = "vote_day_id", updatable = false)
     @NotNull
     private VoteDay voteDay;
 
     public Vote() {
     }
 
-    public Vote(DecisionType decisionType, User user, VoteDay voteDay) {
-        this.decisionType = decisionType;
-        this.user = user;
-        this.voteDay = voteDay;
-    }
-
-    public Vote(UserVoteDayPK id, DecisionType decisionType, User user, VoteDay voteDay) {
+    public Vote(Integer id, DecisionType decisionType, User user, VoteDay voteDay) {
         this.id = id;
         this.decisionType = decisionType;
         this.user = user;
@@ -47,12 +41,12 @@ public class Vote extends AbstractBaseEntity implements Identifiable<UserVoteDay
     }
 
     @Override
-    public UserVoteDayPK getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(UserVoteDayPK id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
