@@ -85,7 +85,7 @@ class EventRestControllerTest extends AbstractControllerTest {
         expected.setId(returned.getId());
 
         assertThat(returned).isEqualToComparingFieldByField(expected);
-        assertThat(service.getAll()).isEqualTo(createDtosFromEvents(Arrays.asList(EVENT_1, EVENT_2, expected)));
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromEvents(Arrays.asList(EVENT_1, EVENT_2, expected)));
     }
 
     @Test

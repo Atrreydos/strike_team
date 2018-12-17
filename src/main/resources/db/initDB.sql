@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS event_days;
 DROP SEQUENCE IF EXISTS event_day_seq;
 DROP TABLE IF EXISTS vote_days;
 DROP SEQUENCE IF EXISTS vote_day_seq;
+DROP TABLE IF EXISTS event_votings;
+DROP SEQUENCE IF EXISTS event_voting_seq;
 DROP TABLE IF EXISTS events;
 DROP SEQUENCE IF EXISTS event_seq;
 DROP TABLE IF EXISTS user_roles;
@@ -52,14 +54,23 @@ CREATE TABLE event_days
   event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
 );
 
+CREATE SEQUENCE event_voting_seq
+  START 1;
+
+CREATE TABLE event_votings
+(
+  id          INTEGER PRIMARY KEY DEFAULT nextval('event_voting_seq'),
+  event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
+);
+
 CREATE SEQUENCE vote_day_seq
   START 1;
 
 CREATE TABLE vote_days
 (
   id  INTEGER PRIMARY KEY DEFAULT nextval('vote_day_seq'),
-  day DATE NOT NULL/*,
-  event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE*/
+  day DATE NOT NULL,
+  event_voting_id INTEGER NOT NULL REFERENCES event_votings (id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE vote_seq

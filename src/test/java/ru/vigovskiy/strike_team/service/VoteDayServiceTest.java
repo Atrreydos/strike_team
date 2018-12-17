@@ -18,7 +18,7 @@ class VoteDayServiceTest extends AbstractServiceTest {
     @Test
     void get() {
         VoteDay voteDay = service.get(VOTE_DAY1_ID);
-        assertThat(voteDay).isEqualToIgnoringGivenFields(VOTE_DAY_1, "votes");
+        assertThat(voteDay).isEqualToIgnoringGivenFields(VOTE_DAY_1, "eventVoting", "votes");
     }
 
     @Test

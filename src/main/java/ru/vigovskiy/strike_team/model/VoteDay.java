@@ -20,10 +20,10 @@ public class VoteDay extends AbstractBaseEntity implements Identifiable<Integer>
     @NotNull
     private LocalDate day;
 
-//    @ManyToOne
-//    @JoinColumn(name = "event_voting_id", nullable = false)
-//    @NotNull
-//    private EventVoting eventVoting;
+    @ManyToOne
+    @JoinColumn(name = "event_voting_id", nullable = false)
+    @NotNull
+    private EventVoting eventVoting;
 
     @OneToMany(mappedBy = "voteDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes;
@@ -54,13 +54,13 @@ public class VoteDay extends AbstractBaseEntity implements Identifiable<Integer>
         this.day = day;
     }
 
-//    public EventVoting getEventVoting() {
-//        return eventVoting;
-//    }
-//
-//    public void setEventVoting(EventVoting eventVoting) {
-//        this.eventVoting = eventVoting;
-//    }
+    public EventVoting getEventVoting() {
+        return eventVoting;
+    }
+
+    public void setEventVoting(EventVoting eventVoting) {
+        this.eventVoting = eventVoting;
+    }
 
     public List<Vote> getVotes() {
         return votes;
