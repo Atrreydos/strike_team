@@ -3,40 +3,40 @@ package ru.vigovskiy.strike_team.repository.datajpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vigovskiy.strike_team.model.Vote;
-import ru.vigovskiy.strike_team.repository.VoteRepository;
+import ru.vigovskiy.strike_team.model.Event;
+import ru.vigovskiy.strike_team.repository.EventRepository;
 
 import java.util.List;
 
 @Repository
-public class DataJpaVoteRepositoryImpl implements VoteRepository {
+public class EventRepositoryImpl implements EventRepository {
 
-    private final CrudVoteRepository repository;
+    private final CrudEventRepository repository;
 
     @Autowired
-    public DataJpaVoteRepositoryImpl(CrudVoteRepository repository) {
+    public EventRepositoryImpl(CrudEventRepository repository) {
         this.repository = repository;
     }
 
     @Override
     @Transactional
-    public Vote save(Vote vote) {
-        return repository.save(vote);
+    public Event save(Event event) {
+        return repository.save(event);
     }
 
     @Override
     @Transactional
-    public boolean delete(Integer id) {
+    public boolean delete(int id) {
         return repository.delete(id) != 0;
     }
 
     @Override
-    public Vote get(Integer id) {
+    public Event get(int id) {
         return repository.findById(id).orElse(null);
     }
 
     @Override
-    public List<Vote> getAll() {
+    public List<Event> getAll() {
         return repository.findAll();
     }
 }

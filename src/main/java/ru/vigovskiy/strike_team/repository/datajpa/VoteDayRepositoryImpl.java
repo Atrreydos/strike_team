@@ -9,12 +9,12 @@ import ru.vigovskiy.strike_team.repository.VoteDayRepository;
 import java.util.List;
 
 @Repository
-public class DataJpaVoteDayRepositoryImpl implements VoteDayRepository {
+public class VoteDayRepositoryImpl implements VoteDayRepository {
 
     private final CrudVoteDayRepository repository;
 
     @Autowired
-    public DataJpaVoteDayRepositoryImpl(CrudVoteDayRepository repository) {
+    public VoteDayRepositoryImpl(CrudVoteDayRepository repository) {
         this.repository = repository;
     }
 

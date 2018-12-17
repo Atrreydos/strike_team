@@ -30,11 +30,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDto get(int id) throws NotFoundException {
-        Event event = repository.get(id);
-        if (event == null) {
-            log.error("Event with id {} not found", id);
-            throw new NotFoundException("Not found event with id = " + id);
-        }
+        Event event = find(id);
         return createDtoFromEvent(event);
     }
 
@@ -76,5 +72,15 @@ public class EventServiceImpl implements EventService {
             log.info("Vote with id {} not found for deleting", id);
             throw new NotFoundException("Not found event for deleting with id = " + id);
         }
+    }
+
+    @Override
+    public Event find(int id) throws NotFoundException {
+        Event event = repository.get(id);
+        if (event == null) {
+            log.error("Event with id {} not found", id);
+            throw new NotFoundException("Not found event with id = " + id);
+        }
+        return event;
     }
 }

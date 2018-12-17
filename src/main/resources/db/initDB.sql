@@ -48,7 +48,8 @@ CREATE SEQUENCE event_voting_seq
 CREATE TABLE event_votings
 (
   id          INTEGER PRIMARY KEY DEFAULT nextval('event_voting_seq'),
-  event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
+  description VARCHAR,
+  event_id    INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE vote_day_seq
@@ -56,8 +57,8 @@ CREATE SEQUENCE vote_day_seq
 
 CREATE TABLE vote_days
 (
-  id  INTEGER PRIMARY KEY DEFAULT nextval('vote_day_seq'),
-  day DATE NOT NULL,
+  id              INTEGER PRIMARY KEY DEFAULT nextval('vote_day_seq'),
+  day             DATE    NOT NULL,
   event_voting_id INTEGER NOT NULL REFERENCES event_votings (id) ON DELETE CASCADE
 );
 

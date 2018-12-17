@@ -14,6 +14,6 @@ public interface CrudEventVotingRepository extends JpaRepository<EventVoting, In
     @Query("DELETE FROM Event e WHERE e.id=:id")
     int delete(@Param("id") int id);
 
-//    @Query(value = "SELECT e FROM Event e LEFT JOIN FETCH e.eventDays where e.id = :id")
-//    EventVoting findByIdWithEventDays(@Param("id") int id);
+    @Query(value = "SELECT ev FROM EventVoting ev LEFT JOIN FETCH ev.voteDays where ev.id = :id")
+    EventVoting findByIdWithEventDays(@Param("id") int id);
 }

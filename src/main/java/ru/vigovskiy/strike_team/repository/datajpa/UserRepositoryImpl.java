@@ -10,13 +10,13 @@ import ru.vigovskiy.strike_team.repository.UserRepository;
 import java.util.List;
 
 @Repository
-public class DataJpaUserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
     private static final Sort SORT_LOGIN_NAME_ASC = new Sort(Sort.Direction.ASC, "login", "name");
 
     private final CrudUserRepository repository;
 
     @Autowired
-    public DataJpaUserRepositoryImpl(CrudUserRepository repository) {
+    public UserRepositoryImpl(CrudUserRepository repository) {
         this.repository = repository;
     }
 
