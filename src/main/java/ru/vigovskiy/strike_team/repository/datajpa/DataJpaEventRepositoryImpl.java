@@ -36,11 +36,6 @@ public class DataJpaEventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public Event getWithEventDays(int id) {
-        return repository.findByIdWithEventDays(id);
-    }
-
-    @Override
     public List<Event> getAll() {
         return repository.findAll();
     }

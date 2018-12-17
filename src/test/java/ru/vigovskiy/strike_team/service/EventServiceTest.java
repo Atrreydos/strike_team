@@ -3,7 +3,6 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
-import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.vigovskiy.strike_team.EventDayTestData.EVENT_DAY_1;
 import static ru.vigovskiy.strike_team.EventTestData.*;
 import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 
@@ -32,17 +30,17 @@ class EventServiceTest extends AbstractServiceTest {
         assertThrows(NotFoundException.class, () -> eventService.get(0));
     }
 
-    @Test
-    void getWithEventDays() {
-        Event event = eventService.getWithEventDays(EVENT1_ID);
-        assertThat(event).isEqualToIgnoringGivenFields(EVENT_1, "eventDays");
-        assertThat(event.getEventDays()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(EVENT_DAY_1));
-    }
-
-    @Test
-    void getWithEventDaysNotFound() {
-        assertThrows(NotFoundException.class, () -> eventService.getWithEventDays(0));
-    }
+//    @Test
+//    void getWithEventDays() {
+//        Event event = eventService.getWithEventDays(EVENT1_ID);
+//        assertThat(event).isEqualToIgnoringGivenFields(EVENT_1, "eventDays");
+//        assertThat(event.getEventDays()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(EVENT_DAY_1));
+//    }
+//
+//    @Test
+//    void getWithEventDaysNotFound() {
+//        assertThrows(NotFoundException.class, () -> eventService.getWithEventDays(0));
+//    }
 
     @Test
     void getAll() {

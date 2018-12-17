@@ -12,7 +12,5 @@ public interface EventRepository {
 
     Event get(int id);
 
-    Event getWithEventDays(int id);
-
     List<Event> getAll();
 }

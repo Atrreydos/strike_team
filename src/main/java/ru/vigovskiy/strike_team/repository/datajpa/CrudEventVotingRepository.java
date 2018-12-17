@@ -5,15 +5,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vigovskiy.strike_team.model.EventDay;
+import ru.vigovskiy.strike_team.model.EventVoting;
 
-public interface CrudEventDayRepository extends JpaRepository<EventDay, Integer> {
+public interface CrudEventVotingRepository extends JpaRepository<EventVoting, Integer> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM EventDay ed WHERE ed.id=:id")
+    @Query("DELETE FROM Event e WHERE e.id=:id")
     int delete(@Param("id") int id);
 
-    @Query(value = "SELECT ed FROM EventDay ed LEFT JOIN FETCH ed.votes where ed.id = :id")
-    EventDay findByIdWithVotes(@Param("id") int id);
+//    @Query(value = "SELECT e FROM Event e LEFT JOIN FETCH e.eventDays where e.id = :id")
+//    EventVoting findByIdWithEventDays(@Param("id") int id);
 }
