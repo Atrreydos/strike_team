@@ -17,6 +17,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 import java.util.List;
 
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtoFromVote;
+import static ru.vigovskiy.strike_team.util.VoteUtil.createDtosFromVotes;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createVoteFromDto;
 
 @Service
@@ -35,18 +36,18 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Vote get(Integer id) throws NotFoundException {
+    public VoteDto get(Integer id) throws NotFoundException {
         Vote vote = repository.get(id);
         if (vote == null) {
             log.error("User with id {} not found", id);
             throw new NotFoundException("Not found vote with id = " + id);
         }
-        return vote;
+        return createDtoFromVote(vote);
     }
 
     @Override
-    public List<Vote> getAll() {
-        return repository.getAll();
+    public List<VoteDto> getAll() {
+        return createDtosFromVotes(repository.getAll());
     }
 
     @Override
@@ -58,8 +59,10 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public void update(Vote vote) {
-        repository.save(vote);
+    public void update(VoteDto dto) {
+        User user = userService.get(dto.getUserId());
+        VoteDay voteDay = voteDayService.get(dto.getVoteDayId());
+        repository.save(createVoteFromDto(dto, user, voteDay));
     }
 
     @Override

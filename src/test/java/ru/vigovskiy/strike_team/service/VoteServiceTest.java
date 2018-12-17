@@ -18,6 +18,7 @@ import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_2;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtoFromVote;
+import static ru.vigovskiy.strike_team.util.VoteUtil.createDtosFromVotes;
 
 class VoteServiceTest extends AbstractServiceTest {
 
@@ -26,8 +27,8 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void get() {
-        Vote vote = service.get(VOTE1_ID);
-        assertThat(vote).isEqualToIgnoringGivenFields(VOTE_1, "voteDay");
+        VoteDto voteDto = service.get(VOTE1_ID);
+        assertThat(voteDto).isEqualToComparingFieldByField(createDtoFromVote(VOTE_1));
     }
 
     @Test
@@ -37,8 +38,8 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void getAll() {
-        List<Vote> votes = service.getAll();
-        assertThat(votes).usingElementComparatorIgnoringFields("voteDay").isEqualTo(Arrays.asList(VOTE_1, VOTE_2, VOTE_3));
+        List<VoteDto> voteDtos = service.getAll();
+        assertThat(voteDtos).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_1, VOTE_2, VOTE_3)));
     }
 
     @Test
@@ -59,16 +60,16 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void update() {
-        Vote updatedVote = service.get(VOTE1_ID);
-        updatedVote.setDecisionType(DecisionType.REJECT);
-        service.update(updatedVote);
-        assertThat(updatedVote).isEqualToIgnoringGivenFields(service.get(VOTE1_ID), "voteDay");
+        VoteDto updatedVoteDto = service.get(VOTE1_ID);
+        updatedVoteDto.setDecisionType(DecisionType.REJECT);
+        service.update(updatedVoteDto);
+        assertThat(updatedVoteDto).isEqualToComparingFieldByField(service.get(VOTE1_ID));
     }
 
     @Test
     void delete() {
         service.delete(VOTE1_ID);
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("voteDay").isEqualTo(Arrays.asList(VOTE_2, VOTE_3));
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_2, VOTE_3)));
     }
 
     @Test

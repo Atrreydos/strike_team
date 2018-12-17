@@ -1,20 +1,19 @@
 package ru.vigovskiy.strike_team.service;
 
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
-import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
 
 public interface VoteService {
 
-    Vote get(Integer id) throws NotFoundException;
+    VoteDto get(Integer id) throws NotFoundException;
 
-    List<Vote> getAll();
+    List<VoteDto> getAll();
 
-    VoteDto create(VoteDto vote);
+    VoteDto create(VoteDto dto);
 
-    void update(Vote vote);
+    void update(VoteDto dto);
 
     void delete(Integer id) throws NotFoundException;
 }
