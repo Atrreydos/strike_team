@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.service;
 
+import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -11,7 +12,7 @@ public interface VoteService {
 
     List<Vote> getAll();
 
-    Vote create(Vote vote);
+    VoteDto create(VoteDto vote);
 
     void update(Vote vote);
 

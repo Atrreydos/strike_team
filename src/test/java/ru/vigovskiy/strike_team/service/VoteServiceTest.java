@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
@@ -16,59 +17,62 @@ import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_2;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
+import static ru.vigovskiy.strike_team.util.VoteUtil.createDtoFromVote;
 
 class VoteServiceTest extends AbstractServiceTest {
 
     @Autowired(required = false)
-    private VoteService voteService;
+    private VoteService service;
 
     @Test
     void get() {
-        Vote vote = voteService.get(VOTE1_ID);
+        Vote vote = service.get(VOTE1_ID);
         assertThat(vote).isEqualToIgnoringGivenFields(VOTE_1, "voteDay");
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> voteService.get(0));
+        assertThrows(NotFoundException.class, () -> service.get(0));
     }
 
     @Test
     void getAll() {
-        List<Vote> votes = voteService.getAll();
+        List<Vote> votes = service.getAll();
         assertThat(votes).usingElementComparatorIgnoringFields("voteDay").isEqualTo(Arrays.asList(VOTE_1, VOTE_2, VOTE_3));
     }
 
     @Test
     void create() {
         Vote newVote = new Vote(null, DecisionType.ACCEPT, USER_1, VOTE_DAY_2);
-        Vote createdVote = voteService.create(newVote);
-        newVote.setId(createdVote.getId());
-        assertThat(newVote).isEqualToIgnoringGivenFields(createdVote, "voteDay");
+        VoteDto dto = createDtoFromVote(newVote);
+        VoteDto createdDto = service.create(dto);
+        dto.setId(createdDto.getId());
+        assertThat(dto).isEqualToComparingFieldByField(createdDto);
     }
 
     @Test
     void createDuplicate() {
         Vote newVote = new Vote(null, DecisionType.REJECT, USER_1, VOTE_DAY_1);
-        assertThrows(DataIntegrityViolationException.class, () -> voteService.create(newVote));
+        VoteDto newDto = createDtoFromVote(newVote);
+        assertThrows(DataIntegrityViolationException.class, () -> service.create(newDto));
     }
 
     @Test
     void update() {
-        Vote updatedVote = voteService.get(VOTE1_ID);
+        Vote updatedVote = service.get(VOTE1_ID);
         updatedVote.setDecisionType(DecisionType.REJECT);
-        voteService.update(updatedVote);
-        assertThat(updatedVote).isEqualToIgnoringGivenFields(voteService.get(VOTE1_ID), "voteDay");
+        service.update(updatedVote);
+        assertThat(updatedVote).isEqualToIgnoringGivenFields(service.get(VOTE1_ID), "voteDay");
     }
 
     @Test
     void delete() {
-        voteService.delete(VOTE1_ID);
-        assertThat(voteService.getAll()).usingElementComparatorIgnoringFields("voteDay").isEqualTo(Arrays.asList(VOTE_2, VOTE_3));
+        service.delete(VOTE1_ID);
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("voteDay").isEqualTo(Arrays.asList(VOTE_2, VOTE_3));
     }
 
     @Test
     void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> voteService.delete(0));
+        assertThrows(NotFoundException.class, () -> service.delete(0));
     }
 }

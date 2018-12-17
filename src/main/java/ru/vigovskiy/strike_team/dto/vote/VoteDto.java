@@ -1,21 +1,28 @@
 package ru.vigovskiy.strike_team.dto.vote;
 
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
+import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
-import java.io.Serializable;
+public class VoteDto implements Identifiable<Integer> {
 
-public class VoteDto implements Serializable {
-
+    private Integer id;
     private Integer userId;
-
     private Integer voteDayId;
-
     private DecisionType decisionType;
 
-    public VoteDto(Integer userId, Integer voteDayId, DecisionType decisionType) {
+    public VoteDto(Integer id, Integer userId, Integer voteDayId, DecisionType decisionType) {
+        this.id = id;
         this.userId = userId;
         this.voteDayId = voteDayId;
         this.decisionType = decisionType;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getUserId() {
