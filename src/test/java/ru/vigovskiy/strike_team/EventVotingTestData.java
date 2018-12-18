@@ -13,8 +13,8 @@ public class EventVotingTestData {
     public static final int EVENT_VOTING_1_ID = 1;
     public static final int EVENT_VOTING_2_ID = 2;
 
-    public static final EventVoting EVENT_VOTING_1 = new EventVoting(EVENT_VOTING_1_ID, null, EVENT_1);
-    public static final EventVoting EVENT_VOTING_2 = new EventVoting(EVENT_VOTING_2_ID, null, EVENT_2);
+    public static final EventVoting EVENT_VOTING_1 = new EventVoting(EVENT_VOTING_1_ID, "Описание 1", EVENT_1);
+    public static final EventVoting EVENT_VOTING_2 = new EventVoting(EVENT_VOTING_2_ID, "Описание 2", EVENT_2);
 
     public static final List<EventVoting> EVENTS = Arrays.asList(EVENT_VOTING_1, EVENT_VOTING_2);
 }

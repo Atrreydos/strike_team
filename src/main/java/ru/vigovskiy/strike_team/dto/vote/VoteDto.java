@@ -48,4 +48,26 @@ public class VoteDto implements Identifiable<Integer> {
     public void setDecisionType(DecisionType decisionType) {
         this.decisionType = decisionType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VoteDto)) return false;
+
+        VoteDto voteDto = (VoteDto) o;
+
+        if (id != null ? !id.equals(voteDto.id) : voteDto.id != null) return false;
+        if (userId != null ? !userId.equals(voteDto.userId) : voteDto.userId != null) return false;
+        if (voteDayId != null ? !voteDayId.equals(voteDto.voteDayId) : voteDto.voteDayId != null) return false;
+        return decisionType == voteDto.decisionType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (voteDayId != null ? voteDayId.hashCode() : 0);
+        result = 31 * result + (decisionType != null ? decisionType.hashCode() : 0);
+        return result;
+    }
 }

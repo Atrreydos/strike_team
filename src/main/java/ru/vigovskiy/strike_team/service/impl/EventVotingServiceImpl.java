@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
+import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.repository.EventVotingRepository;
@@ -14,9 +15,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static ru.vigovskiy.strike_team.util.EventVotingUtil.createDtoFromEventVoting;
-import static ru.vigovskiy.strike_team.util.EventVotingUtil.createDtosFromEventVotings;
-import static ru.vigovskiy.strike_team.util.EventVotingUtil.createEventVotingFromDto;
+import static ru.vigovskiy.strike_team.util.EventVotingUtil.*;
 
 @Service
 public class EventVotingServiceImpl implements EventVotingService {
@@ -43,14 +42,14 @@ public class EventVotingServiceImpl implements EventVotingService {
     }
 
     @Override
-    public EventVoting getWithVoteDays(int id) throws NotFoundException {
+    public EventVotingDtoFull getWithVoteDays(int id) throws NotFoundException {
         EventVoting eventVoting = repository.getWithVoteDays(id);
         if (eventVoting == null) {
             log.error("EventVoting with id {} not found", id);
             throw new NotFoundException("Not found eventVoting with id = " + id);
         }
 
-        return eventVoting;
+        return createDtoFullFromEventVoting(eventVoting);
     }
 
     @Override

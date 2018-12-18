@@ -43,4 +43,24 @@ public class EventVotingDto implements Identifiable<Integer> {
     public void setEventId(Integer eventId) {
         this.eventId = eventId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EventVotingDto)) return false;
+
+        EventVotingDto that = (EventVotingDto) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        return eventId != null ? eventId.equals(that.eventId) : that.eventId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (eventId != null ? eventId.hashCode() : 0);
+        return result;
+    }
 }

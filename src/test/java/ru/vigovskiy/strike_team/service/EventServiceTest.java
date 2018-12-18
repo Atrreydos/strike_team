@@ -17,64 +17,52 @@ import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 class EventServiceTest extends AbstractServiceTest {
 
     @Autowired(required = false)
-    private EventService eventService;
+    private EventService service;
 
     @Test
     void get() {
-        EventDto eventDto = eventService.get(EVENT1_ID);
+        EventDto eventDto = service.get(EVENT1_ID);
         assertThat(eventDto).isEqualToComparingFieldByField(createDtoFromEvent(EVENT_1));
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> eventService.get(0));
+        assertThrows(NotFoundException.class, () -> service.get(0));
     }
-
-//    @Test
-//    void getWithEventDays() {
-//        Event event = eventService.getWithEventDays(EVENT1_ID);
-//        assertThat(event).isEqualToIgnoringGivenFields(EVENT_1, "eventDays");
-//        assertThat(event.getEventDays()).usingElementComparatorIgnoringFields("votes").isEqualTo(Collections.singletonList(EVENT_DAY_1));
-//    }
-//
-//    @Test
-//    void getWithEventDaysNotFound() {
-//        assertThrows(NotFoundException.class, () -> eventService.getWithEventDays(0));
-//    }
 
     @Test
     void getAll() {
-        List<EventDto> events = eventService.getAll();
+        List<EventDto> events = service.getAll();
         assertThat(events).isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2)));
     }
 
     @Test
     void create() {
         EventDto newEventDto = new EventDto(null, "new name", "new description");
-        EventDto createdEventDto = eventService.create(newEventDto);
+        EventDto createdEventDto = service.create(newEventDto);
         newEventDto.setId(createdEventDto.getId());
         assertThat(newEventDto).isEqualToComparingFieldByField(createdEventDto);
-        assertThat(eventService.getAll()).isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2), newEventDto));
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2), newEventDto));
     }
 
     @Test
     void update() {
-        EventDto updatedEvent = eventService.get(EVENT1_ID);
+        EventDto updatedEvent = service.get(EVENT1_ID);
         updatedEvent.setName("updated name");
         updatedEvent.setDescription("updated description");
-        eventService.update(updatedEvent);
-        assertThat(updatedEvent).isEqualToIgnoringGivenFields(eventService.get(EVENT1_ID), "eventDays");
+        service.update(updatedEvent);
+        assertThat(updatedEvent).isEqualToComparingFieldByField(service.get(EVENT1_ID));
     }
 
     @Test
     void delete() {
-        eventService.delete(EVENT1_ID);
-        assertThat(eventService.getAll()).isEqualTo(Collections.singletonList(createDtoFromEvent(EVENT_2)));
+        service.delete(EVENT1_ID);
+        assertThat(service.getAll()).isEqualTo(Collections.singletonList(createDtoFromEvent(EVENT_2)));
     }
 
     @Test
     void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> eventService.delete(0));
+        assertThrows(NotFoundException.class, () -> service.delete(0));
     }
 
 }
