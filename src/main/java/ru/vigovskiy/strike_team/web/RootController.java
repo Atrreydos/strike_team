@@ -41,9 +41,9 @@ public class RootController extends AbstractUserController {
         return "events";
     }
 
-    @GetMapping("/event_votes")
+    @GetMapping("/event_votings")
     public String eventVotes() {
-        return "event_votes";
+        return "event_votings";
     }
 
     @GetMapping("/profile")

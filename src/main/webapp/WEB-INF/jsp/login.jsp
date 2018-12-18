@@ -26,39 +26,17 @@
             </button>
         </p>
         <br/>
-        <p>Стек технологий: <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
-            <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
-            <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,
-            <a href="http://spring.io/blog/2014/05/07/preview-spring-security-test-method-security">Spring Security
-                Test</a>,
-            <a href="http://hibernate.org/orm/">Hibernate ORM</a>,
-            <a href="http://hibernate.org/validator/">Hibernate Validator</a>,
-            <a href="http://www.slf4j.org/">SLF4J</a>,
-            <a href="https://github.com/FasterXML/jackson">Json Jackson</a>,
-            <a href="http://ru.wikipedia.org/wiki/JSP">JSP</a>,
-            <a href="http://en.wikipedia.org/wiki/JavaServer_Pages_Standard_Tag_Library">JSTL</a>,
-            <a href="http://tomcat.apache.org/">Apache Tomcat</a>,
-            <a href="http://www.webjars.org/">WebJars</a>,
-            <a href="http://datatables.net/">DataTables plugin</a>,
-            <a href="http://ehcache.org">EHCACHE</a>,
-            <a href="http://www.postgresql.org/">PostgreSQL</a>,
-            <a href="http://junit.org/">JUnit</a>,
-            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,
-            <a href="http://jquery.com/">jQuery</a>,
-            <a href="http://ned.im/noty/">jQuery notification</a>,
-            <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
     </div>
 </div>
 <div class="container">
     <div class="lead">
-        &nbsp;&nbsp;&nbsp;<a href="https://github.com/JavaOPs/topjava">Java Enterprise проект</a> с
-        регистрацией/авторизацией и интерфейсом на основе ролей (USER, ADMIN).
-        Администратор может создавать/редактировать/удалять пользователей, а пользователи - управлять своим
-        профилем и данными (день, еда, калории) через UI (по AJAX) и по REST интерфейсу с базовой авторизацией.
-        Возможна фильтрация данных по датам и времени, при этом цвет записи таблицы еды зависит от того, превышает ли
-        сумма
-        калорий за день норму (редактируемый параметр в профиле пользователя).
-        Весь REST интерфейс покрывается JUnit тестами, используя Spring MVC Test и Spring Security Test.
+        &nbsp;&nbsp;&nbsp;Это пробное веб-приложение для упрощения решения некоторых вопросов связанных с жизнью
+        страйкбольной команды.<br/>
+        На данном этапе основной функционеал - админ создает события, открывает голосование по событию и добавляет в
+        него на выбор в какие дни можно провести это событие. Пользователи голосуют по событию, выбирая какие дни
+        подходят для них, а какие не подходят. По итогу голосований утверждается подходящий день и событие попадает в
+        календарь событий.<br/>
+        &nbsp;&nbsp;&nbsp;Сделано для <a href="https://vk.com/sk_uragan" title="группа ВК" target="_blank">страйкбольной команды Ураган</a>.
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>

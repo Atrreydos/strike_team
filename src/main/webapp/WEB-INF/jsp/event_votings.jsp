@@ -24,8 +24,7 @@
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>
-                <th><spring:message code="common.name"/></th>
-                <th><spring:message code="event.description"/></th>
+                <th>Описание</th>
                 <th></th>
                 <th></th>
             </tr>
