@@ -21,7 +21,11 @@ public class EventVotingUtil {
     }
 
     public static EventVotingDto createDtoFromEventVoting(EventVoting eventVoting) {
-        return new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), eventVoting.getEvent().getId());
+        Event event = eventVoting.getEvent();
+        EventVotingDto dto = new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), event.getId());
+        dto.setEventName(event.getName());
+        dto.setEventDescription(event.getDescription());
+        return dto;
     }
 
     public static List<EventVotingDto> createDtosFromEventVotings(List<EventVoting> eventVotings) {
@@ -30,8 +34,12 @@ public class EventVotingUtil {
     }
 
     public static EventVotingDtoFull createDtoFullFromEventVoting(EventVoting eventVoting) {
+        Event event = eventVoting.getEvent();
         List<VoteDay> voteDays = Optional.ofNullable(eventVoting.getVoteDays()).orElse(Collections.emptyList());
         List<VoteDayDto> dtosFromVoteDays = createDtosFromVoteDays(voteDays);
-        return new EventVotingDtoFull(eventVoting.getId(), eventVoting.getDescription(), eventVoting.getEvent().getId(), dtosFromVoteDays);
+        EventVotingDtoFull dto = new EventVotingDtoFull(eventVoting.getId(), eventVoting.getDescription(), event.getId(), dtosFromVoteDays);
+        dto.setEventName(event.getName());
+        dto.setEventDescription(event.getDescription());
+        return dto;
     }
 }

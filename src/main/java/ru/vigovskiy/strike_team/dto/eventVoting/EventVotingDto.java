@@ -5,8 +5,11 @@ import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 public class EventVotingDto implements Identifiable<Integer> {
 
     private Integer id;
-    private String description;
     private Integer eventId;
+    private String eventName;
+    private String eventDescription;
+    private String description;
+
 
 
     public EventVotingDto() {
@@ -26,6 +29,22 @@ public class EventVotingDto implements Identifiable<Integer> {
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 
     public String getDescription() {

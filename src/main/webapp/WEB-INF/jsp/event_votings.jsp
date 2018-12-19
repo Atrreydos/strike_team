@@ -7,7 +7,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/datatablesUtil.js" defer></script>
-<script type="text/javascript" src="resources/js/eventDatatables.js" defer></script>
+<script type="text/javascript" src="resources/js/eventVotingDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron pt-4">
@@ -24,7 +24,9 @@
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>
-                <th>Описание</th>
+                <th>Название события</th>
+                <th>Описание события</th>
+                <th>Описание голосования</th>
                 <th></th>
                 <th></th>
             </tr>

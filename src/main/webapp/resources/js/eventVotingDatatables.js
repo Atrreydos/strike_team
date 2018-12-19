@@ -11,7 +11,10 @@ $(document).ready(function () {
         "info": true,
         "columns": [
             {
-                "data": "name"
+                "data": "eventName"
+            },
+            {
+                "data": "eventDescription"
             },
             {
                 "data": "description"
