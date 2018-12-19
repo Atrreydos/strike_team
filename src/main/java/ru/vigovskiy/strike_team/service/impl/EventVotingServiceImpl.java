@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.model.Event;
@@ -15,6 +16,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
 
+import static ru.vigovskiy.strike_team.util.EventUtil.createEventFromDto;
 import static ru.vigovskiy.strike_team.util.EventVotingUtil.*;
 
 @Service
@@ -61,7 +63,17 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     @Override
     public EventVotingDto createOrUpdate(EventVotingDto dto) {
-        Event event = eventService.find(dto.getEventId());
+        Event event;
+        Integer eventId = dto.getEvent().getId();
+        if (eventId == null) {
+            EventDto eventDto = eventService.create(dto.getEvent());
+            dto.setEvent(eventDto);
+            event = createEventFromDto(eventDto);
+        }
+        else {
+            event = eventService.find(eventId);
+        }
+
         EventVoting eventVoting = createEventVotingFromDto(dto, event);
         eventVoting = repository.save(eventVoting);
         return createDtoFromEventVoting(eventVoting);

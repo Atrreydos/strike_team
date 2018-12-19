@@ -1,24 +1,24 @@
 package ru.vigovskiy.strike_team.dto.eventVoting;
 
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 public class EventVotingDto implements Identifiable<Integer> {
 
     private Integer id;
-    private Integer eventId;
-    private String eventName;
-    private String eventDescription;
     private String description;
+    /*TODO @NotNull*/
+    private EventDto event;
 
 
 
     public EventVotingDto() {
     }
 
-    public EventVotingDto(Integer id, String description, Integer eventId) {
+    public EventVotingDto(Integer id, String description, EventDto event) {
         this.id = id;
         this.description = description;
-        this.eventId = eventId;
+        this.event = event;
     }
 
     @Override
@@ -31,22 +31,6 @@ public class EventVotingDto implements Identifiable<Integer> {
         this.id = id;
     }
 
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -55,12 +39,12 @@ public class EventVotingDto implements Identifiable<Integer> {
         this.description = description;
     }
 
-    public Integer getEventId() {
-        return eventId;
+    public EventDto getEvent() {
+        return event;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+    public void setEvent(EventDto event) {
+        this.event = event;
     }
 
     @Override
@@ -72,14 +56,14 @@ public class EventVotingDto implements Identifiable<Integer> {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        return eventId != null ? eventId.equals(that.eventId) : that.eventId == null;
+        return event != null ? event.equals(that.event) : that.event == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (eventId != null ? eventId.hashCode() : 0);
+        result = 31 * result + (event != null ? event.hashCode() : 0);
         return result;
     }
 }

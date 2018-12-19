@@ -42,7 +42,7 @@ class EventServiceTest extends AbstractServiceTest {
         EventDto createdEventDto = service.create(newEventDto);
         newEventDto.setId(createdEventDto.getId());
         assertThat(newEventDto).isEqualToComparingFieldByField(createdEventDto);
-        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(Arrays.asList(createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2), newEventDto));
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(Arrays.asList(newEventDto, createDtoFromEvent(EVENT_1), createDtoFromEvent(EVENT_2)));
     }
 
     @Test

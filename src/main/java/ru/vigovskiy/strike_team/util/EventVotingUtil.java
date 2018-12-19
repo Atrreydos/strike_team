@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.util;
 
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtosFromVoteDays;
 
 public class EventVotingUtil {
@@ -22,10 +24,8 @@ public class EventVotingUtil {
 
     public static EventVotingDto createDtoFromEventVoting(EventVoting eventVoting) {
         Event event = eventVoting.getEvent();
-        EventVotingDto dto = new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), event.getId());
-        dto.setEventName(event.getName());
-        dto.setEventDescription(event.getDescription());
-        return dto;
+        EventDto eventDto = createDtoFromEvent(event);
+        return new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), eventDto);
     }
 
     public static List<EventVotingDto> createDtosFromEventVotings(List<EventVoting> eventVotings) {
@@ -35,11 +35,9 @@ public class EventVotingUtil {
 
     public static EventVotingDtoFull createDtoFullFromEventVoting(EventVoting eventVoting) {
         Event event = eventVoting.getEvent();
+        EventDto eventDto = createDtoFromEvent(event);
         List<VoteDay> voteDays = Optional.ofNullable(eventVoting.getVoteDays()).orElse(Collections.emptyList());
         List<VoteDayDto> dtosFromVoteDays = createDtosFromVoteDays(voteDays);
-        EventVotingDtoFull dto = new EventVotingDtoFull(eventVoting.getId(), eventVoting.getDescription(), event.getId(), dtosFromVoteDays);
-        dto.setEventName(event.getName());
-        dto.setEventDescription(event.getDescription());
-        return dto;
+        return new EventVotingDtoFull(eventVoting.getId(), eventVoting.getDescription(), eventDto, dtosFromVoteDays);
     }
 }

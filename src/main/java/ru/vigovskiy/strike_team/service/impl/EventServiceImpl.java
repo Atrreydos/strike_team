@@ -11,6 +11,7 @@ import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.util.EventUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,7 @@ public class EventServiceImpl implements EventService {
     public List<EventDto> getAll() {
         return repository.getAll().stream()
                 .map(EventUtil::createDtoFromEvent)
+                .sorted(Comparator.comparing(EventDto::getName))
                 .collect(Collectors.toList());
     }
 

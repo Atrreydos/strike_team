@@ -12,7 +12,7 @@ public interface EventService {
 
     List<EventDto> getAll();
 
-    EventDto create(EventDto event);
+    EventDto create(EventDto dto);
 
     EventDto update(EventDto dto);
 

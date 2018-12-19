@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.util.VoteDayUtil;
@@ -13,15 +14,20 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.*;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_3;
+import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 import static ru.vigovskiy.strike_team.util.EventVotingUtil.*;
 
 class EventVotingServiceTest extends AbstractServiceTest {
 
     @Autowired(required = false)
     private EventVotingService service;
+
+    @Autowired(required = false)
+    private EventService eventService;
 
     @Test
     void get() {
@@ -53,14 +59,25 @@ class EventVotingServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void create() {
-        EventVotingDto newDto = new EventVotingDto(null, "description", EVENT_VOTING_1_ID);
+    void createWithExistingEvent() {
+        EventVotingDto newDto = new EventVotingDto(null, "description", createDtoFromEvent(EVENT_1));
         EventVotingDto createdDto = service.createOrUpdate(newDto);
         newDto.setId(createdDto.getId());
-        newDto.setEventName(createdDto.getEventName());
-        newDto.setEventDescription(createdDto.getEventDescription());
         assertThat(newDto).isEqualToComparingFieldByField(createdDto);
-        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(Arrays.asList(createDtoFromEventVoting(EVENT_VOTING_1), createDtoFromEventVoting(EVENT_VOTING_2), newDto));
+        assertThat(service.getAll()).usingFieldByFieldElementComparator()
+                .isEqualTo(Arrays.asList(createDtoFromEventVoting(EVENT_VOTING_1), createDtoFromEventVoting(EVENT_VOTING_2), newDto));
+    }
+
+    @Test
+    void createWithNewEvent() {
+        EventVotingDto newDto = new EventVotingDto(null, "description", new EventDto(null, "new event name", "new event description"));
+        EventVotingDto createdDto = service.createOrUpdate(newDto);
+        newDto.setId(createdDto.getId());
+        assertThat(newDto).isEqualToComparingFieldByField(createdDto);
+        assertThat(service.getAll()).usingFieldByFieldElementComparator()
+                .isEqualTo(Arrays.asList(createDtoFromEventVoting(EVENT_VOTING_1), createDtoFromEventVoting(EVENT_VOTING_2), newDto));
+        EventDto eventDto = eventService.get(createdDto.getEvent().getId());
+        assertThat(createdDto.getEvent()).isEqualToComparingFieldByField(eventDto);
     }
 
     @Test

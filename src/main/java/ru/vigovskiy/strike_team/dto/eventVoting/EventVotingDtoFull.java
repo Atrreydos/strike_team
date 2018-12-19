@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.dto.eventVoting;
 
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
 
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ public class EventVotingDtoFull extends EventVotingDto {
     public EventVotingDtoFull() {
     }
 
-    public EventVotingDtoFull(Integer id, String description, Integer eventId, List<VoteDayDto> voteDays) {
-        super(id, description, eventId);
+    public EventVotingDtoFull(Integer id, String description, EventDto event, List<VoteDayDto> voteDays) {
+        super(id, description, event);
         this.voteDays = voteDays;
     }
 
