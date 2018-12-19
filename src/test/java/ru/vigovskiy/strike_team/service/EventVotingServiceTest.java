@@ -57,6 +57,8 @@ class EventVotingServiceTest extends AbstractServiceTest {
         EventVotingDto newDto = new EventVotingDto(null, "description", EVENT_VOTING_1_ID);
         EventVotingDto createdDto = service.createOrUpdate(newDto);
         newDto.setId(createdDto.getId());
+        newDto.setEventName(createdDto.getEventName());
+        newDto.setEventDescription(createdDto.getEventDescription());
         assertThat(newDto).isEqualToComparingFieldByField(createdDto);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(Arrays.asList(createDtoFromEventVoting(EVENT_VOTING_1), createDtoFromEventVoting(EVENT_VOTING_2), newDto));
     }
