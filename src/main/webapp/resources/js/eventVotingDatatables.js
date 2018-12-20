@@ -40,3 +40,24 @@ $(document).ready(function () {
     });
 });
 
+function saveEventVoting() {
+    let eventVoting = {
+        event: {
+            name: $("#event_name").val(),
+            description: $("#event_description").val()
+        },
+        description: $("#description").val()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: restUrl,
+        contentType : "application/json",
+        data: JSON.stringify(eventVoting)
+    }).done(function () {
+        $("#editRow").modal("hide");
+        updateTable();
+        successNoty("Saved");
+    });
+}
+

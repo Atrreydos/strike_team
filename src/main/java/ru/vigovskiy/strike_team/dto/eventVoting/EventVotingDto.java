@@ -10,8 +10,6 @@ public class EventVotingDto implements Identifiable<Integer> {
     /*TODO @NotNull*/
     private EventDto event;
 
-
-
     public EventVotingDto() {
     }
 

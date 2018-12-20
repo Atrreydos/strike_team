@@ -1,8 +1,6 @@
-let form;
+let form = $('#detailsForm');
 
 function makeEditable() {
-    form = $('#detailsForm');
-
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
@@ -13,7 +11,7 @@ function makeEditable() {
 
 function deleteRow(id) {
     $.ajax({
-        url: ajaxUrl + id,
+        url: restUrl + id,
         type: "DELETE"
     }).done(function () {
         updateTable();
@@ -30,7 +28,7 @@ function add() {
 function save() {
     $.ajax({
         type: "POST",
-        url: ajaxUrl,
+        url: restUrl,
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
@@ -41,7 +39,7 @@ function save() {
 
 function updateRow(id) {
     $("#modalTitle").html(i18n["editTitle"]);
-    $.get(ajaxUrl + id, function (data) {
+    $.get(restUrl + id, function (data) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
         });
@@ -50,7 +48,7 @@ function updateRow(id) {
 }
 
 function updateTable() {
-    $.get(ajaxUrl, updateTableByData);
+    $.get(restUrl, updateTableByData);
 }
 
 function updateTableByData(data) {

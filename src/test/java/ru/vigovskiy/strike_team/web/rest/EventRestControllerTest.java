@@ -63,8 +63,8 @@ class EventRestControllerTest extends AbstractControllerTest {
     void getAll() throws Exception {
         mockMvc.perform(get(REST_URL )
                 .with(userAuth(USER_1)))
-                .andExpect(status().isOk())
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(convertToJson(createDtosFromEvents(EVENTS))));
     }

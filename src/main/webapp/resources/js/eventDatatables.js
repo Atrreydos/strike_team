@@ -1,10 +1,10 @@
-const ajaxUrl = "rest/events/";
+const restUrl = "rest/events/";
 let datatableApi;
 
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {
-            "url": ajaxUrl,
+            "url": restUrl,
             "dataSrc": ""
         },
         "paging": false,

@@ -39,7 +39,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><spring:message code="event.add"/></h4>
+                <h4 class="modal-title">Добавить голосование</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -47,13 +47,19 @@
                     <input type="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="name" class="col-form-label"><spring:message code="common.name"/></label>
-                        <input type="text" class="form-control" id="name" name="name"
+                        <label for="event_name" class="col-form-label">Название события</label>
+                        <input type="text" class="form-control" id="event_name" name="event.name"
                                placeholder="<spring:message code="common.name"/>">
                     </div>
 
                     <div class="form-group">
-                        <label for="description" class="col-form-label"><spring:message code="event.description"/></label>
+                        <label for="event_description" class="col-form-label">Описание события</label>
+                        <input type="text" class="form-control" id="event_description" name="event.description"
+                               placeholder="<spring:message code="event.description"/>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Описание голосования по событию</label>
                         <input type="text" class="form-control" id="description" name="description"
                                placeholder="<spring:message code="event.description"/>">
                     </div>
@@ -65,7 +71,7 @@
                     <span class="fa fa-close"></span>
                     <spring:message code="common.cancel"/>
                 </button>
-                <button type="button" class="btn btn-primary" onclick="save()">
+                <button type="button" class="btn btn-primary" onclick="saveEventVoting()">
                     <span class="fa fa-check"></span>
                     <spring:message code="common.save"/>
                 </button>

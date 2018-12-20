@@ -1,11 +1,11 @@
-const ajaxUrl = "rest/admin/users/";
+const restUrl = "rest/admin/users/";
 let datatableApi;
 
 function enable(chkbox, id) {
     let enabled = chkbox.is(":checked");
 //  https://stackoverflow.com/a/22213543/548473
     $.ajax({
-        url: ajaxUrl + id + "/enabled",
+        url: restUrl + id + "/enabled",
         type: "POST",
         data: "enabled=" + enabled
     }).done(function () {
@@ -19,7 +19,7 @@ function enable(chkbox, id) {
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {
-            "url": ajaxUrl,
+            "url": restUrl,
             "dataSrc": ""
         },
         "paging": false,
