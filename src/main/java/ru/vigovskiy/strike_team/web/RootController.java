@@ -1,13 +1,17 @@
 package ru.vigovskiy.strike_team.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.support.SessionStatus;
+import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
+import ru.vigovskiy.strike_team.service.EventVotingService;
 import ru.vigovskiy.strike_team.service.UserService;
 import ru.vigovskiy.strike_team.web.rest.user.AbstractUserController;
 
@@ -16,8 +20,12 @@ import javax.validation.Valid;
 @Controller
 public class RootController extends AbstractUserController {
 
-    public RootController(UserService service) {
+    private EventVotingService eventVotingService;
+
+    @Autowired
+    public RootController(UserService service, EventVotingService eventVotingService) {
         super(service);
+        this.eventVotingService = eventVotingService;
     }
 
     @GetMapping("/")
@@ -41,9 +49,16 @@ public class RootController extends AbstractUserController {
         return "events";
     }
 
-    @GetMapping("/event_votings")
-    public String eventVotes() {
+    @GetMapping("/event-votings")
+    public String eventVotings() {
         return "event_votings";
+    }
+
+    @GetMapping(value = "/event-votings/{eventVotingId}")
+    public String eventVoting(@PathVariable("eventVotingId") Integer eventVotingId, ModelMap model) {
+        EventVotingDtoFull eventVotingDto = eventVotingService.getWithVoteDays(eventVotingId);
+        model.addAttribute("eventVotingDto", eventVotingDto);
+        return "event_voting";
     }
 
     @GetMapping("/profile")

@@ -37,3 +37,21 @@ $(document).ready(function () {
     });
 });
 
+function saveEvent() {
+    let newEvent = {
+        name: $("#name").val(),
+        description: $("#description").val()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: restUrl,
+        contentType : "application/json",
+        data: JSON.stringify(newEvent)
+    }).done(function () {
+        $("#editRow").modal("hide");
+        updateTable();
+        successNoty("Saved");
+    });
+}
+

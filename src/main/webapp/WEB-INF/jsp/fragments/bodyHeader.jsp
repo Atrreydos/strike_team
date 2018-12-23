@@ -8,7 +8,7 @@
         <sec:authorize access="isAuthenticated()">
             <form class="form-inline my-2">
                 <a class="btn btn-info mr-1" href="events">События</a>
-                <a class="btn btn-info mr-1" href="event_votings">Голосования по событиям</a>
+                <a class="btn btn-info mr-1" href="event-votings">Голосования по событиям</a>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <a class="btn btn-info mr-1" href="users"><spring:message code="user.title"/></a>
                 </sec:authorize>

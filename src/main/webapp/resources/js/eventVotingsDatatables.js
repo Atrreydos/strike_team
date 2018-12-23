@@ -11,6 +11,11 @@ $(document).ready(function () {
         "info": true,
         "columns": [
             {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderDetailBtn
+            },
+            {
                 "data": "event.name"
             },
             {

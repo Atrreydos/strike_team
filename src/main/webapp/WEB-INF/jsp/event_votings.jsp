@@ -7,7 +7,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/datatablesUtil.js" defer></script>
-<script type="text/javascript" src="resources/js/eventVotingDatatables.js" defer></script>
+<script type="text/javascript" src="resources/js/eventVotingsDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron pt-4">
@@ -23,13 +23,14 @@
         <br/><br/>
         <table class="table table-striped" id="datatable">
             <thead>
-            <tr>
-                <th>Название события</th>
-                <th>Описание события</th>
-                <th>Описание голосования</th>
-                <th></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>Название события</th>
+                    <th>Описание события</th>
+                    <th>Описание голосования</th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </thead>
         </table>
     </div>
@@ -63,7 +64,6 @@
                         <input type="text" class="form-control" id="description" name="description"
                                placeholder="<spring:message code="event.description"/>">
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
