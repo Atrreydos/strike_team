@@ -25,6 +25,11 @@ function add() {
     $("#editRow").modal();
 }
 
+function addWithInput() {
+    $("#modalTitle").html(i18n["addTitle"]);
+    $("#editRow").modal();
+}
+
 function save() {
     $.ajax({
         type: "POST",
@@ -49,6 +54,10 @@ function updateRow(id) {
 
 function updateTable() {
     $.get(restUrl, updateTableByData);
+}
+
+function refresh() {
+    $.get(restUrl);
 }
 
 function updateTableByData(data) {

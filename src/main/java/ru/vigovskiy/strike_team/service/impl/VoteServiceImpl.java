@@ -53,7 +53,7 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public VoteDto create(VoteDto dto) {
         User user = userService.get(dto.getUserId());
-        VoteDay voteDay = voteDayService.get(dto.getVoteDayId());
+        VoteDay voteDay = voteDayService.find(dto.getVoteDayId());
         Vote vote = createVoteFromDto(dto, user, voteDay);
         return createDtoFromVote(repository.save(vote));
     }
@@ -61,7 +61,7 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public void update(VoteDto dto) {
         User user = userService.get(dto.getUserId());
-        VoteDay voteDay = voteDayService.get(dto.getVoteDayId());
+        VoteDay voteDay = voteDayService.find(dto.getVoteDayId());
         repository.save(createVoteFromDto(dto, user, voteDay));
     }
 

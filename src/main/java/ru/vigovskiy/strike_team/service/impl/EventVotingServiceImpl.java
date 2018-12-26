@@ -34,11 +34,7 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     @Override
     public EventVotingDto get(int id) throws NotFoundException {
-        EventVoting eventVoting = repository.get(id);
-        if (eventVoting == null) {
-            log.error("EventVoting with id {} not found", id);
-            throw new NotFoundException("Not found eventVoting with id = " + id);
-        }
+        EventVoting eventVoting = find(id);
 
         return createDtoFromEventVoting(eventVoting);
     }
@@ -73,9 +69,9 @@ public class EventVotingServiceImpl implements EventVotingService {
         else {
             event = eventService.find(eventId);
         }
-
         EventVoting eventVoting = createEventVotingFromDto(dto, event);
         eventVoting = repository.save(eventVoting);
+
         return createDtoFromEventVoting(eventVoting);
     }
 
@@ -87,5 +83,16 @@ public class EventVotingServiceImpl implements EventVotingService {
             log.info("EventVoting with id {} not found for deleting", id);
             throw new NotFoundException("Not found eventVoting for deleting with id = " + id);
         }
+    }
+
+    @Override
+    public EventVoting find(Integer eventVotingId) {
+        EventVoting eventVoting = repository.get(eventVotingId);
+        if (eventVoting == null) {
+            log.error("EventVoting with id {} not found", eventVotingId);
+            throw new NotFoundException("Not found eventVoting with id = " + eventVotingId);
+        }
+
+        return eventVoting;
     }
 }

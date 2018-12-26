@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.dto.voteDay;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
@@ -9,9 +10,13 @@ import java.util.List;
 public class VoteDayDto implements Identifiable<Integer> {
 
     private Integer id;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate day;
     private Integer eventVotingId;
     private List<VoteDto> votes;
+
+    public VoteDayDto() {
+    }
 
     public VoteDayDto(Integer id, LocalDate day, Integer eventVotingId, List<VoteDto> votes) {
         this.id = id;

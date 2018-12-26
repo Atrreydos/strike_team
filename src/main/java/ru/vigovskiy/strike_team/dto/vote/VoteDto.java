@@ -10,6 +10,9 @@ public class VoteDto implements Identifiable<Integer> {
     private Integer voteDayId;
     private DecisionType decisionType;
 
+    public VoteDto() {
+    }
+
     public VoteDto(Integer id, Integer userId, Integer voteDayId, DecisionType decisionType) {
         this.id = id;
         this.userId = userId;

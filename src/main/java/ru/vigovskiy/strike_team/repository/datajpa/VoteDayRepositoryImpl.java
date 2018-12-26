@@ -32,7 +32,7 @@ public class VoteDayRepositoryImpl implements VoteDayRepository {
 
     @Override
     public VoteDay get(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.getWithVotes(id);
     }
 
     @Override
