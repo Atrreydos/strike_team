@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.dto.voteDay;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
+import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import java.time.LocalDate;
@@ -13,15 +14,17 @@ public class VoteDayDto implements Identifiable<Integer> {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate day;
     private Integer eventVotingId;
+    private DecisionType myVote;
     private List<VoteDto> votes;
 
     public VoteDayDto() {
     }
 
-    public VoteDayDto(Integer id, LocalDate day, Integer eventVotingId, List<VoteDto> votes) {
+    public VoteDayDto(Integer id, LocalDate day, Integer eventVotingId, DecisionType myVote, List<VoteDto> votes) {
         this.id = id;
         this.day = day;
         this.eventVotingId = eventVotingId;
+        this.myVote = myVote;
         this.votes = votes;
     }
 
@@ -51,6 +54,14 @@ public class VoteDayDto implements Identifiable<Integer> {
         this.eventVotingId = eventVotingId;
     }
 
+    public DecisionType getMyVote() {
+        return myVote;
+    }
+
+    public void setMyVote(DecisionType myVote) {
+        this.myVote = myVote;
+    }
+
     public List<VoteDto> getVotes() {
         return votes;
     }
@@ -70,6 +81,7 @@ public class VoteDayDto implements Identifiable<Integer> {
         if (day != null ? !day.equals(that.day) : that.day != null) return false;
         if (eventVotingId != null ? !eventVotingId.equals(that.eventVotingId) : that.eventVotingId != null)
             return false;
+        if (myVote != that.myVote) return false;
         return votes != null ? votes.equals(that.votes) : that.votes == null;
     }
 
@@ -78,6 +90,7 @@ public class VoteDayDto implements Identifiable<Integer> {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (day != null ? day.hashCode() : 0);
         result = 31 * result + (eventVotingId != null ? eventVotingId.hashCode() : 0);
+        result = 31 * result + (myVote != null ? myVote.hashCode() : 0);
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
         return result;
     }

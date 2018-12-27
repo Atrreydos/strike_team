@@ -53,6 +53,16 @@ public class VoteDto implements Identifiable<Integer> {
     }
 
     @Override
+    public String toString() {
+        return "VoteDto{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", voteDayId=" + voteDayId +
+                ", decisionType=" + decisionType +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VoteDto)) return false;

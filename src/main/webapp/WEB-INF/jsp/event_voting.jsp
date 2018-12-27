@@ -51,6 +51,8 @@
                     <th>ID дня голосования</th>
                     <th>ID голосования</th>
                     <th>День голосования</th>
+                    <th>Мое решение</th>
+                    <th>Голоса</th>
                 </tr>
             </thead>
             <c:forEach items="${eventVotingDto.voteDays}" var="voteDay">
@@ -59,6 +61,8 @@
                     <td>${voteDay.id}</td>
                     <td>${voteDay.eventVotingId}</td>
                     <td>${voteDay.day}</td>
+                    <td>${voteDay.myVote}</td>
+                    <td>${voteDay.votes}</td>
                 </tr>
             </c:forEach>
         </table>

@@ -28,4 +28,12 @@ public class SecurityUtil {
         return get().getUserDto().getId();
     }
 
+    public static Integer getAuthUserIdOrNull() {
+        AuthorizedUser user = safeGet();
+        if (user == null) {
+            return null;
+        }
+        return user.getUserDto().getId();
+    }
+
 }
