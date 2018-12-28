@@ -56,7 +56,7 @@ public class JsonUtil {
         return null;
     }
 
-    static <T> List<T> convertToObjects(String json, Class<T> clazz) throws IOException {
+    public static <T> List<T> convertToObjects(String json, Class<T> clazz) throws IOException {
         ObjectReader reader = getMapper().readerFor(clazz);
         return reader.<T>readValues(json).readAll();
     }

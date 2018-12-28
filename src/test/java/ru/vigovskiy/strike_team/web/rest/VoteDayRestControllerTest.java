@@ -12,19 +12,22 @@ import ru.vigovskiy.strike_team.web.AbstractControllerTest;
 import ru.vigovskiy.strike_team.web.json.JsonUtil;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.vigovskiy.strike_team.EventVotingTestData.EVENT_VOTING_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.EVENT_VOTING_1_ID;
 import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.UserTestData.ADMIN_1;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_3;
 import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtoFromVoteDay;
+import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtosFromVoteDays;
 
 
 class VoteDayRestControllerTest extends AbstractControllerTest {
@@ -76,7 +79,17 @@ class VoteDayRestControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
-    /*TODO add getWithVoteDays method*/
+    @Test
+    void getForEventVoting() throws Exception {
+        ResultActions action = mockMvc.perform(get(REST_URL + EVENT_VOTING_1_ID)
+                .with(userAuth(ADMIN_1)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        List<VoteDayDto> returned = TestUtil.readListFromJson(action, VoteDayDto.class);
+        assertThat(returned).usingElementComparatorIgnoringFields("votes", "myVote").isEqualTo(createDtosFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3)));
+    }
 
 //    @Test
 //    void testCreateInvalid() throws Exception {

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
 import ru.vigovskiy.strike_team.service.VoteDayService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(VoteDayRestController.REST_URL)
 public class VoteDayRestController {
@@ -16,6 +18,11 @@ public class VoteDayRestController {
     @Autowired
     public VoteDayRestController(VoteDayService service) {
         this.service = service;
+    }
+
+    @GetMapping(value = "/{eventVotingId}")
+    public List<VoteDayDto> getForEventVoting(@PathVariable("eventVotingId") int eventVotingId) {
+        return service.getForEventVoting(eventVotingId);
     }
 
     @PostMapping

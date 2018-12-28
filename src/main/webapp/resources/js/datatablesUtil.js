@@ -56,10 +56,6 @@ function updateTable() {
     $.get(restUrl, updateTableByData);
 }
 
-function refresh() {
-    $.get(restUrl);
-}
-
 function updateTableByData(data) {
     datatableApi.clear().rows.add(data).draw();
 }

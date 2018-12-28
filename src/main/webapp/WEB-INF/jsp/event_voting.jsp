@@ -34,10 +34,11 @@
     </div>
 </div>
 <br>
+
 <div class="jumbotron pt-4">
     <div class="container">
         <h3 class="text-center">Возможные дни</h3>
-        <br>
+        <br/>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <button class="btn btn-primary" onclick="addWithInput()">
                 <span class="fa fa-plus"></span>
@@ -47,24 +48,16 @@
         <br/><br/>
         <table class="table table-striped" id="datatable">
             <thead>
-                <tr>
-                    <th>ID дня голосования</th>
-                    <th>ID голосования</th>
-                    <th>День голосования</th>
-                    <th>Мое решение</th>
-                    <th>Голоса</th>
-                </tr>
+            <tr>
+                <th>ID дня голосования</th>
+                <th>ID голосования</th>
+                <th>День голосования</th>
+                <th>Мое решение</th>
+                <th>Голоса</th>
+                <th></th>
+                <th></th>
+            </tr>
             </thead>
-            <c:forEach items="${eventVotingDto.voteDays}" var="voteDay">
-                <jsp:useBean id="voteDay" type="ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto"/>
-                <tr>
-                    <td>${voteDay.id}</td>
-                    <td>${voteDay.eventVotingId}</td>
-                    <td>${voteDay.day}</td>
-                    <td>${voteDay.myVote}</td>
-                    <td>${voteDay.votes}</td>
-                </tr>
-            </c:forEach>
         </table>
     </div>
 </div>

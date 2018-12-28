@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.model.VoteDay;
 
+import java.util.List;
+
 public interface CrudVoteDayRepository extends JpaRepository<VoteDay, Integer> {
 
     @Transactional
@@ -18,4 +20,7 @@ public interface CrudVoteDayRepository extends JpaRepository<VoteDay, Integer> {
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT vd FROM VoteDay vd WHERE vd.id=?1")
     VoteDay getWithVotes(int id);
+
+    @Query(value = "SELECT DISTINCT vd FROM VoteDay vd LEFT JOIN FETCH vd.votes where vd.eventVoting.id = :eventVotingId")
+    List<VoteDay> getForEventVoting(@Param("eventVotingId") int eventVotingId);
 }

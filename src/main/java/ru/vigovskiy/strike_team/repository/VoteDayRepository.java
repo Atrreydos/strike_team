@@ -13,4 +13,6 @@ public interface VoteDayRepository {
     VoteDay get(Integer id);
 
     List<VoteDay> getAll();
+
+    List<VoteDay> getForEventVoting(int eventVotingId);
 }

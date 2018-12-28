@@ -39,4 +39,9 @@ public class VoteDayRepositoryImpl implements VoteDayRepository {
     public List<VoteDay> getAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<VoteDay> getForEventVoting(int eventVotingId) {
+        return repository.getForEventVoting(eventVotingId);
+    }
 }

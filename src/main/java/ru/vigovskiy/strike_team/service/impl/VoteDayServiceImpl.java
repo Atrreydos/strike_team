@@ -12,7 +12,10 @@ import ru.vigovskiy.strike_team.service.EventVotingService;
 import ru.vigovskiy.strike_team.service.VoteDayService;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
+import java.util.List;
+
 import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtoFromVoteDay;
+import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtosFromVoteDays;
 import static ru.vigovskiy.strike_team.util.VoteDayUtil.createVoteDayFromDto;
 
 @Service
@@ -32,6 +35,12 @@ public class VoteDayServiceImpl implements VoteDayService {
     public VoteDayDto get(int id) throws NotFoundException {
         VoteDay voteDay = find(id);
         return createDtoFromVoteDay(voteDay);
+    }
+
+    @Override
+    public List<VoteDayDto> getForEventVoting(int eventVotingId) {
+        List<VoteDay> voteDays = repository.getForEventVoting(eventVotingId);
+        return createDtosFromVoteDays(voteDays);
     }
 
     @Override

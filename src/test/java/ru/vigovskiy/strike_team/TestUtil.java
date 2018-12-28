@@ -7,7 +7,9 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.web.json.JsonUtil;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public class TestUtil {
 
@@ -17,6 +19,10 @@ public class TestUtil {
 
     public static <T> T readFromJson(ResultActions action, Class<T> clazz) throws UnsupportedEncodingException {
         return JsonUtil.convertToObject(getContent(action), clazz);
+    }
+
+    public static <T> List<T> readListFromJson(ResultActions action, Class<T> clazz) throws IOException {
+        return JsonUtil.convertToObjects(getContent(action), clazz);
     }
 
     public static RequestPostProcessor userHttpBasic(User user) {
