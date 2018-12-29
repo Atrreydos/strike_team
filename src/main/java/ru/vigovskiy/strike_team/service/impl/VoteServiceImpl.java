@@ -19,6 +19,7 @@ import java.util.List;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtoFromVote;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtosFromVotes;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createVoteFromDto;
+import static ru.vigovskiy.strike_team.web.SecurityUtil.authUserId;
 
 @Service
 public class VoteServiceImpl implements VoteService {
@@ -59,18 +60,23 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public void update(VoteDto dto) {
-        User user = userService.get(dto.getUserId());
-        VoteDay voteDay = voteDayService.find(dto.getVoteDayId());
-        repository.save(createVoteFromDto(dto, user, voteDay));
-    }
-
-    @Override
     public void delete(Integer id) throws NotFoundException {
         boolean deleted = repository.delete(id);
         if (!deleted) {
             log.info("Vote with id {} not found for deleting", id);
             throw new NotFoundException("Not found vote for deleting with id = " + id);
         }
+    }
+
+    @Override
+    public VoteDto createOrUpdate(VoteDto dto) {
+        int userId = authUserId();
+        Vote voteForUserByVoteDay = repository.getForUserByVoteDay(userId, dto.getVoteDayId());
+        if (voteForUserByVoteDay != null) {
+            dto.setId(voteForUserByVoteDay.getId());
+        }
+        dto.setUserId(userId);
+
+        return create(dto);
     }
 }

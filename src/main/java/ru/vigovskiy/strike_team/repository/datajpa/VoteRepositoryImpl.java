@@ -36,6 +36,11 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
+    public Vote getForUserByVoteDay(int userId, int voteDayId) {
+        return repository.findByUserIdAndVoteDayId(userId, voteDayId);
+    }
+
+    @Override
     public List<Vote> getAll() {
         return repository.findAll();
     }

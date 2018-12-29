@@ -1,4 +1,5 @@
 const restUrl = "rest/vote-days/";
+const voteRestUrl = "rest/votes/";
 let datatableApi;
 
 $(document).ready(function () {
@@ -28,12 +29,12 @@ $(document).ready(function () {
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderEditBtn
+                "render": renderAcceptBtn
             },
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderDeleteBtn
+                "render": renderRejectBtn
             }
         ],
         "order": [
@@ -62,5 +63,51 @@ function saveVoteDay() {
         successNoty("Saved");
         location.reload();
     });
+}
+
+function renderAcceptBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='setAcceptVote(" + row.id + ");'><span class='fa fa-check'></span></a>";
+    }
+}
+
+function renderRejectBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='setRejectVote(" + row.id + ");'><span class='fa fa-times'></span></a>";
+    }
+}
+
+function setAcceptVote(id) {
+    let vote = {
+        voteDayId: id,
+        decisionType: "ACCEPT"
+    };
+
+    setVote(vote)
+}
+
+function setRejectVote(id) {
+    let vote = {
+        voteDayId: id,
+        decisionType: "REJECT"
+    };
+
+    setVote(vote)
+}
+
+function setVote(vote) {
+    $.ajax({
+        type: "POST",
+        url: voteRestUrl,
+        contentType : "application/json",
+        data: JSON.stringify(vote)
+    }).done(function () {
+        updateVoteDaysTable();
+        successNoty("Saved");
+    });
+}
+
+function updateVoteDaysTable() {
+    $.get(restUrl + $("#eventVotingId").val(), updateTableByData);
 }
 

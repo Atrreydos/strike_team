@@ -13,7 +13,7 @@ public interface VoteService {
 
     VoteDto create(VoteDto dto);
 
-    void update(VoteDto dto);
-
     void delete(Integer id) throws NotFoundException;
+
+    VoteDto createOrUpdate(VoteDto dto);
 }

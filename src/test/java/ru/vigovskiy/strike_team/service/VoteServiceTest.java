@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Vote;
+import ru.vigovskiy.strike_team.repository.VoteRepository;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -13,7 +14,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.vigovskiy.strike_team.UserTestData.USER1_ID;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY1_ID;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_2;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
@@ -24,6 +27,8 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Autowired(required = false)
     private VoteService service;
+    @Autowired(required = false)
+    private VoteRepository repository;
 
     @Test
     void get() {
@@ -59,14 +64,6 @@ class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void update() {
-        VoteDto updatedVoteDto = service.get(VOTE1_ID);
-        updatedVoteDto.setDecisionType(DecisionType.REJECT);
-        service.update(updatedVoteDto);
-        assertThat(updatedVoteDto).isEqualToComparingFieldByField(service.get(VOTE1_ID));
-    }
-
-    @Test
     void delete() {
         service.delete(VOTE1_ID);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_2, VOTE_3)));
@@ -75,5 +72,11 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(0));
+    }
+
+    @Test
+    void repositoryGetForUserByVoteDay() {
+        Vote vote = repository.getForUserByVoteDay(USER1_ID, VOTE_DAY1_ID);
+        assertThat(vote).isEqualToIgnoringGivenFields(VOTE_1, "user", "voteDay");
     }
 }

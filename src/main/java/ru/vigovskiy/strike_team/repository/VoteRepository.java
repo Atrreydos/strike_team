@@ -12,5 +12,7 @@ public interface VoteRepository {
 
     Vote get(Integer id);
 
+    Vote getForUserByVoteDay(int userId, int voteDayId);
+
     List<Vote> getAll();
 }
