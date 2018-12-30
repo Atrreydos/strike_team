@@ -23,6 +23,7 @@
             <tr>
                 <th><spring:message code="common.name"/></th>
                 <th><spring:message code="event.description"/></th>
+                <th>Дата события</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -52,6 +53,12 @@
                         <label for="description" class="col-form-label"><spring:message code="event.description"/></label>
                         <input type="text" class="form-control" id="description" name="description"
                                placeholder="<spring:message code="event.description"/>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date" class="col-form-label">Дата события</label>
+                        <input type="date" class="form-control" id="date" name="date"
+                               placeholder="Дата">
                     </div>
 
                 </form>

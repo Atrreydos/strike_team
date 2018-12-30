@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.model;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "events")
@@ -16,6 +17,9 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
     @Column(name = "description")
     private String description;
 
+    @Column(name = "date")
+    private LocalDate date;
+
     public Event() {
     }
 
@@ -23,6 +27,13 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public Event(Integer id, String name, String description, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.date = date;
     }
 
     @Override
@@ -43,32 +54,21 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
         this.description = description;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", date=" + date +
+                ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Event)) return false;
-        if (!super.equals(o)) return false;
-
-        Event event = (Event) o;
-
-        if (!id.equals(event.id)) return false;
-        return description != null ? description.equals(event.description) : event.description == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + id.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
     }
 }

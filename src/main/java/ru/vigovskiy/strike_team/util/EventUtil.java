@@ -11,17 +11,18 @@ import java.util.stream.Collectors;
 public class EventUtil {
 
     public static Event createEventFromDto(EventDto dto) {
-        return new Event(dto.getId(), dto.getName(), dto.getDescription());
+        return new Event(dto.getId(), dto.getName(), dto.getDescription(), dto.getDate());
     }
 
     public static Event updateEventFromDto(Event event, EventDto dto) {
         event.setName(dto.getName());
         event.setDescription(dto.getDescription());
+        event.setDate(dto.getDate());
         return event;
     }
 
     public static EventDto createDtoFromEvent(Event event) {
-        return new EventDto(event.getId(), event.getName(), event.getDescription());
+        return new EventDto(event.getId(), event.getName(), event.getDescription(), event.getDate());
     }
 
     public static List<EventDto> createDtosFromEvents(List<Event> events) {

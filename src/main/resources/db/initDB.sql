@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS vote_days;
 DROP SEQUENCE IF EXISTS vote_day_seq;
 DROP TABLE IF EXISTS event_votings;
 DROP SEQUENCE IF EXISTS event_voting_seq;
-DROP TABLE IF EXISTS events CASCADE ;
+DROP TABLE IF EXISTS events CASCADE;
 DROP SEQUENCE IF EXISTS event_seq;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
@@ -39,7 +39,8 @@ CREATE TABLE events
 (
   id          INTEGER PRIMARY KEY DEFAULT nextval('event_seq'),
   name        VARCHAR NOT NULL,
-  description VARCHAR
+  description VARCHAR,
+  date        DATE
 );
 
 CREATE SEQUENCE event_voting_seq

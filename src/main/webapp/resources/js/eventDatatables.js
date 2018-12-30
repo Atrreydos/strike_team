@@ -17,6 +17,9 @@ $(document).ready(function () {
                 "data": "description"
             },
             {
+                "data": "date"
+            },
+            {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderEditBtn
@@ -40,7 +43,8 @@ $(document).ready(function () {
 function saveEvent() {
     let newEvent = {
         name: $("#name").val(),
-        description: $("#description").val()
+        description: $("#description").val(),
+        date: $("#date").val()
     };
 
     $.ajax({

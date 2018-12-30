@@ -2,13 +2,14 @@ package ru.vigovskiy.strike_team.dto.event;
 
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
+import java.time.LocalDate;
+
 public class EventDto implements Identifiable<Integer> {
 
     private Integer id;
-
     private String name;
-
     private String description;
+    private LocalDate date;
 
     public EventDto() {
     }
@@ -17,6 +18,13 @@ public class EventDto implements Identifiable<Integer> {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public EventDto(Integer id, String name, String description, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -43,6 +51,14 @@ public class EventDto implements Identifiable<Integer> {
         this.description = description;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,7 +68,9 @@ public class EventDto implements Identifiable<Integer> {
 
         if (id != null ? !id.equals(eventDto.id) : eventDto.id != null) return false;
         if (name != null ? !name.equals(eventDto.name) : eventDto.name != null) return false;
-        return description != null ? description.equals(eventDto.description) : eventDto.description == null;
+        if (description != null ? !description.equals(eventDto.description) : eventDto.description != null)
+            return false;
+        return date != null ? date.equals(eventDto.date) : eventDto.date == null;
     }
 
     @Override
@@ -60,6 +78,7 @@ public class EventDto implements Identifiable<Integer> {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
     }
 }
