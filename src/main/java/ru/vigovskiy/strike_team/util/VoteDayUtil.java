@@ -40,4 +40,16 @@ public class VoteDayUtil {
                 .map(VoteDayUtil::createDtoFromVoteDay)
                 .collect(Collectors.toList());
     }
+
+    public static Long getAcceptVotesCount(VoteDay voteDay) {
+        if (voteDay == null) {
+            return 0l;
+        }
+
+        return Optional.ofNullable(voteDay.getVotes())
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(vote -> vote.getDecisionType().equals(DecisionType.ACCEPT))
+                .count();
+    }
 }

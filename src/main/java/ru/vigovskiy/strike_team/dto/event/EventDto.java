@@ -1,14 +1,18 @@
 package ru.vigovskiy.strike_team.dto.event;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import java.time.LocalDate;
+
+import static ru.vigovskiy.strike_team.util.DateUtil.DATE_PATTERN;
 
 public class EventDto implements Identifiable<Integer> {
 
     private Integer id;
     private String name;
     private String description;
+    @DateTimeFormat(pattern = DATE_PATTERN)
     private LocalDate date;
 
     public EventDto() {

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
+import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.util.VoteDayUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -97,5 +98,16 @@ class EventVotingServiceTest extends AbstractServiceTest {
     @Test
     void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(0));
+    }
+
+    @Test
+    void getAcceptedDaysTest() {
+        List<VoteDay> acceptedDays1 = service.getMaxAcceptedDays(EVENT_VOTING_1_ID);
+        assertThat(acceptedDays1).usingElementComparatorIgnoringFields("votes", "eventVoting").isEqualTo(Collections.singletonList(VOTE_DAY_1));
+
+        EventVotingDto newDto = new EventVotingDto(null, "description", createDtoFromEvent(EVENT_1));
+        newDto = service.createOrUpdate(newDto);
+        List<VoteDay> acceptedDays2 = service.getMaxAcceptedDays(newDto.getId());
+        assertThat(acceptedDays2).isEqualTo(Collections.emptyList());
     }
 }

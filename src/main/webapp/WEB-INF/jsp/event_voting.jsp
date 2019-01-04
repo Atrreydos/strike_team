@@ -45,6 +45,12 @@
                 <spring:message code="common.add"/>
             </button>
         </sec:authorize>
+        <%--<sec:authorize access="hasRole('ROLE_ADMIN')">--%>
+            <%--<button class="btn btn-primary" onclick="">--%>
+                <%--<span class="fas fa-vote-yea"></span>--%>
+                <%--Подсчитать--%>
+            <%--</button>--%>
+        <%--</sec:authorize>--%>
         <br/><br/>
         <table class="table table-striped" id="datatable">
             <thead>

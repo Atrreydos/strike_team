@@ -9,15 +9,20 @@ import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
+import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.repository.EventVotingRepository;
 import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.service.EventVotingService;
+import ru.vigovskiy.strike_team.util.VoteDayUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.vigovskiy.strike_team.util.EventUtil.createEventFromDto;
 import static ru.vigovskiy.strike_team.util.EventVotingUtil.*;
+import static ru.vigovskiy.strike_team.util.VoteDayUtil.getAcceptVotesCount;
 
 @Service
 public class EventVotingServiceImpl implements EventVotingService {
@@ -41,11 +46,7 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     @Override
     public EventVotingDtoFull getWithVoteDays(int id) throws NotFoundException {
-        EventVoting eventVoting = repository.getWithVoteDays(id);
-        if (eventVoting == null) {
-            log.error("EventVoting with id {} not found", id);
-            throw new NotFoundException("Not found eventVoting with id = " + id);
-        }
+        EventVoting eventVoting = findWithVoteDays(id);
 
         return createDtoFullFromEventVoting(eventVoting);
     }
@@ -86,8 +87,29 @@ public class EventVotingServiceImpl implements EventVotingService {
     }
 
     @Override
+    public List<VoteDay> getMaxAcceptedDays(int eventVotingId) throws NotFoundException {
+        EventVoting eventVoting = findWithVoteDays(eventVotingId);
+        List<VoteDay> voteDays = eventVoting.getVoteDays();
+        Comparator<VoteDay> comparator = Comparator.comparingLong(VoteDayUtil::getAcceptVotesCount);
+        Long maxAcceptCount = getAcceptVotesCount(voteDays.stream().max(comparator).orElse(null));
+
+        return voteDays.stream().filter(voteDay -> getAcceptVotesCount(voteDay) == maxAcceptCount).collect(Collectors.toList());
+    }
+
+    @Override
     public EventVoting find(Integer eventVotingId) {
         EventVoting eventVoting = repository.get(eventVotingId);
+        if (eventVoting == null) {
+            log.error("EventVoting with id {} not found", eventVotingId);
+            throw new NotFoundException("Not found eventVoting with id = " + eventVotingId);
+        }
+
+        return eventVoting;
+    }
+
+    @Override
+    public EventVoting findWithVoteDays(Integer eventVotingId) {
+        EventVoting eventVoting = repository.getWithVoteDays(eventVotingId);
         if (eventVoting == null) {
             log.error("EventVoting with id {} not found", eventVotingId);
             throw new NotFoundException("Not found eventVoting with id = " + eventVotingId);
