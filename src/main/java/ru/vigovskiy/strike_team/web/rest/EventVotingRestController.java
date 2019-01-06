@@ -40,4 +40,10 @@ public class EventVotingRestController {
     public void delete(@PathVariable("id") int id) {
         service.delete(id);
     }
+
+    @PutMapping(value = "/{eventVotingId}/vote-day/{voteDayId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void setupVoteDay(@PathVariable("eventVotingId") int eventVotingId, @PathVariable("voteDayId") int voteDayId) {
+        service.setupDayForEvent(eventVotingId, voteDayId);
+    }
 }

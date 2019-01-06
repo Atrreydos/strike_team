@@ -25,4 +25,6 @@ public interface EventVotingService {
     List<VoteDay> getMaxAcceptedDays(int eventVotingId) throws NotFoundException;
 
     EventVoting findWithVoteDays(Integer eventVotingId);
+
+    void setupDayForEvent(int eventVotingId, int voteDayId);
 }

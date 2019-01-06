@@ -13,6 +13,8 @@
 <script type="text/javascript" src="resources/js/voteDayDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
+<input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>
+
 <div class="card-deck">
     <div class="card">
         <div class="card-body">
@@ -21,6 +23,8 @@
             <p class="card-text">${eventVotingDto.event.name}</p>
             <h6 class="card-subtitle">Описание события</h6>
             <p class="card-text">${eventVotingDto.event.description}</p>
+            <h6 class="card-subtitle">День события</h6>
+            <p class="card-text">${eventVotingDto.event.date}</p>
         </div>
     </div>
     <div class="card">
@@ -44,13 +48,17 @@
                 <span class="fa fa-plus"></span>
                 <spring:message code="common.add"/>
             </button>
+
+            <button class="btn btn-primary" onclick="">
+                <span class="fas fa-vote-yea"></span>
+                Подсчитать
+            </button>
+
+            <button class="btn btn-primary" onclick="selectVoteDay()">
+            <span class="fas fa-vote-yea"></span>
+            Выбрать
+        </button>
         </sec:authorize>
-        <%--<sec:authorize access="hasRole('ROLE_ADMIN')">--%>
-            <%--<button class="btn btn-primary" onclick="">--%>
-                <%--<span class="fas fa-vote-yea"></span>--%>
-                <%--Подсчитать--%>
-            <%--</button>--%>
-        <%--</sec:authorize>--%>
         <br/><br/>
         <table class="table table-striped" id="datatable">
             <thead>
@@ -60,8 +68,8 @@
                 <th>День голосования</th>
                 <th>Мое решение</th>
                 <th>Голоса</th>
-                <th></th>
-                <th></th>
+                <th>ЗА</th>
+                <th>ПРОТИВ</th>
             </tr>
             </thead>
         </table>
@@ -81,8 +89,7 @@
                         <label for="day" class="col-form-label">День</label>
                         <input type="date" class="form-control" id="day" name="day"/>
                     </div>
-
-                    <input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>
+                    <%--<input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>--%>
                 </form>
             </div>
             <div class="modal-footer">
@@ -91,6 +98,38 @@
                     <spring:message code="common.cancel"/>
                 </button>
                 <button type="button" class="btn btn-primary" onclick="saveVoteDay()">
+                    <span class="fa fa-check"></span>
+                    <spring:message code="common.save"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="selectDay">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="selectDayModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="selectDayDatatable">
+                    <thead>
+                    <tr>
+                        <th>День голосования</th>
+                        <th>Голоса</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <span class="fa fa-close"></span>
+                    <spring:message code="common.cancel"/>
+                </button>
+                <button type="button" class="btn btn-primary" onclick="">
                     <span class="fa fa-check"></span>
                     <spring:message code="common.save"/>
                 </button>

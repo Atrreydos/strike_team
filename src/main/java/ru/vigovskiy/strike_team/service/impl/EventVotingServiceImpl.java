@@ -10,6 +10,7 @@ import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.VoteDay;
+import ru.vigovskiy.strike_team.repository.EventRepository;
 import ru.vigovskiy.strike_team.repository.EventVotingRepository;
 import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.service.EventVotingService;
@@ -30,11 +31,13 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     private EventVotingRepository repository;
     private EventService eventService;
+    private EventRepository eventRepository;
 
     @Autowired
-    public EventVotingServiceImpl(EventVotingRepository repository, EventService eventService) {
+    public EventVotingServiceImpl(EventVotingRepository repository, EventService eventService, EventRepository eventRepository) {
         this.repository = repository;
         this.eventService = eventService;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -93,7 +96,19 @@ public class EventVotingServiceImpl implements EventVotingService {
         Comparator<VoteDay> comparator = Comparator.comparingLong(VoteDayUtil::getAcceptVotesCount);
         Long maxAcceptCount = getAcceptVotesCount(voteDays.stream().max(comparator).orElse(null));
 
-        return voteDays.stream().filter(voteDay -> getAcceptVotesCount(voteDay) == maxAcceptCount).collect(Collectors.toList());
+        return voteDays.stream().filter(voteDay -> getAcceptVotesCount(voteDay).equals(maxAcceptCount)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void setupDayForEvent(int eventVotingId, int voteDayId) {
+        EventVoting eventVoting = findWithVoteDays(eventVotingId);
+        Event event = eventVoting.getEvent();
+        VoteDay voteDay = eventVoting.getVoteDays().stream().filter(vd -> vd.getId() == voteDayId).findFirst().orElse(null);
+        if (voteDay == null) {
+            throw new IllegalArgumentException(String.format("EventVoting %d don't have VoteDay %d", eventVotingId, voteDayId));
+        }
+        event.setDate(voteDay.getDay());
+        eventRepository.save(event);
     }
 
     @Override
@@ -117,4 +132,6 @@ public class EventVotingServiceImpl implements EventVotingService {
 
         return eventVoting;
     }
+
+
 }

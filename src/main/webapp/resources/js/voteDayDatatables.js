@@ -1,6 +1,8 @@
 const restUrl = "rest/vote-days/";
 const voteRestUrl = "rest/votes/";
+const eventVotingRestUrl = "rest/event-votings/";
 let datatableApi;
+let selectDayApi;
 
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
@@ -35,6 +37,35 @@ $(document).ready(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderRejectBtn
+            }
+        ],
+        "order": [
+            [
+                0,
+                "asc"
+            ]
+        ],
+        "initComplete": makeEditable
+    });
+
+    selectDayApi = $("#selectDayDatatable").DataTable({
+        "ajax": {
+            "url": restUrl + $("#eventVotingId").val(),
+            "dataSrc": ""
+        },
+        "paging": false,
+        "info": true,
+        "columns": [
+            {
+                "data": "day"
+            },
+            {
+                "data": "votes"
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderSelectDayBtn
             }
         ],
         "order": [
@@ -107,7 +138,29 @@ function setVote(vote) {
     });
 }
 
+function renderSelectDayBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='setupDay(" + row.id + ");'><span class='fa fa-check'></span></a>";
+    }
+}
+
+function setupDay(voteDayId) {
+    $.ajax({
+        type: "PUT",
+        url: eventVotingRestUrl + $("#eventVotingId").val() + "/vote-day/" + voteDayId,
+    }).done(function () {
+        $("#selectDay").modal("hide");
+        location.reload();
+        successNoty("День для события установлен");
+    });
+}
+
 function updateVoteDaysTable() {
     $.get(restUrl + $("#eventVotingId").val(), updateTableByData);
+}
+
+function selectVoteDay() {
+    $("#selectDayModalTitle").html("Выбрать день");
+    $("#selectDay").modal();
 }
 
