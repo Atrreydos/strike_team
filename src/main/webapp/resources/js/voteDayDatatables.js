@@ -20,7 +20,7 @@ $(document).ready(function () {
                 "data": "eventVotingId"
             },
             {
-                "data": "day"
+                data: "day"
             },
             {
                 "data": "myVote"

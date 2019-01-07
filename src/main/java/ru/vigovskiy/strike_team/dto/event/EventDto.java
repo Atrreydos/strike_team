@@ -1,19 +1,13 @@
 package ru.vigovskiy.strike_team.dto.event;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
-
-import java.time.LocalDate;
-
-import static ru.vigovskiy.strike_team.util.DateUtil.DATE_PATTERN;
 
 public class EventDto implements Identifiable<Integer> {
 
     private Integer id;
     private String name;
     private String description;
-    @DateTimeFormat(pattern = DATE_PATTERN)
-    private LocalDate date;
+    private String date;
 
     public EventDto() {
     }
@@ -24,7 +18,7 @@ public class EventDto implements Identifiable<Integer> {
         this.description = description;
     }
 
-    public EventDto(Integer id, String name, String description, LocalDate date) {
+    public EventDto(Integer id, String name, String description, String date) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -55,11 +49,11 @@ public class EventDto implements Identifiable<Integer> {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

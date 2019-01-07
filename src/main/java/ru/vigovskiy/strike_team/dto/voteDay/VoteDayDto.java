@@ -1,18 +1,15 @@
 package ru.vigovskiy.strike_team.dto.voteDay;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class VoteDayDto implements Identifiable<Integer> {
 
     private Integer id;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate day;
+    private String day;
     private Integer eventVotingId;
     private DecisionType myVote;
     private List<VoteDto> votes;
@@ -20,7 +17,7 @@ public class VoteDayDto implements Identifiable<Integer> {
     public VoteDayDto() {
     }
 
-    public VoteDayDto(Integer id, LocalDate day, Integer eventVotingId, DecisionType myVote, List<VoteDto> votes) {
+    public VoteDayDto(Integer id, String day, Integer eventVotingId, DecisionType myVote, List<VoteDto> votes) {
         this.id = id;
         this.day = day;
         this.eventVotingId = eventVotingId;
@@ -38,11 +35,11 @@ public class VoteDayDto implements Identifiable<Integer> {
         this.id = id;
     }
 
-    public LocalDate getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(LocalDate day) {
+    public void setDay(String day) {
         this.day = day;
     }
 

@@ -8,15 +8,12 @@ import javax.validation.constraints.Size;
 public class UserDtoMin implements Identifiable<Integer> {
 
     private Integer id;
-
     @NotBlank
     @Size(min = 2, max = 100)
     private String name;
-
     @NotBlank
     @Size(min = 5, max = 32, message = "login length must be between 5 and 32 characters")
     private String login;
-
     @NotBlank
     @Size(min = 5, max = 32, message = "password length must be between 5 and 32 characters")
     private String password;

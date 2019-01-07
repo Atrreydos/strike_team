@@ -7,19 +7,21 @@ import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.Vote;
 import ru.vigovskiy.strike_team.model.VoteDay;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ru.vigovskiy.strike_team.util.DateUtil.DATE_FORMATTER;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtosFromVotes;
 import static ru.vigovskiy.strike_team.web.SecurityUtil.getAuthUserIdOrNull;
 
 public class VoteDayUtil {
 
     public static VoteDay createVoteDayFromDto(VoteDayDto dto, EventVoting eventVoting) {
-        return new VoteDay(dto.getId(), dto.getDay(), eventVoting);
+        return new VoteDay(dto.getId(), LocalDate.parse(dto.getDay()), eventVoting);
     }
 
     public static VoteDayDto createDtoFromVoteDay(VoteDay voteDay) {
@@ -32,7 +34,7 @@ public class VoteDayUtil {
                 .map(Vote::getDecisionType)
                 .findFirst().orElse(null);
 
-        return new VoteDayDto(voteDay.getId(), voteDay.getDay(), voteDay.getEventVoting().getId(), myDecision, voteDtos);
+        return new VoteDayDto(voteDay.getId(), voteDay.getDay().format(DATE_FORMATTER), voteDay.getEventVoting().getId(), myDecision, voteDtos);
     }
 
     public static List<VoteDayDto> createDtosFromVoteDays(List<VoteDay> voteDays) {
