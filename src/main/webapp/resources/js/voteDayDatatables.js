@@ -140,7 +140,7 @@ function setVote(vote) {
 
 function renderSelectDayBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='setupDay(" + row.id + ");'><span class='fa fa-check'></span></a>";
+        return "<a onclick='setupDay(" + row.id + ");' title='Выбрать'><span class='fa fa-check'></span></a>";
     }
 }
 
