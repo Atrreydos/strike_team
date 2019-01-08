@@ -5,18 +5,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
+import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.util.VoteDayUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.vigovskiy.strike_team.EventTestData.EVENT1_ID;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.*;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1_ID;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_3;
 import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
@@ -26,9 +30,10 @@ class EventVotingServiceTest extends AbstractServiceTest {
 
     @Autowired(required = false)
     private EventVotingService service;
-
     @Autowired(required = false)
     private EventService eventService;
+    @Autowired(required = false)
+    private VoteDayService voteDayService;
 
     @Test
     void get() {
@@ -109,5 +114,17 @@ class EventVotingServiceTest extends AbstractServiceTest {
         newDto = service.createOrUpdate(newDto);
         List<VoteDay> acceptedDays2 = service.getMaxAcceptedDays(newDto.getId());
         assertThat(acceptedDays2).isEqualTo(Collections.emptyList());
+    }
+
+    @Test
+    void setupDayForEventTest() {
+        Event event = eventService.find(EVENT1_ID);
+        assertThat(event.getDate()).isNull();
+
+        service.setupDayForEvent(EVENT_VOTING_1_ID, VOTE_DAY_1_ID);
+        VoteDay voteDay = voteDayService.find(VOTE_DAY_1_ID);
+        LocalDate day = voteDay.getDay();
+        event = eventService.find(EVENT1_ID);
+        assertThat(event.getDate()).isEqualTo(day);
     }
 }

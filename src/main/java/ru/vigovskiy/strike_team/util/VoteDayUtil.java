@@ -21,7 +21,7 @@ import static ru.vigovskiy.strike_team.web.SecurityUtil.getAuthUserIdOrNull;
 public class VoteDayUtil {
 
     public static VoteDay createVoteDayFromDto(VoteDayDto dto, EventVoting eventVoting) {
-        return new VoteDay(dto.getId(), LocalDate.parse(dto.getDay()), eventVoting);
+        return new VoteDay(dto.getId(), LocalDate.parse(dto.getDay(), DATE_FORMATTER), eventVoting);
     }
 
     public static VoteDayDto createDtoFromVoteDay(VoteDay voteDay) {

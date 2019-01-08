@@ -6,11 +6,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.vigovskiy.strike_team.TestUtil;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
+import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
+import ru.vigovskiy.strike_team.model.VoteDay;
+import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.service.EventVotingService;
+import ru.vigovskiy.strike_team.service.VoteDayService;
 import ru.vigovskiy.strike_team.web.AbstractControllerTest;
 import ru.vigovskiy.strike_team.web.json.JsonUtil;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
@@ -19,10 +24,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static ru.vigovskiy.strike_team.EventTestData.EVENT1_ID;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.*;
 import static ru.vigovskiy.strike_team.TestUtil.userAuth;
-import static ru.vigovskiy.strike_team.UserTestData.*;
+import static ru.vigovskiy.strike_team.UserTestData.ADMIN_1;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1_ID;
 import static ru.vigovskiy.strike_team.util.EventVotingUtil.createDtoFromEventVoting;
 import static ru.vigovskiy.strike_team.util.EventVotingUtil.createDtosFromEventVotings;
 import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
@@ -32,6 +39,10 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
 
     @Autowired(required = false)
     protected EventVotingService service;
+    @Autowired(required = false)
+    protected EventService eventService;
+    @Autowired(required = false)
+    protected VoteDayService voteDayService;
 
     private static final String REST_URL = EventVotingRestController.REST_URL + '/';
 
@@ -107,7 +118,20 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
-    /*TODO add getWithVoteDays method*/
+    @Test
+    void testSetupVoteDay() throws Exception {
+        Event event = eventService.find(EVENT1_ID);
+        assertThat(event.getDate()).isNull();
+
+        mockMvc.perform(put(REST_URL + EVENT_VOTING_1_ID + "/vote-day/" + VOTE_DAY_1_ID)
+                .with(userAuth(ADMIN_1)))
+                .andExpect(status().isNoContent());
+
+        VoteDay voteDay = voteDayService.find(VOTE_DAY_1_ID);
+        LocalDate day = voteDay.getDay();
+        event = eventService.find(EVENT1_ID);
+        assertThat(event.getDate()).isEqualTo(day);
+    }
 
 //    @Test
 //    void testCreateInvalid() throws Exception {

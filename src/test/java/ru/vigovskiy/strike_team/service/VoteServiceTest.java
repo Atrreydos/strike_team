@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.vigovskiy.strike_team.UserTestData.USER1_ID;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
-import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY1_ID;
+import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1_ID;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_2;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
@@ -32,7 +32,7 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void get() {
-        VoteDto voteDto = service.get(VOTE1_ID);
+        VoteDto voteDto = service.get(VOTE_1_ID);
         assertThat(voteDto).isEqualToComparingFieldByField(createDtoFromVote(VOTE_1));
     }
 
@@ -65,7 +65,7 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void delete() {
-        service.delete(VOTE1_ID);
+        service.delete(VOTE_1_ID);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_2, VOTE_3)));
     }
 
@@ -76,7 +76,7 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void repositoryGetForUserByVoteDay() {
-        Vote vote = repository.getForUserByVoteDay(USER1_ID, VOTE_DAY1_ID);
+        Vote vote = repository.getForUserByVoteDay(USER1_ID, VOTE_DAY_1_ID);
         assertThat(vote).isEqualToIgnoringGivenFields(VOTE_1, "user", "voteDay");
     }
 }

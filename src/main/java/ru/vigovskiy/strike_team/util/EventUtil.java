@@ -14,13 +14,17 @@ import static ru.vigovskiy.strike_team.util.DateUtil.DATE_FORMATTER;
 public class EventUtil {
 
     public static Event createEventFromDto(EventDto dto) {
-        return new Event(dto.getId(), dto.getName(), dto.getDescription(), LocalDate.parse(dto.getDate()));
+        String dateString = dto.getDate();
+        LocalDate date = dateString == null ? null : LocalDate.parse(dateString, DATE_FORMATTER);
+        return new Event(dto.getId(), dto.getName(), dto.getDescription(), date);
     }
 
     public static Event updateEventFromDto(Event event, EventDto dto) {
+        String dateString = dto.getDate();
+        LocalDate date = dateString == null ? null : LocalDate.parse(dateString, DATE_FORMATTER);
         event.setName(dto.getName());
         event.setDescription(dto.getDescription());
-        event.setDate(LocalDate.parse(dto.getDate()));
+        event.setDate(date);
         return event;
     }
 

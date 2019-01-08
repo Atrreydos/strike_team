@@ -17,6 +17,12 @@ public class VoteDayDto implements Identifiable<Integer> {
     public VoteDayDto() {
     }
 
+    public VoteDayDto(Integer id, String day, Integer eventVotingId) {
+        this.id = id;
+        this.day = day;
+        this.eventVotingId = eventVotingId;
+    }
+
     public VoteDayDto(Integer id, String day, Integer eventVotingId, DecisionType myVote, List<VoteDto> votes) {
         this.id = id;
         this.day = day;
