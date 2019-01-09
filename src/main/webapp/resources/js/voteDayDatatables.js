@@ -4,6 +4,8 @@ const eventVotingRestUrl = "rest/event-votings/";
 let datatableApi;
 let selectDayApi;
 
+$.datetimepicker.setLocale('ru');
+
 $('#day').datetimepicker({
     timepicker: false,
     format: 'd.m.Y'
@@ -42,6 +44,11 @@ $(document).ready(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderRejectBtn
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderClearBtn
             }
         ],
         "order": [
@@ -129,6 +136,22 @@ function setRejectVote(id) {
     };
 
     setVote(vote)
+}
+
+function renderClearBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='clearVote(" + row.id + ");'><span class='fa fa-times'></span></a>";
+    }
+}
+
+function clearVote(id) {
+    $.ajax({
+        type: "DELETE",
+        url: voteRestUrl + id
+    }).done(function () {
+        updateVoteDaysTable();
+        successNoty("Cleared");
+    });
 }
 
 function setVote(vote) {

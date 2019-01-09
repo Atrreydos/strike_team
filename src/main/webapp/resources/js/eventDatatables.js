@@ -1,6 +1,9 @@
 const restUrl = "rest/events/";
 let datatableApi;
 
+//  http://xdsoft.net/jqplugins/datetimepicker/
+$.datetimepicker.setLocale('ru');
+
 $('#date').datetimepicker({
     timepicker: false,
     format: 'd.m.Y'
@@ -47,6 +50,7 @@ $(document).ready(function () {
 
 function saveEvent() {
     let newEvent = {
+        id: $("#id").val(),
         name: $("#name").val(),
         description: $("#description").val(),
         date: $("#date").val()

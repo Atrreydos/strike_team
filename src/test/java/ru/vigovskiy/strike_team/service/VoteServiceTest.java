@@ -3,6 +3,10 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import ru.vigovskiy.strike_team.AuthorizedUser;
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Vote;
@@ -16,9 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.vigovskiy.strike_team.UserTestData.USER1_ID;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
-import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1_ID;
-import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1;
-import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_2;
+import static ru.vigovskiy.strike_team.VoteDayTestData.*;
 import static ru.vigovskiy.strike_team.VoteTestData.*;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtoFromVote;
 import static ru.vigovskiy.strike_team.util.VoteUtil.createDtosFromVotes;
@@ -65,13 +67,23 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void delete() {
-        service.delete(VOTE_1_ID);
+        AuthorizedUser authorizedUser = new AuthorizedUser(USER_1);
+        Authentication auth = new TestingAuthenticationToken(authorizedUser, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        service.delete(VOTE_DAY_1_ID);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_2, VOTE_3)));
     }
 
     @Test
-    void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(0));
+    void deleteForEmptyVote() {
+        AuthorizedUser authorizedUser = new AuthorizedUser(USER_1);
+        Authentication auth = new TestingAuthenticationToken(authorizedUser, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_1, VOTE_2, VOTE_3)));
+        service.delete(2);
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_1, VOTE_2, VOTE_3)));
     }
 
     @Test

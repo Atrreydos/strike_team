@@ -14,6 +14,7 @@ import ru.vigovskiy.strike_team.repository.EventRepository;
 import ru.vigovskiy.strike_team.repository.EventVotingRepository;
 import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.service.EventVotingService;
+import ru.vigovskiy.strike_team.util.EventVotingUtil;
 import ru.vigovskiy.strike_team.util.VoteDayUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
@@ -56,9 +57,10 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     @Override
     public List<EventVotingDto> getAll() {
-        List<EventVoting> eventVotings = repository.getAll();
-
-        return createDtosFromEventVotings(eventVotings);
+        return repository.getAll().stream()
+                .map(EventVotingUtil::createDtoFromEventVoting)
+                .sorted(Comparator.comparing(EventVotingDto::getId))
+                .collect(Collectors.toList());
     }
 
     @Override

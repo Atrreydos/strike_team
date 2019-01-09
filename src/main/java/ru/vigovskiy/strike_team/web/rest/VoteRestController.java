@@ -23,10 +23,9 @@ public class VoteRestController {
         return service.createOrUpdate(dto);
     }
 
-    /*TODO сделать возможность удалять свой голос для дня в голосовании*/
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{voteDayId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id) {
-        service.delete(id);
+    public void delete(@PathVariable("voteDayId") int voteDayId) {
+        service.delete(voteDayId);
     }
 }

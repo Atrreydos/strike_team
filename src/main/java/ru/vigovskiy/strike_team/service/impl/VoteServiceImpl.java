@@ -16,9 +16,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static ru.vigovskiy.strike_team.util.VoteUtil.createDtoFromVote;
-import static ru.vigovskiy.strike_team.util.VoteUtil.createDtosFromVotes;
-import static ru.vigovskiy.strike_team.util.VoteUtil.createVoteFromDto;
+import static ru.vigovskiy.strike_team.util.VoteUtil.*;
 import static ru.vigovskiy.strike_team.web.SecurityUtil.authUserId;
 
 @Service
@@ -38,11 +36,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public VoteDto get(Integer id) throws NotFoundException {
-        Vote vote = repository.get(id);
-        if (vote == null) {
-            log.error("User with id {} not found", id);
-            throw new NotFoundException("Not found vote with id = " + id);
-        }
+        Vote vote = find(id);
         return createDtoFromVote(vote);
     }
 
@@ -60,15 +54,6 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public void delete(Integer id) throws NotFoundException {
-        boolean deleted = repository.delete(id);
-        if (!deleted) {
-            log.info("Vote with id {} not found for deleting", id);
-            throw new NotFoundException("Not found vote for deleting with id = " + id);
-        }
-    }
-
-    @Override
     public VoteDto createOrUpdate(VoteDto dto) {
         int userId = authUserId();
         Vote voteForUserByVoteDay = repository.getForUserByVoteDay(userId, dto.getVoteDayId());
@@ -78,5 +63,26 @@ public class VoteServiceImpl implements VoteService {
         dto.setUserId(userId);
 
         return create(dto);
+    }
+
+    @Override
+    public void delete(Integer voteDayId) {
+        int userId = authUserId();
+        Vote voteForUserByVoteDay = repository.getForUserByVoteDay(userId, voteDayId);
+        if (voteForUserByVoteDay == null) {
+            return;
+        }
+        repository.delete(voteForUserByVoteDay.getId());
+    }
+
+    @Override
+    public Vote find(int id) {
+        Vote vote = repository.get(id);
+        if (vote == null) {
+            log.error("Vote with id {} not found", id);
+            throw new NotFoundException("Not found vote with id = " + id);
+        }
+
+        return vote;
     }
 }
