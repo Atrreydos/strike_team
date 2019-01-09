@@ -57,8 +57,8 @@
 
                     <div class="form-group">
                         <label for="date" class="col-form-label">Дата события</label>
-                        <input type="date" class="form-control" id="date" name="date"
-                               placeholder="Дата">
+                        <input class="form-control" id="date" name="date"
+                               placeholder="Введите дату">
                     </div>
 
                 </form>

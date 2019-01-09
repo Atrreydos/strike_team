@@ -1,6 +1,11 @@
 const restUrl = "rest/events/";
 let datatableApi;
 
+$('#date').datetimepicker({
+    timepicker: false,
+    format: 'd.m.Y'
+});
+
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {
@@ -58,4 +63,3 @@ function saveEvent() {
         successNoty("Saved");
     });
 }
-

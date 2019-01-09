@@ -4,6 +4,11 @@ const eventVotingRestUrl = "rest/event-votings/";
 let datatableApi;
 let selectDayApi;
 
+$('#day').datetimepicker({
+    timepicker: false,
+    format: 'd.m.Y'
+});
+
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {

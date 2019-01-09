@@ -87,7 +87,7 @@
                 <form id="detailsForm">
                     <div class="form-group">
                         <label for="day" class="col-form-label">День</label>
-                        <input type="date" class="form-control" id="day" name="day"/>
+                        <input class="form-control" id="day" name="day" placeholder="Введите дату">
                     </div>
                     <%--<input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>--%>
                 </form>
