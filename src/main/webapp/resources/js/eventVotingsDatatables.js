@@ -27,12 +27,14 @@ $(document).ready(function () {
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderEditBtn
+                "render": renderEditBtn,
+                visible: columnVisible
             },
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderDeleteBtn
+                "render": renderDeleteBtn,
+                visible: columnVisible
             }
         ],
         "order": [

@@ -1,5 +1,10 @@
 let form = $('#detailsForm');
 
+let columnVisible = false;
+if ($('#roleAdmin').val() === 'true'){
+    columnVisible = true;
+}
+
 function makeEditable() {
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);

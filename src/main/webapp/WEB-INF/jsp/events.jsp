@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
@@ -13,10 +14,13 @@
     <div class="container">
         <h3 class="text-center"><spring:message code="event.title"/></h3>
         <br/>
-        <button class="btn btn-primary" onclick="add()">
-            <span class="fa fa-plus"></span>
-            <spring:message code="common.add"/>
-        </button>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <button class="btn btn-primary" onclick="add()">
+                <span class="fa fa-plus"></span>
+                <spring:message code="common.add"/>
+            </button>
+            <input type="hidden" id="roleAdmin" name="roleAdmin" value="true">
+        </sec:authorize>
         <br/><br/>
         <table class="table table-striped" id="datatable">
             <thead>

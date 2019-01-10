@@ -19,6 +19,7 @@
                 <span class="fa fa-plus"></span>
                 <spring:message code="common.add"/>
             </button>
+            <input type="hidden" id="roleAdmin" name="roleAdmin" value="true">
         </sec:authorize>
         <br/><br/>
         <table class="table table-striped" id="datatable">
