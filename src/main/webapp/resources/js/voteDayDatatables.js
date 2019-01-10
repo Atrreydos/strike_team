@@ -3,6 +3,7 @@ const voteRestUrl = "rest/votes/";
 const eventVotingRestUrl = "rest/event-votings/";
 let datatableApi;
 let selectDayApi;
+const eventVotingId = $("#eventVotingId").val();
 
 $.datetimepicker.setLocale('ru');
 
@@ -14,7 +15,7 @@ $('#day').datetimepicker({
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {
-            "url": restUrl + $("#eventVotingId").val(),
+            "url": restUrl + eventVotingId,
             "dataSrc": ""
         },
         "paging": false,
@@ -49,6 +50,12 @@ $(document).ready(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderClearBtn
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderDeleteDayBtn,
+                visible: columnVisible
             }
         ],
         "order": [
@@ -62,7 +69,7 @@ $(document).ready(function () {
 
     selectDayApi = $("#selectDayDatatable").DataTable({
         "ajax": {
-            "url": restUrl + $("#eventVotingId").val(),
+            "url": restUrl + eventVotingId,
             "dataSrc": ""
         },
         "paging": false,
@@ -93,7 +100,7 @@ $(document).ready(function () {
 function saveVoteDay() {
     let eventVoting = {
         day: $("#day").val(),
-        eventVotingId: $("#eventVotingId").val()
+        eventVotingId: eventVotingId
     };
 
     $.ajax({
@@ -110,13 +117,13 @@ function saveVoteDay() {
 
 function renderAcceptBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='setAcceptVote(" + row.id + ");'><span class='fa fa-check'></span></a>";
+        return "<a onclick='setAcceptVote(" + row.id + ");' title='Проголосовать за'><span class='fa fa-check'></span></a>";
     }
 }
 
 function renderRejectBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='setRejectVote(" + row.id + ");'><span class='fa fa-times'></span></a>";
+        return "<a onclick='setRejectVote(" + row.id + ");' title='Проголосовать против'><span class='fa fa-times'></span></a>";
     }
 }
 
@@ -140,7 +147,7 @@ function setRejectVote(id) {
 
 function renderClearBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='clearVote(" + row.id + ");'><span class='fa fa-times'></span></a>";
+        return "<a onclick='clearVote(" + row.id + ");' title='Очистить голос'><span class='fa fa-times'></span></a>";
     }
 }
 
@@ -175,7 +182,7 @@ function renderSelectDayBtn(data, type, row) {
 function setupDay(voteDayId) {
     $.ajax({
         type: "PUT",
-        url: eventVotingRestUrl + $("#eventVotingId").val() + "/vote-day/" + voteDayId,
+        url: eventVotingRestUrl + eventVotingId + "/vote-day/" + voteDayId,
     }).done(function () {
         $("#selectDay").modal("hide");
         location.reload();
@@ -184,11 +191,31 @@ function setupDay(voteDayId) {
 }
 
 function updateVoteDaysTable() {
-    $.get(restUrl + $("#eventVotingId").val(), updateTableByData);
+    $.get(restUrl + eventVotingId, updateTableByData);
 }
 
 function selectVoteDay() {
     $("#selectDayModalTitle").html("Выбрать день");
     $("#selectDay").modal();
+}
+
+function renderDeleteDayBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='deleteRowDay(" + row.id + ");' title='Удалить'><span class='fa fa-remove'></span></a>";
+    }
+}
+
+function deleteRowDay(id) {
+    $.ajax({
+        url: restUrl + id,
+        type: "DELETE"
+    }).done(function () {
+        updateDaysTable();
+        successNoty("Deleted");
+    });
+}
+
+function updateDaysTable() {
+    $.get(restUrl + eventVotingId, updateTableByData);
 }
 

@@ -48,16 +48,15 @@
                 <span class="fa fa-plus"></span>
                 <spring:message code="common.add"/>
             </button>
-
             <button class="btn btn-primary" onclick="">
                 <span class="fas fa-vote-yea"></span>
                 Подсчитать
             </button>
-
             <button class="btn btn-primary" onclick="selectVoteDay()">
             <span class="fas fa-vote-yea"></span>
             Выбрать
-        </button>
+            </button>
+            <input type="hidden" id="roleAdmin" name="roleAdmin" value="true">
         </sec:authorize>
         <br/><br/>
         <table class="table table-striped" id="datatable">
@@ -71,6 +70,7 @@
                 <th>ЗА</th>
                 <th>ПРОТИВ</th>
                 <th>Очистить</th>
+                <th>Удалить день</th>
             </tr>
             </thead>
         </table>
