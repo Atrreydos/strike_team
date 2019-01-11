@@ -22,12 +22,6 @@ $(document).ready(function () {
         "info": true,
         "columns": [
             {
-                "data": "id"
-            },
-            {
-                "data": "eventVotingId"
-            },
-            {
                 data: "day"
             },
             {
@@ -56,6 +50,11 @@ $(document).ready(function () {
                 "defaultContent": "",
                 "render": renderDeleteDayBtn,
                 visible: columnVisible
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderProgress
             }
         ],
         "order": [
@@ -213,6 +212,14 @@ function deleteRowDay(id) {
         updateDaysTable();
         successNoty("Deleted");
     });
+}
+
+function renderProgress(data, type, row) {
+    if (type === "display") {
+        return "<div class='progress bg-white'>" +
+            "<div class='progress-bar bg-success' role='progressbar' style='width: 25%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>" +
+            "</div>";
+    }
 }
 
 function updateDaysTable() {

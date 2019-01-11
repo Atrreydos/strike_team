@@ -12,6 +12,7 @@ import ru.vigovskiy.strike_team.service.EventVotingService;
 import ru.vigovskiy.strike_team.service.VoteDayService;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtoFromVoteDay;
@@ -45,9 +46,21 @@ public class VoteDayServiceImpl implements VoteDayService {
 
     @Override
     public VoteDayDto createOrUpdate(VoteDayDto dto) {
-        EventVoting eventVoting = eventVotingService.find(dto.getEventVotingId());
+        EventVoting eventVoting = eventVotingService.findWithVoteDays(dto.getEventVotingId());
         VoteDay voteDay = createVoteDayFromDto(dto, eventVoting);
-        voteDay = repository.save(voteDay);
+
+        if (voteDay.getId() == null) {
+            LocalDate newDay = voteDay.getDay();
+            List<VoteDay> voteDays = eventVoting.getVoteDays();
+            boolean notExistingDay = voteDays.stream().noneMatch(vd -> vd.getDay().equals(newDay));
+            if (notExistingDay) {
+                voteDay = repository.save(voteDay);
+            }
+        }
+        else {
+            voteDay = repository.save(voteDay);
+        }
+
         return createDtoFromVoteDay(voteDay);
     }
 

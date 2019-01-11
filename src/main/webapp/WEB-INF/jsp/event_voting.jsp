@@ -62,8 +62,6 @@
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>
-                <th>ID дня голосования</th>
-                <th>ID голосования</th>
                 <th>День голосования</th>
                 <th>Мое решение</th>
                 <th>Голоса</th>
@@ -71,6 +69,7 @@
                 <th>ПРОТИВ</th>
                 <th>Очистить</th>
                 <th>Удалить день</th>
+                <th>Прогресс</th>
             </tr>
             </thead>
         </table>
@@ -90,7 +89,6 @@
                         <label for="day" class="col-form-label">День</label>
                         <input class="form-control" id="day" name="day" placeholder="Введите дату">
                     </div>
-                    <%--<input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>--%>
                 </form>
             </div>
             <div class="modal-footer">
