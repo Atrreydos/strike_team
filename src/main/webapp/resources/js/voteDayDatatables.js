@@ -46,13 +46,13 @@ $(document).ready(function () {
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderDeleteDayBtn,
-                visible: columnVisible
+                "render": renderProgress
             },
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderProgress
+                "render": renderDeleteDayBtn,
+                visible: columnVisible
             }
         ],
         "order": [
@@ -114,13 +114,13 @@ function saveVoteDay() {
 
 function renderAcceptBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='setAcceptVote(" + row.id + ");' title='Проголосовать за'><span class='fa fa-check'></span></a>";
+        return "<a onclick='setAcceptVote(" + row.id + ");' title='Проголосовать за'><span class='fa fa-plus'></span></a>";
     }
 }
 
 function renderRejectBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='setRejectVote(" + row.id + ");' title='Проголосовать против'><span class='fa fa-times'></span></a>";
+        return "<a onclick='setRejectVote(" + row.id + ");' title='Проголосовать против'><span class='fa fa-minus'></span></a>";
     }
 }
 
@@ -144,7 +144,7 @@ function setRejectVote(id) {
 
 function renderClearBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='clearVote(" + row.id + ");' title='Очистить голос'><span class='fa fa-times'></span></a>";
+        return "<a onclick='clearVote(" + row.id + ");' title='Очистить голос'><span class='fa fa-eraser'></span></a>";
     }
 }
 
