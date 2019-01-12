@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.util;
 
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
+import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDtoFull;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.Vote;
@@ -43,15 +44,37 @@ public class VoteDayUtil {
                 .collect(Collectors.toList());
     }
 
-    public static Long getAcceptVotesCount(VoteDay voteDay) {
+    public static VoteDayDtoFull createDtoFullFromVoteDay(VoteDay voteDay) {
+        VoteDayDto dto = createDtoFromVoteDay(voteDay);
+        int acceptCount = getAcceptVotesCount(voteDay);
+        int rejectCount = getRejectVotesCount(voteDay);
+
+        return new VoteDayDtoFull(dto, acceptCount, rejectCount);
+    }
+
+    public static List<VoteDayDtoFull> createDtosFullFromVoteDays(List<VoteDay> voteDays) {
+        return Optional.ofNullable(voteDays).orElse(Collections.emptyList()).stream()
+                .map(VoteDayUtil::createDtoFullFromVoteDay)
+                .collect(Collectors.toList());
+    }
+
+    public static int getAcceptVotesCount(VoteDay voteDay) {
+        return getVotesCountByType(voteDay, DecisionType.ACCEPT);
+    }
+
+    public static int getRejectVotesCount(VoteDay voteDay) {
+        return getVotesCountByType(voteDay, DecisionType.REJECT);
+    }
+
+    private static int getVotesCountByType(VoteDay voteDay, DecisionType type) {
         if (voteDay == null) {
-            return 0l;
+            return 0;
         }
 
-        return Optional.ofNullable(voteDay.getVotes())
+        return (int) Optional.ofNullable(voteDay.getVotes())
                 .orElse(Collections.emptyList())
                 .stream()
-                .filter(vote -> vote.getDecisionType().equals(DecisionType.ACCEPT))
+                .filter(vote -> vote.getDecisionType().equals(type))
                 .count();
     }
 }

@@ -58,6 +58,8 @@ public class RootController extends AbstractUserController {
     public String eventVoting(@PathVariable("eventVotingId") Integer eventVotingId, ModelMap model) {
         EventVotingDtoFull eventVotingDto = eventVotingService.getWithVoteDays(eventVotingId);
         model.addAttribute("eventVotingDto", eventVotingDto);
+        int enabledCount = service.getEnabledCount();
+        model.addAttribute("enabledCount", enabledCount);
         return "event_voting";
     }
 

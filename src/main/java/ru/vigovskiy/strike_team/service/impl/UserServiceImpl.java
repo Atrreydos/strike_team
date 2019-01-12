@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public int getEnabledCount() {
+        return repository.getEnabledCount();
+    }
+
+    @Override
     public User create(UserDtoMin dto) {
         if (dto.isNew()) {
             User user = createUserFromDtoMin(dto);

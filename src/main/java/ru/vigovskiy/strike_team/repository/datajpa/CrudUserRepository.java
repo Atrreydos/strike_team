@@ -18,4 +18,6 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     User findByIdWithVotes(@Param("id") int id);
 
     User findByLogin(String login);
+
+    int countByEnabled(boolean enabled);
 }

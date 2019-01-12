@@ -14,6 +14,7 @@
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>
+<input type="hidden" id="enabledCount" name="enabledCount" value=${enabledCount}>
 
 <div class="card-deck">
     <div class="card">
@@ -64,7 +65,6 @@
             <tr>
                 <th>День голосования</th>
                 <th>Мое решение</th>
-                <th>Голоса</th>
                 <th>ЗА</th>
                 <th>ПРОТИВ</th>
                 <th>Очистить</th>

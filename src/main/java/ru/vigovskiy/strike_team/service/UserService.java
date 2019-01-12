@@ -15,6 +15,8 @@ public interface UserService {
 
     List<User> getAll();
 
+    int getEnabledCount();
+
     User create(UserDtoMin dto);
 
     User create(UserDto dto);

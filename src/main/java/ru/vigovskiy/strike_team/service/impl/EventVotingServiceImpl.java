@@ -95,10 +95,10 @@ public class EventVotingServiceImpl implements EventVotingService {
     public List<VoteDay> getMaxAcceptedDays(int eventVotingId) throws NotFoundException {
         EventVoting eventVoting = findWithVoteDays(eventVotingId);
         List<VoteDay> voteDays = eventVoting.getVoteDays();
-        Comparator<VoteDay> comparator = Comparator.comparingLong(VoteDayUtil::getAcceptVotesCount);
-        Long maxAcceptCount = getAcceptVotesCount(voteDays.stream().max(comparator).orElse(null));
+        Comparator<VoteDay> comparator = Comparator.comparingInt(VoteDayUtil::getAcceptVotesCount);
+        int maxAcceptCount = getAcceptVotesCount(voteDays.stream().max(comparator).orElse(null));
 
-        return voteDays.stream().filter(voteDay -> getAcceptVotesCount(voteDay).equals(maxAcceptCount)).collect(Collectors.toList());
+        return voteDays.stream().filter(voteDay -> getAcceptVotesCount(voteDay) == (maxAcceptCount)).collect(Collectors.toList());
     }
 
     @Override

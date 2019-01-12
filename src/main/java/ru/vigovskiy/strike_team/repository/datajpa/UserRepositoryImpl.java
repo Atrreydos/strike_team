@@ -46,4 +46,9 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> getAll() {
         return repository.findAll(SORT_LOGIN_NAME_ASC);
     }
+
+    @Override
+    public int getEnabledCount() {
+        return repository.countByEnabled(true);
+    }
 }

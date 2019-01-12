@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
+import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDtoFull;
 import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
@@ -42,8 +43,8 @@ class VoteDayServiceTest extends AbstractServiceTest {
 
     @Test
     void getForEventVoting() {
-        List<VoteDayDto> voteDayDtoList = service.getForEventVoting(EVENT_VOTING_1_ID);
-        assertThat(voteDayDtoList).usingElementComparatorIgnoringFields("votes").isEqualTo(createDtosFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3)));
+        List<VoteDayDtoFull> voteDayDtoList = service.getForEventVoting(EVENT_VOTING_1_ID);
+        assertThat(voteDayDtoList).usingElementComparatorIgnoringFields("votes").isEqualTo(createDtosFullFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3)));
     }
 
     @Test
@@ -57,7 +58,7 @@ class VoteDayServiceTest extends AbstractServiceTest {
     @Test
     void createWithSameDate() {
         assertThat(service.getForEventVoting(EVENT_VOTING_1_ID))
-                .usingElementComparatorIgnoringFields("votes").isEqualTo(createDtosFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3)));
+                .usingElementComparatorIgnoringFields("votes", "rejectCount", "acceptCount").isEqualTo(createDtosFullFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3)));
 
         VoteDayDto firstNewDto = new VoteDayDto(null, LocalDate.of(2018, 10, 10).format(DATE_FORMATTER), EVENT_VOTING_1_ID);
         VoteDayDto createdDto = service.createOrUpdate(firstNewDto);
@@ -65,12 +66,12 @@ class VoteDayServiceTest extends AbstractServiceTest {
         EventVoting eventVoting = eventVotingService.find(EVENT_VOTING_1_ID);
         VoteDay newVoteDay = createVoteDayFromDto(firstNewDto, eventVoting);
         assertThat(service.getForEventVoting(EVENT_VOTING_1_ID))
-                .usingElementComparatorIgnoringFields("votes").isEqualTo(createDtosFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3, newVoteDay)));
+                .usingElementComparatorIgnoringFields("votes", "rejectCount", "acceptCount").isEqualTo(createDtosFullFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3, newVoteDay)));
 
         VoteDayDto secondNewDto = new VoteDayDto(null, LocalDate.of(2018, 10, 10).format(DATE_FORMATTER), EVENT_VOTING_1_ID);
         service.createOrUpdate(secondNewDto);
         assertThat(service.getForEventVoting(EVENT_VOTING_1_ID))
-                .usingElementComparatorIgnoringFields("votes").isEqualTo(createDtosFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3, newVoteDay)));
+                .usingElementComparatorIgnoringFields("votes", "rejectCount", "acceptCount").isEqualTo(createDtosFullFromVoteDays(Arrays.asList(VOTE_DAY_1, VOTE_DAY_3, newVoteDay)));
     }
 
     @Test
@@ -84,7 +85,7 @@ class VoteDayServiceTest extends AbstractServiceTest {
     @Test
     void delete() {
         service.delete(VOTE_DAY_1_ID);
-        assertThat(service.getForEventVoting(EVENT_VOTING_1_ID)).isEqualTo(Collections.singletonList(createDtoFromVoteDay(VOTE_DAY_3)));
+        assertThat(service.getForEventVoting(EVENT_VOTING_1_ID)).isEqualTo(Collections.singletonList(createDtoFullFromVoteDay(VOTE_DAY_3)));
     }
 
     @Test
@@ -95,10 +96,20 @@ class VoteDayServiceTest extends AbstractServiceTest {
     @Test
     void getAcceptVotesCountTest() {
         VoteDay voteDay1 = service.find(VOTE_DAY_1_ID);
-        Long day_1_acceptVotes = getAcceptVotesCount(voteDay1);
+        int day_1_acceptVotes = getAcceptVotesCount(voteDay1);
         assertThat(day_1_acceptVotes).isEqualTo(1);
         VoteDay voteDay3 = service.find(VOTE_DAY_3_ID);
-        Long day_3_acceptVotes = getAcceptVotesCount(voteDay3);
+        int day_3_acceptVotes = getAcceptVotesCount(voteDay3);
         assertThat(day_3_acceptVotes).isEqualTo(0);
+    }
+
+    @Test
+    void getRejectVotesCountTest() {
+        VoteDay voteDay1 = service.find(VOTE_DAY_1_ID);
+        int day_1_rejectVotes = getRejectVotesCount(voteDay1);
+        assertThat(day_1_rejectVotes).isEqualTo(1);
+        VoteDay voteDay3 = service.find(VOTE_DAY_3_ID);
+        int day_3_rejectVotes = getRejectVotesCount(voteDay3);
+        assertThat(day_3_rejectVotes).isEqualTo(0);
     }
 }

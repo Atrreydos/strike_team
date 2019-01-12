@@ -13,7 +13,7 @@ import java.util.List;
 public class AbstractUserController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private UserService service;
+    public UserService service;
 
     @Autowired
     public AbstractUserController(UserService service) {

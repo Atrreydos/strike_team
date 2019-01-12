@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
+import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDtoFull;
 import ru.vigovskiy.strike_team.service.VoteDayService;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class VoteDayRestController {
     }
 
     @GetMapping(value = "/{eventVotingId}")
-    public List<VoteDayDto> getForEventVoting(@PathVariable("eventVotingId") int eventVotingId) {
+    public List<VoteDayDtoFull> getForEventVoting(@PathVariable("eventVotingId") int eventVotingId) {
         return service.getForEventVoting(eventVotingId);
     }
 

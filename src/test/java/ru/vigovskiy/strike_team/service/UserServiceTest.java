@@ -50,6 +50,12 @@ class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void getEnabledCount() {
+        int allCount = service.getEnabledCount();
+        assertThat(allCount).isEqualTo(2);
+    }
+
+    @Test
     void create() {
         User newUser = new User(null, "name", "login", "password", false, Role.ROLE_USER);
         User createdUser = service.create(createDtoMinFromUser(newUser));

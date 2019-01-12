@@ -15,4 +15,6 @@ public interface UserRepository {
     User getByLogin(String login);
 
     List<User> getAll();
+
+    int getEnabledCount();
 }

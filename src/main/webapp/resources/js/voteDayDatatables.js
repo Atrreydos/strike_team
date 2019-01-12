@@ -4,6 +4,7 @@ const eventVotingRestUrl = "rest/event-votings/";
 let datatableApi;
 let selectDayApi;
 const eventVotingId = $("#eventVotingId").val();
+const enabledCount = $("#enabledCount").val();
 
 $.datetimepicker.setLocale('ru');
 
@@ -26,9 +27,6 @@ $(document).ready(function () {
             },
             {
                 "data": "myVote"
-            },
-            {
-                "data": "votes"
             },
             {
                 "orderable": false,
@@ -217,7 +215,8 @@ function deleteRowDay(id) {
 function renderProgress(data, type, row) {
     if (type === "display") {
         return "<div class='progress bg-white'>" +
-            "<div class='progress-bar bg-success' role='progressbar' style='width: 25%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>" +
+            "<div class='progress-bar bg-success' role='progressbar' style='width: " + row.acceptCount/enabledCount * 100 + "%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>" +
+            "<div class='progress-bar bg-danger' role='progressbar' style='width: " + row.rejectCount/enabledCount * 100 + "%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>" +
             "</div>";
     }
 }

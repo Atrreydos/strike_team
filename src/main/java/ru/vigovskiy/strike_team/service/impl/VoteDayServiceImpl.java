@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
+import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDtoFull;
 import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.repository.VoteDayRepository;
@@ -15,9 +16,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtoFromVoteDay;
-import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtosFromVoteDays;
-import static ru.vigovskiy.strike_team.util.VoteDayUtil.createVoteDayFromDto;
+import static ru.vigovskiy.strike_team.util.VoteDayUtil.*;
 
 @Service
 public class VoteDayServiceImpl implements VoteDayService {
@@ -39,9 +38,9 @@ public class VoteDayServiceImpl implements VoteDayService {
     }
 
     @Override
-    public List<VoteDayDto> getForEventVoting(int eventVotingId) {
+    public List<VoteDayDtoFull> getForEventVoting(int eventVotingId) {
         List<VoteDay> voteDays = repository.getForEventVoting(eventVotingId);
-        return createDtosFromVoteDays(voteDays);
+        return createDtosFullFromVoteDays(voteDays);
     }
 
     @Override
