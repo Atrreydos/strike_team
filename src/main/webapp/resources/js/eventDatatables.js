@@ -19,10 +19,13 @@ $(document).ready(function () {
         "info": true,
         "columns": [
             {
-                "data": "name"
-            },
-            {
-                "data": "description"
+                "data": "name",
+                "render": function (data, type, row) {
+                    if (type === "display") {
+                        return "<a href=events/" + row.id + " title='Детали'>" + data + "</a>";
+                    }
+                    return data;
+                }
             },
             {
                 "data": "date"

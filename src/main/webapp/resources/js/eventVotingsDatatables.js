@@ -14,8 +14,6 @@ $(document).ready(function () {
                 "data": "event.name",
                 "render": function (data, type, row) {
                     if (type === "display") {
-                        // return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='enable($(this)," + row.id + ");'/>";
-
                         return "<a href=event-votings/" + row.id + " title='Детали'>" + data + "</a>";
                     }
                     return data;

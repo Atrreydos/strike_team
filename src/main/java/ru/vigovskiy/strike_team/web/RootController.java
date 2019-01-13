@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.support.SessionStatus;
+import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
+import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.service.EventVotingService;
 import ru.vigovskiy.strike_team.service.UserService;
 import ru.vigovskiy.strike_team.web.rest.user.AbstractUserController;
@@ -21,11 +23,13 @@ import javax.validation.Valid;
 public class RootController extends AbstractUserController {
 
     private EventVotingService eventVotingService;
+    private EventService eventService;
 
     @Autowired
-    public RootController(UserService service, EventVotingService eventVotingService) {
+    public RootController(UserService service, EventVotingService eventVotingService, EventService eventService) {
         super(service);
         this.eventVotingService = eventVotingService;
+        this.eventService = eventService;
     }
 
     @GetMapping("/")
@@ -47,6 +51,13 @@ public class RootController extends AbstractUserController {
     @GetMapping("/events")
     public String events() {
         return "events";
+    }
+
+    @GetMapping(value = "/events/{eventId}")
+    public String event(@PathVariable("eventId") Integer eventId, ModelMap model) {
+        EventDto eventDto = eventService.get(eventId);
+        model.addAttribute("eventDto", eventDto);
+        return "event";
     }
 
     @GetMapping("/event-votings")
