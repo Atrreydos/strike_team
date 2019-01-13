@@ -25,7 +25,6 @@
         <table class="table table-striped" id="datatable">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Название события</th>
                     <th>Описание события</th>
                     <th>Описание голосования</th>
