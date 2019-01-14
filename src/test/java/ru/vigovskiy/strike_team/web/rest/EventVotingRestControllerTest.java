@@ -102,6 +102,27 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void testUpdate() throws Exception {
+        EventVoting expected = EVENT_VOTING_1;
+        expected.setDescription("updated description");
+        Event event = expected.getEvent();
+        event.setName("updated name");
+        event.setDescription("updated description");
+        EventVotingDto expectedDto = createDtoFromEventVoting(expected);
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                .with(userAuth(ADMIN_1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Objects.requireNonNull(JsonUtil.convertToJson(expectedDto))))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        EventVotingDto returned = TestUtil.readFromJson(action, EventVotingDto.class);
+
+        assertThat(returned).isEqualToComparingFieldByField(expectedDto);
+        assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromEventVotings(Arrays.asList(EVENT_VOTING_1, EVENT_VOTING_2)));
+    }
+
+    @Test
     void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + EVENT_VOTING_1_ID)
                 .with(userAuth(ADMIN_1)))

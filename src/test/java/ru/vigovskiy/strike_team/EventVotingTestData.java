@@ -16,5 +16,5 @@ public class EventVotingTestData {
     public static final EventVoting EVENT_VOTING_1 = new EventVoting(EVENT_VOTING_1_ID, "Описание 1", EVENT_1);
     public static final EventVoting EVENT_VOTING_2 = new EventVoting(EVENT_VOTING_2_ID, "Описание 2", EVENT_2);
 
-    public static final List<EventVoting> EVENTS = Arrays.asList(EVENT_VOTING_1, EVENT_VOTING_2);
+    public static final List<EventVoting> EVENT_VOTINGS = Arrays.asList(EVENT_VOTING_1, EVENT_VOTING_2);
 }
