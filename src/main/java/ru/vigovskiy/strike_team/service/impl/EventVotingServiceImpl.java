@@ -65,16 +65,9 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     @Override
     public EventVotingDto createOrUpdate(EventVotingDto dto) {
-        Event event;
-        Integer eventId = dto.getEvent().getId();
-        if (eventId == null) {
-            EventDto eventDto = eventService.create(dto.getEvent());
-            dto.setEvent(eventDto);
-            event = createEventFromDto(eventDto);
-        }
-        else {
-            event = eventService.find(eventId);
-        }
+        EventDto eventDto = eventService.create(dto.getEvent());
+        Event event = createEventFromDto(eventDto);
+
         EventVoting eventVoting = createEventVotingFromDto(dto, event);
         eventVoting = repository.save(eventVoting);
 

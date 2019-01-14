@@ -31,7 +31,7 @@ public class EventVotingRestController {
     }
 
     @PostMapping
-    public EventVotingDto create(@RequestBody EventVotingDto dto) {
+    public EventVotingDto createOrUpdate(@RequestBody EventVotingDto dto) {
         return service.createOrUpdate(dto);
     }
 

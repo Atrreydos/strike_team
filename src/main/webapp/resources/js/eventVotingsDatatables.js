@@ -1,5 +1,6 @@
 const restUrl = "rest/event-votings/";
 let datatableApi;
+let editVotingForm = $('#detailsForm');
 
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
@@ -28,7 +29,7 @@ $(document).ready(function () {
             {
                 "orderable": false,
                 "defaultContent": "",
-                "render": renderEditBtn,
+                "render": renderEditVotingBtn,
                 visible: columnVisible
             },
             {
@@ -50,11 +51,13 @@ $(document).ready(function () {
 
 function saveEventVoting() {
     let eventVoting = {
+        id: $("#id").val(),
+        description: $("#description").val(),
         event: {
+            id: $("#event_id").val(),
             name: $("#event_name").val(),
             description: $("#event_description").val()
-        },
-        description: $("#description").val()
+        }
     };
 
     $.ajax({
@@ -66,6 +69,25 @@ function saveEventVoting() {
         $("#editRow").modal("hide");
         updateTable();
         successNoty("Saved");
+    });
+}
+
+function renderEditVotingBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='updateVotingRow(" + row.id + ");' title='Редактировать'><span class='fa fa-edit'></span></a>";
+    }
+}
+
+function updateVotingRow(id) {
+    $("#modalTitle").html(i18n["editTitle"]);
+
+    $.get(restUrl + id, function (data) {
+        editVotingForm.find("input[name='id']").val(data.id);
+        editVotingForm.find("input[name='description']").val(data.description);
+        editVotingForm.find("input[name='event.id']").val(data.event.id);
+        editVotingForm.find("input[name='event.name']").val(data.event.name);
+        editVotingForm.find("input[name='event.description']").val(data.event.description);
+        $('#editRow').modal();
     });
 }
 

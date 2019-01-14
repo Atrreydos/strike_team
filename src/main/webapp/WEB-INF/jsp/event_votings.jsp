@@ -46,19 +46,17 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
-
+                    <input type="hidden" id="event_id" name="event.id">
                     <div class="form-group">
                         <label for="event_name" class="col-form-label">Название события</label>
                         <input type="text" class="form-control" id="event_name" name="event.name"
                                placeholder="<spring:message code="common.name"/>">
                     </div>
-
                     <div class="form-group">
                         <label for="event_description" class="col-form-label">Описание события</label>
                         <input type="text" class="form-control" id="event_description" name="event.description"
                                placeholder="<spring:message code="event.description"/>">
                     </div>
-
                     <div class="form-group">
                         <label for="description" class="col-form-label">Описание голосования по событию</label>
                         <input type="text" class="form-control" id="description" name="description"
