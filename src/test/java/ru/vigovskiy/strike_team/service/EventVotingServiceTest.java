@@ -106,8 +106,10 @@ class EventVotingServiceTest extends AbstractServiceTest {
 
     @Test
     void deleteTest() {
+        assertThat(eventService.getAll().size()).isEqualTo(2);
         service.delete(EVENT_VOTING_1_ID);
         assertThat(service.getAll()).isEqualTo(Collections.singletonList(createDtoFromEventVoting(EVENT_VOTING_2)));
+        assertThat(eventService.getAll().size()).isEqualTo(2);
     }
 
     @Test

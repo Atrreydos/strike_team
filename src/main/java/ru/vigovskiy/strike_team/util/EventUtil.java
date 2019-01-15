@@ -10,18 +10,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.vigovskiy.strike_team.util.DateUtil.DATE_FORMATTER;
+import static ru.vigovskiy.strike_team.util.StringUtil.isNotBlank;
 
 public class EventUtil {
 
     public static Event createEventFromDto(EventDto dto) {
         String dateString = dto.getDate();
-        LocalDate date = dateString == null ? null : LocalDate.parse(dateString, DATE_FORMATTER);
+        LocalDate date = isNotBlank(dateString) ? LocalDate.parse(dateString, DATE_FORMATTER) : null;
         return new Event(dto.getId(), dto.getName(), dto.getDescription(), date);
     }
 
     public static Event updateEventFromDto(Event event, EventDto dto) {
         String dateString = dto.getDate();
-        LocalDate date = dateString == null ? null : LocalDate.parse(dateString, DATE_FORMATTER);
+        LocalDate date = isNotBlank(dateString) ? LocalDate.parse(dateString, DATE_FORMATTER) : null;
         event.setName(dto.getName());
         event.setDescription(dto.getDescription());
         event.setDate(date);
