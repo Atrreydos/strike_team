@@ -44,26 +44,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDto create(EventDto dto) {
+    public EventDto createOrUpdate(EventDto dto) {
         if (dto.isNew()) {
             Event event = createEventFromDto(dto);
             event = repository.save(event);
             return createDtoFromEvent(event);
         }
         else {
-            return update(dto);
-        }
-    }
-
-    @Override
-    public EventDto update(EventDto dto) {
-        if (!dto.isNew()) {
             Event event = repository.get(dto.getId());
             event = repository.save(EventUtil.updateEventFromDto(event, dto));
             return createDtoFromEvent(event);
-        }
-        else {
-            return create(dto);
         }
     }
 

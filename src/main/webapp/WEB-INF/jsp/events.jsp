@@ -17,7 +17,7 @@
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <button class="btn btn-primary" onclick="add()">
                 <span class="fa fa-plus"></span>
-                <spring:message code="common.add"/>
+                Создать событие
             </button>
             <input type="hidden" id="roleAdmin" name="roleAdmin" value="true">
         </sec:authorize>

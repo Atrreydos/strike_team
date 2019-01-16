@@ -32,13 +32,13 @@ public class EventRestController {
 
     @PostMapping
     public EventDto create(@RequestBody EventDto eventDto) {
-        return service.create(eventDto);
+        return service.createOrUpdate(eventDto);
     }
 
     @PutMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@RequestBody EventDto eventDto) {
-        service.update(eventDto);
+        service.createOrUpdate(eventDto);
     }
 
     @DeleteMapping(value = "/{id}")
