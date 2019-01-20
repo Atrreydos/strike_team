@@ -26,7 +26,10 @@ $(document).ready(function () {
                 data: "day"
             },
             {
-                "data": "myVote"
+                "orderable": false,
+                "data": "myVote",
+                "defaultContent": "",
+                "render": renderMyVote
             },
             {
                 "orderable": false,
@@ -76,7 +79,9 @@ $(document).ready(function () {
                 "data": "day"
             },
             {
-                "data": "votes"
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderProgress
             },
             {
                 "orderable": false,
@@ -214,10 +219,25 @@ function deleteRowDay(id) {
 
 function renderProgress(data, type, row) {
     if (type === "display") {
+        let accPercent = row.acceptCount / enabledCount * 100;
+        let rejPercent = row.rejectCount / enabledCount * 100;
         return "<div class='progress bg-white'>" +
-            "<div class='progress-bar bg-success' role='progressbar' style='width: " + row.acceptCount/enabledCount * 100 + "%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>" +
-            "<div class='progress-bar bg-danger' role='progressbar' style='width: " + row.rejectCount/enabledCount * 100 + "%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>" +
+            "<div class='progress-bar bg-success' role='progressbar' style='width: " + accPercent + "%'></div>" +
+            "<div class='progress-bar bg-danger' role='progressbar' style='width: " + rejPercent + "%'></div>" +
             "</div>";
+    }
+}
+
+function renderMyVote(data, type, row) {
+    if (type === "display") {
+        if (data != null) {
+            if (data == "ACCEPT") {
+                return "<span class='w-75 badge badge-success'>За</span>"
+            }
+            if (data == "REJECT") {
+                return "<span class='w-75 badge badge-danger'>Против</span>"
+            }
+        }
     }
 }
 
