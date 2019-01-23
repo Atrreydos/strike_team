@@ -219,11 +219,11 @@ function deleteRowDay(id) {
 
 function renderProgress(data, type, row) {
     if (type === "display") {
-        let accPercent = row.acceptCount / enabledCount * 100;
-        let rejPercent = row.rejectCount / enabledCount * 100;
+        let accPercent = (row.acceptCount / enabledCount * 100).toFixed(0);
+        let rejPercent = (row.rejectCount / enabledCount * 100).toFixed(0);
         return "<div class='progress bg-white'>" +
-            "<div class='progress-bar bg-success' role='progressbar' style='width: " + accPercent + "%'></div>" +
-            "<div class='progress-bar bg-danger' role='progressbar' style='width: " + rejPercent + "%'></div>" +
+            "<div class='progress-bar bg-success' role='progressbar' style='width: " + accPercent + "%'>" + accPercent + "%</div>" +
+            "<div class='progress-bar bg-danger' role='progressbar' style='width: " + rejPercent + "%'>" + rejPercent + "%</div>" +
             "</div>";
     }
 }
