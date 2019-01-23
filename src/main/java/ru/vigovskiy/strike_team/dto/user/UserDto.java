@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.dto.user;
 
 import ru.vigovskiy.strike_team.model.Enums.Role;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class UserDto extends UserDtoMin {
@@ -23,5 +24,12 @@ public class UserDto extends UserDtoMin {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+        roles.add(role);
     }
 }

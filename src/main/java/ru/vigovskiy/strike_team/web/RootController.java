@@ -12,6 +12,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
+import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.service.EventVotingService;
 import ru.vigovskiy.strike_team.service.UserService;
@@ -105,6 +106,7 @@ public class RootController extends AbstractUserController {
             model.addAttribute("register", true);
             return "profile";
         } else {
+            userDto.addRole(Role.ROLE_USER);
             super.create(userDto);
             status.setComplete();
             return "redirect:login?message=app.registered&username=" + userDto.getLogin();
