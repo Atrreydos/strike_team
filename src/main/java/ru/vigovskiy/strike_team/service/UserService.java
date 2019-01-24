@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    User get(int id) throws NotFoundException;
+    UserDto get(int id) throws NotFoundException;
 
     User getByLogin(String login) throws NotFoundException;
 
@@ -28,4 +28,6 @@ public interface UserService {
     void delete(int id) throws NotFoundException;
 
     void setEnabled(int id, boolean enabled);
+
+    User findById(int id) throws NotFoundException;
 }

@@ -47,4 +47,8 @@ public class UserUtil {
         user.setPassword(StringUtils.isEmpty(password) ? password : passwordEncoder.encode(password));
         return user;
     }
+
+    public static User copy(User original) {
+        return new User(original.getId(), original.getName(), original.getLogin(), original.getPassword(), original.getRoles());
+    }
 }

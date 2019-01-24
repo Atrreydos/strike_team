@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.UserTestData.*;
+import static ru.vigovskiy.strike_team.util.UserUtil.copy;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
 import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
 
@@ -50,12 +51,14 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGet() throws Exception {
+        User expected = copy(USER_1);
+        expected.setPassword("{noop}password");
         mockMvc.perform(get(REST_URL + USER1_ID)
                 .with(userAuth(ADMIN_1)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(convertToJson(USER_1)));
+                .andExpect(content().json(convertToJson(createDtoFromUser(expected))));
     }
 
     @Test
@@ -108,7 +111,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
-        User expected = service.get(USER1_ID);
+        User expected = service.findById(USER1_ID);
         expected.setName("updated name");
         expected.setLogin("updated login");
         expected.setPassword("updated Password");

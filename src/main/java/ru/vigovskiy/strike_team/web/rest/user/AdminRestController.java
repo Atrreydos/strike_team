@@ -1,5 +1,7 @@
 package ru.vigovskiy.strike_team.web.rest.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,37 +18,41 @@ import static ru.vigovskiy.strike_team.util.ValidationUtil.getErrorResponse;
 @RestController
 @RequestMapping(AdminRestController.REST_URL)
 public class AdminRestController extends AbstractUserController {
+    private final Logger log = LoggerFactory.getLogger(getClass());
     static final String REST_URL = "/rest/admin/users";
 
     public AdminRestController(UserService service) {
         super(service);
     }
 
-    @Override
     @GetMapping(value = "/{id}")
-    public User get(@PathVariable("id") int id) {
-        return super.get(id);
+    public UserDto get(@PathVariable("id") int id) {
+        log.info("get {}", id);
+        return service.get(id);
     }
 
-    @Override
     @GetMapping(value = "by/login/{login}")
     public User getByLogin(@PathVariable("login") String login) {
-        return super.getByLogin(login);
+        log.info("getByLogin {}", login);
+        return service.getByLogin(login);
     }
 
-    @Override
     @GetMapping
     public List<User> getAll() {
-        return super.getAll();
+        log.info("getAll");
+        return service.getAll();
     }
 
     /*TODO без @RequestBody не проходят тесты, а с ним не работает на Томкате*/
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody UserDto dto, BindingResult result) {
+        log.info("create {}", dto);
         if (result.hasErrors()) {
             return getErrorResponse(result);
         }
-        return new ResponseEntity<>(super.create(dto), HttpStatus.OK);
+        User user = service.create(dto);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /*TODO не полуается сделать AJAX запрос через PUT*/
@@ -57,17 +63,17 @@ public class AdminRestController extends AbstractUserController {
         super.update(dto);
     }
 
-    @Override
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PostMapping("/{id}/enabled")
     public void setEnabled(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
-        super.setEnabled(id, enabled);
+        log.info(enabled ? "enable {}" : "disable {}", id);
+        service.setEnabled(id, enabled);
     }
 
-    @Override
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
-        super.delete(id);
+        log.info("delete {}", id);
+        service.delete(id);
     }
 }

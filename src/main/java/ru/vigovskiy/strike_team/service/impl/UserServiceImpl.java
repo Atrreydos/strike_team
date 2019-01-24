@@ -20,9 +20,7 @@ import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDto;
-import static ru.vigovskiy.strike_team.util.UserUtil.createUserFromDtoMin;
-import static ru.vigovskiy.strike_team.util.UserUtil.prepareToSave;
+import static ru.vigovskiy.strike_team.util.UserUtil.*;
 
 /*TODO сделать тип возвращаемы на DTO*/
 @Service
@@ -40,13 +38,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User get(int id) throws NotFoundException {
+    public UserDto get(int id) throws NotFoundException {
         User user = repository.get(id);
         if (user == null) {
             log.error("User with id {} not found", id);
             throw new NotFoundException("Not found user with id = " + id);
         }
-        return user;
+        return createDtoFromUser(user);
     }
 
     @Override
@@ -95,7 +93,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User update(UserDtoMin dto) {
         if (!dto.isNew()) {
-            User user = UserUtil.updateUserFromDtoMin(get(dto.getId()), dto);
+            User user = findById(dto.getId());
+            UserUtil.updateUserFromDtoMin(user, dto);
             return repository.save(prepareToSave(user, passwordEncoder));
         }
         else {
@@ -107,7 +106,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User update(UserDto dto) {
         if (!dto.isNew()) {
-            User user = UserUtil.updateUserFromDto(get(dto.getId()), dto);
+            User user = findById(dto.getId());
+            UserUtil.updateUserFromDto(user, dto);
             return repository.save(prepareToSave(user, passwordEncoder));
         }
         else {
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void setEnabled(int id, boolean enabled) {
-        User user = get(id);
+        User user = findById(id);
         user.setEnabled(enabled);
         repository.save(user);
     }
@@ -139,5 +139,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("User " + login + " is not found");
         }
         return new AuthorizedUser(user);
+    }
+
+    @Override
+    public User findById(int id) throws NotFoundException {
+        User user = repository.get(id);
+        if (user == null) {
+            log.error("User with id {} not found", id);
+            throw new NotFoundException("Not found user with id = " + id);
+        }
+        return user;
     }
 }

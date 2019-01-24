@@ -32,4 +32,22 @@ public class UserDto extends UserDtoMin {
         }
         roles.add(role);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDto)) return false;
+        if (!super.equals(o)) return false;
+
+        UserDto userDto = (UserDto) o;
+
+        return roles != null ? roles.equals(userDto.roles) : userDto.roles == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        return result;
+    }
 }

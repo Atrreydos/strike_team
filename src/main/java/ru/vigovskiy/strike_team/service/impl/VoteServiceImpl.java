@@ -47,7 +47,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public VoteDto create(VoteDto dto) {
-        User user = userService.get(dto.getUserId());
+        User user = userService.findById(dto.getUserId());
         VoteDay voteDay = voteDayService.find(dto.getVoteDayId());
         Vote vote = createVoteFromDto(dto, user, voteDay);
         return createDtoFromVote(repository.save(vote));
