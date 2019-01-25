@@ -31,7 +31,8 @@ public class UserUtil {
     }
 
     public static UserDto createDtoFromUser(User user) {
-        return new UserDto(user.getId(), user.getName(), user.getLogin(), user.getPassword(), user.getRoles());
+        boolean isAdmin = user.getRoles() != null && user.getRoles().stream().anyMatch(role -> role.equals(Role.ROLE_ADMIN));
+        return new UserDto(user.getId(), user.getName(), user.getLogin(), user.getPassword(), user.getRoles(), user.isEnabled(), isAdmin);
     }
 
     public static User updateUserFromDto(User user, UserDto dto) {
@@ -49,6 +50,6 @@ public class UserUtil {
     }
 
     public static User copy(User original) {
-        return new User(original.getId(), original.getName(), original.getLogin(), original.getPassword(), original.getRoles());
+        return new User(original.getId(), original.getName(), original.getLogin(), original.getPassword(), original.isEnabled(), original.getRoles());
     }
 }

@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return repository.getEnabledCount();
     }
 
+    @Transactional
     @Override
     public User create(UserDtoMin dto) {
         if (dto.isNew()) {
@@ -78,11 +79,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Transactional
     @Override
-    public User create(UserDto dto) {
+    public UserDto create(UserDto dto) {
         if (dto.isNew()) {
             User user = createUserFromDto(dto);
-            return repository.save(prepareToSave(user, passwordEncoder));
+            user = repository.save(prepareToSave(user, passwordEncoder));
+            return createDtoFromUser(user);
         }
         else {
             return update(dto);
@@ -104,17 +107,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public User update(UserDto dto) {
+    public UserDto update(UserDto dto) {
         if (!dto.isNew()) {
             User user = findById(dto.getId());
             UserUtil.updateUserFromDto(user, dto);
-            return repository.save(prepareToSave(user, passwordEncoder));
+            user = repository.save(prepareToSave(user, passwordEncoder));
+            return createDtoFromUser(user);
         }
         else {
             return create(dto);
         }
     }
 
+    @Transactional
     @Override
     public void delete(int id) throws NotFoundException {
         boolean deleted = repository.delete(id);

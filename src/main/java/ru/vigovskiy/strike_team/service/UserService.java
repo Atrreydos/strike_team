@@ -19,11 +19,11 @@ public interface UserService {
 
     User create(UserDtoMin dto);
 
-    User create(UserDto dto);
+    UserDto create(UserDto dto);
 
     User update(UserDtoMin dto);
 
-    User update(UserDto dto);
+    UserDto update(UserDto dto);
 
     void delete(int id) throws NotFoundException;
 

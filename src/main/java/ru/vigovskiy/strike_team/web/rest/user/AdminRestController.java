@@ -43,16 +43,15 @@ public class AdminRestController extends AbstractUserController {
         return service.getAll();
     }
 
-    /*TODO без @RequestBody не проходят тесты, а с ним не работает на Томкате*/
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody UserDto dto, BindingResult result) {
         log.info("create {}", dto);
         if (result.hasErrors()) {
             return getErrorResponse(result);
         }
-        User user = service.create(dto);
+        UserDto userDto = service.create(dto);
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     /*TODO не полуается сделать AJAX запрос через PUT*/

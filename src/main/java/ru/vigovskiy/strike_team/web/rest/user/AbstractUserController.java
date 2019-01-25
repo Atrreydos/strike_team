@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
-import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
 public class AbstractUserController {
@@ -22,7 +21,7 @@ public class AbstractUserController {
         service.update(dto);
     }
 
-    public User create(UserDto dto) {
+    public UserDto create(UserDto dto) {
         log.info("create {}", dto);
         return service.create(dto);
     }

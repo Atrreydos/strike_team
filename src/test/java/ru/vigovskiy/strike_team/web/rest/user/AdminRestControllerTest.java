@@ -93,37 +93,38 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        User expected = new User(null, "new name", "new login", "new password", false, Role.ROLE_USER, Role.ROLE_ADMIN);
-        UserDto dto = createDtoFromUser(expected);
+        User newUser = new User(null, "new name", "new login", "new password", false, Role.ROLE_USER, Role.ROLE_ADMIN);
+        UserDto expectedDto = createDtoFromUser(newUser);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .with(userAuth(ADMIN_1))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(JsonUtil.convertToJson(dto))))
-                .andDo(print())
+                .content(Objects.requireNonNull(JsonUtil.convertToJson(expectedDto))))
                 .andExpect(status().isOk());
 
-        User returned = TestUtil.readFromJson(action, User.class);
-        expected.setId(returned.getId());
+        UserDto returnedDto = TestUtil.readFromJson(action, UserDto.class);
+        newUser.setId(returnedDto.getId());
+        expectedDto.setId(returnedDto.getId());
 
-        assertThat(returned).isEqualToIgnoringGivenFields(expected, "password");
-        assertThat(service.getAll()).isEqualTo(Arrays.asList(ADMIN_1, expected, USER_1));
+        assertThat(returnedDto).isEqualToIgnoringGivenFields(expectedDto, "password");
+        assertThat(service.getAll()).isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
     }
 
     @Test
     void update() throws Exception {
-        User expected = service.findById(USER1_ID);
-        expected.setName("updated name");
-        expected.setLogin("updated login");
-        expected.setPassword("updated Password");
-        expected.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
-        UserDto dto = createDtoFromUser(expected);
+        User user = service.findById(USER1_ID);
+        user.setName("updated name");
+        user.setLogin("updated login");
+        user.setPassword("updated Password");
+        user.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
+        UserDto expectedUser = createDtoFromUser(user);
         mockMvc.perform(put(REST_URL)
                 .with(userAuth(ADMIN_1))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(JsonUtil.convertToJson(dto))))
+                .content(Objects.requireNonNull(JsonUtil.convertToJson(expectedUser))))
                 .andExpect(status().isNoContent());
 
-        assertThat(service.get(USER1_ID)).isEqualToIgnoringGivenFields(expected, "votes", "password");
+        UserDto actualUser = service.get(USER1_ID);
+        assertThat(actualUser).isEqualToIgnoringGivenFields(expectedUser, "password");
     }
 
     @Test
