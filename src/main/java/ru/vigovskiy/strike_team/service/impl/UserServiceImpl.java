@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.AuthorizedUser;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
 import ru.vigovskiy.strike_team.dto.user.UserDtoMin;
+import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.repository.UserRepository;
 import ru.vigovskiy.strike_team.service.UserService;
@@ -134,6 +135,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void setEnabled(int id, boolean enabled) {
         User user = findById(id);
         user.setEnabled(enabled);
+        repository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public void setAdmin(int id, boolean admin) {
+        User user = findById(id);
+        if (admin) {
+            user.addRole(Role.ROLE_ADMIN);
+        }
+        else {
+            user.getRoles().remove(Role.ROLE_ADMIN);
+        }
         repository.save(user);
     }
 

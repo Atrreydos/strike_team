@@ -29,5 +29,7 @@ public interface UserService {
 
     void setEnabled(int id, boolean enabled);
 
+    void setAdmin(int id, boolean admin);
+
     User findById(int id) throws NotFoundException;
 }

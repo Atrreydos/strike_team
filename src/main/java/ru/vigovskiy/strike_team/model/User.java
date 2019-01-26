@@ -123,6 +123,13 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : roles;
     }
 
+    public void addRole(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+        roles.add(role);
+    }
+
     public boolean isEnabled() {
         return enabled;
     }

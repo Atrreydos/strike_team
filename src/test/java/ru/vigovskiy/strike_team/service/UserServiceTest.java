@@ -108,4 +108,12 @@ class UserServiceTest extends AbstractServiceTest {
         service.setEnabled(USER1_ID, false);
         assertFalse(service.findById(USER1_ID).isEnabled());
     }
+
+    @Test
+    void setAdmin() {
+        service.setAdmin(USER1_ID, true);
+        assertTrue(service.findById(USER1_ID).getRoles().contains(Role.ROLE_ADMIN));
+        service.setAdmin(USER1_ID, false);
+        assertFalse(service.findById(USER1_ID).getRoles().contains(Role.ROLE_ADMIN));
+    }
 }
