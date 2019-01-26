@@ -16,6 +16,21 @@ function enable(chkbox, id) {
     });
 }
 
+function admin(chkbox, id) {
+    let enabled = chkbox.is(":checked");
+//  https://stackoverflow.com/a/22213543/548473
+    $.ajax({
+        url: restUrl + id + "/enabled",
+        type: "POST",
+        data: "enabled=" + enabled
+    }).done(function () {
+        chkbox.closest("tr").attr("data-userEnabled", enabled);
+        successNoty(enabled ? "Enabled" : "Disabled");
+    }).fail(function () {
+        $(chkbox).prop("checked", !enabled);
+    });
+}
+
 $(document).ready(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {
@@ -41,10 +56,10 @@ $(document).ready(function () {
                 }
             },
             {
-                "data": "enabled",
+                "data": "admin",
                 "render": function (data, type, row) {
                     if (type === "display") {
-                        return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='enable($(this)," + row.id + ");'/>";
+                        return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='admin($(this)," + row.id + ");'/>";
                     }
                     return data;
                 }

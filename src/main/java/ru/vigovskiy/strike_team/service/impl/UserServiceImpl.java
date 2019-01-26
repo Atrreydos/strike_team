@@ -59,8 +59,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<User> getAll() {
-        return repository.getAll();
+    public List<UserDto> getAll() {
+        List<User> users = repository.getAll();
+        return createDtosFromUsers(users);
     }
 
     @Override

@@ -8,6 +8,9 @@ import ru.vigovskiy.strike_team.model.Enums.Role;
 import ru.vigovskiy.strike_team.model.User;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserUtil {
 
@@ -32,6 +35,11 @@ public class UserUtil {
 
     public static UserDto createDtoFromUser(User user) {
         return new UserDto(user.getId(), user.getName(), user.getLogin(), user.getPassword(), user.getRoles(), user.isEnabled(), user.isAdmin());
+    }
+
+    public static List<UserDto> createDtosFromUsers(List<User> users) {
+        return Optional.ofNullable(users).orElse(Collections.emptyList()).stream()
+                .map(UserUtil::createDtoFromUser).collect(Collectors.toList());
     }
 
     public static User updateUserFromDto(User user, UserDto dto) {

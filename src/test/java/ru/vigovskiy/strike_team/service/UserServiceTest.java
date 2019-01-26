@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoMinFromUser;
+import static ru.vigovskiy.strike_team.util.UserUtil.createDtosFromUsers;
 
 class UserServiceTest extends AbstractServiceTest {
 
@@ -55,8 +56,8 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void getAll() {
-        List<User> users = service.getAll();
-        assertThat(users).usingElementComparatorIgnoringFields("votes", "password").isEqualTo(USERS);
+        List<UserDto> userDtos = service.getAll();
+        assertThat(userDtos).usingElementComparatorIgnoringFields("password").isEqualTo(createDtosFromUsers(USERS));
     }
 
     @Test

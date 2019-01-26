@@ -38,7 +38,7 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @GetMapping
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         log.info("getAll");
         return service.getAll();
     }

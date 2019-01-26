@@ -22,6 +22,7 @@ import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.UserTestData.*;
 import static ru.vigovskiy.strike_team.util.UserUtil.copy;
 import static ru.vigovskiy.strike_team.util.UserUtil.createDtoFromUser;
+import static ru.vigovskiy.strike_team.util.UserUtil.createDtosFromUsers;
 import static ru.vigovskiy.strike_team.web.json.JsonUtil.convertToJson;
 
 
@@ -101,7 +102,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expectedDto.setId(returnedDto.getId());
 
         assertThat(returnedDto).isEqualToIgnoringGivenFields(expectedDto, "password");
-        assertThat(service.getAll()).isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("password").isEqualTo(createDtosFromUsers(Arrays.asList(ADMIN_1, newUser, USER_1)));
     }
 
     @Test

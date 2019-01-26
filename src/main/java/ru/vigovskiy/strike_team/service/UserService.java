@@ -13,7 +13,7 @@ public interface UserService {
 
     User getByLogin(String login) throws NotFoundException;
 
-    List<User> getAll();
+    List<UserDto> getAll();
 
     int getEnabledCount();
 
