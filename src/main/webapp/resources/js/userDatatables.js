@@ -17,15 +17,13 @@ function enable(chkbox, id) {
 }
 
 function admin(chkbox, id) {
-    let enabled = chkbox.is(":checked");
-//  https://stackoverflow.com/a/22213543/548473
+    let admin = chkbox.is(":checked");
     $.ajax({
-        url: restUrl + id + "/enabled",
+        url: restUrl + id + "/admin",
         type: "POST",
-        data: "enabled=" + enabled
+        data: "admin=" + admin
     }).done(function () {
-        chkbox.closest("tr").attr("data-userEnabled", enabled);
-        successNoty(enabled ? "Enabled" : "Disabled");
+        successNoty(admin ? "Set admin" : "Set not admin");
     }).fail(function () {
         $(chkbox).prop("checked", !enabled);
     });
