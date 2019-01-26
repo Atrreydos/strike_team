@@ -130,6 +130,10 @@ public class User extends AbstractNamedEntity implements Identifiable<Integer> {
         roles.add(role);
     }
 
+    public boolean isAdmin() {
+       return (getRoles() != null && getRoles().stream().anyMatch(role -> role.equals(Role.ROLE_ADMIN)));
+    }
+
     public boolean isEnabled() {
         return enabled;
     }

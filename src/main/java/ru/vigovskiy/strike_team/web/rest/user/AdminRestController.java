@@ -70,6 +70,13 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @PostMapping("/{id}/admin")
+    public void setAdmin(@PathVariable("id") int id, @RequestParam("admin") boolean admin) {
+        log.info(admin ? "make admin {}" : "make not admin {}", id);
+        service.setAdmin(id, admin);
+    }
+
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         log.info("delete {}", id);

@@ -12,10 +12,7 @@ import ru.vigovskiy.strike_team.service.UserService;
 import ru.vigovskiy.strike_team.web.AbstractControllerTest;
 import ru.vigovskiy.strike_team.web.json.JsonUtil;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,7 +52,6 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expected.setPassword("{noop}password");
         mockMvc.perform(get(REST_URL + USER1_ID)
                 .with(userAuth(ADMIN_1)))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(convertToJson(createDtoFromUser(expected))));
@@ -66,8 +62,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + 0)
                 .with(userAuth(ADMIN_1)))
                 .andDo(print())
-                .andExpect(status().isNotFound())
-                .andDo(print());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -142,6 +137,54 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userAuth(ADMIN_1)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
+    }
+
+    @Test
+    void testSetEnabled() throws Exception {
+        User user = service.findById(USER1_ID);
+        assertThat(user.isEnabled()).isTrue();
+
+        mockMvc.perform(post(REST_URL + USER1_ID + "/enabled")
+                .with(userAuth(ADMIN_1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("enabled", "false"))
+                .andExpect(status().isNoContent());
+
+        user = service.findById(USER1_ID);
+        assertThat(user.isEnabled()).isFalse();
+
+        mockMvc.perform(post(REST_URL + USER1_ID + "/enabled")
+                .with(userAuth(ADMIN_1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("enabled", "true"))
+                .andExpect(status().isNoContent());
+
+        user = service.findById(USER1_ID);
+        assertThat(user.isEnabled()).isTrue();
+    }
+
+    @Test
+    void testSetAdmin() throws Exception {
+        User user = service.findById(USER1_ID);
+        assertThat(user.isAdmin()).isFalse();
+
+        mockMvc.perform(post(REST_URL + USER1_ID + "/admin")
+                .with(userAuth(ADMIN_1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("admin", "true"))
+                .andExpect(status().isNoContent());
+
+        user = service.findById(USER1_ID);
+        assertThat(user.isAdmin()).isTrue();
+
+        mockMvc.perform(post(REST_URL + USER1_ID + "/admin")
+                .with(userAuth(ADMIN_1))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("admin", "false"))
+                .andExpect(status().isNoContent());
+
+        user = service.findById(USER1_ID);
+        assertThat(user.isAdmin()).isFalse();
     }
 
 //    @Test
