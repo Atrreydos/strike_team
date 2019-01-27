@@ -49,13 +49,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getByLogin(String login) throws NotFoundException {
+    public UserDto getByLogin(String login) throws NotFoundException {
         User user = repository.getByLogin(login);
         if (user == null) {
             log.info("User with login {} not found", login);
             throw new NotFoundException("Not found user with login = " + login);
         }
-        return user;
+        return createDtoFromUser(user);
     }
 
     @Override
@@ -71,10 +71,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public User create(UserDtoMin dto) {
+    public UserDto create(UserDtoMin dto) {
         if (dto.isNew()) {
             User user = createUserFromDtoMin(dto);
-            return repository.save(prepareToSave(user, passwordEncoder));
+            return createDtoFromUser(repository.save(prepareToSave(user, passwordEncoder)));
         }
         else {
             return update(dto);
@@ -96,11 +96,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public User update(UserDtoMin dto) {
+    public UserDto update(UserDtoMin dto) {
         if (!dto.isNew()) {
             User user = findById(dto.getId());
             UserUtil.updateUserFromDtoMin(user, dto);
-            return repository.save(prepareToSave(user, passwordEncoder));
+            return createDtoFromUser(repository.save(prepareToSave(user, passwordEncoder)));
         }
         else {
             return create(dto);

@@ -11,17 +11,17 @@ public interface UserService {
 
     UserDto get(int id) throws NotFoundException;
 
-    User getByLogin(String login) throws NotFoundException;
+    UserDto getByLogin(String login) throws NotFoundException;
 
     List<UserDto> getAll();
 
     int getEnabledCount();
 
-    User create(UserDtoMin dto);
+    UserDto create(UserDtoMin dto);
 
     UserDto create(UserDto dto);
 
-    User update(UserDtoMin dto);
+    UserDto update(UserDtoMin dto);
 
     UserDto update(UserDto dto);
 

@@ -68,23 +68,31 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByLogin() throws Exception {
-        mockMvc.perform(get(REST_URL + "by/login/" +USER_1.getLogin())
+        User copy = copy(USER_1);
+        copy.setPassword("{noop}password");
+
+        mockMvc.perform(get(REST_URL + "by-login/" +USER_1.getLogin())
                 .with(userAuth(ADMIN_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(convertToJson(USER_1)));
+                .andExpect(content().json(convertToJson(createDtoFromUser(copy))));
     }
 
     @Test
     void getAll() throws Exception {
+        User userCopy = copy(USER_1);
+        User adminCopy = copy(ADMIN_1);
+        userCopy.setPassword("{noop}password");
+        adminCopy.setPassword("{noop}password");
+
         mockMvc.perform(get(REST_URL )
                 .with(userAuth(ADMIN_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(convertToJson(USERS)));
+                .andExpect(content().json(convertToJson(createDtosFromUsers(Arrays.asList(userCopy, adminCopy)))));
     }
 
     @Test

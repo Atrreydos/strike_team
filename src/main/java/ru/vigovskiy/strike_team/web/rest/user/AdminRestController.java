@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vigovskiy.strike_team.dto.user.UserDto;
-import ru.vigovskiy.strike_team.model.User;
 import ru.vigovskiy.strike_team.service.UserService;
 
 import javax.validation.Valid;
@@ -31,8 +30,8 @@ public class AdminRestController extends AbstractUserController {
         return service.get(id);
     }
 
-    @GetMapping(value = "by/login/{login}")
-    public User getByLogin(@PathVariable("login") String login) {
+    @GetMapping(value = "by-login/{login}")
+    public UserDto getByLogin(@PathVariable("login") String login) {
         log.info("getByLogin {}", login);
         return service.getByLogin(login);
     }

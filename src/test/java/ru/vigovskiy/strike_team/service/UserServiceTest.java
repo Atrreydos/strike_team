@@ -45,8 +45,8 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void getByLogin() {
-        User user = service.getByLogin("user1_login");
-        assertThat(user).isEqualToIgnoringGivenFields(USER_1, "votes", "password");
+        UserDto userDto = service.getByLogin("user1_login");
+        assertThat(userDto).isEqualToIgnoringGivenFields(createDtoFromUser(USER_1), "password");
     }
 
     @Test
@@ -69,10 +69,10 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void create() {
         User newUser = new User(null, "name", "login", "password", false, Role.ROLE_USER);
-        User createdUser = service.create(createDtoMinFromUser(newUser));
-        newUser.setId(createdUser.getId());
-        assertThat(newUser).isEqualToIgnoringGivenFields(createdUser, "password");
-        assertThat(service.getAll()).usingElementComparatorIgnoringFields("votes", "password").isEqualTo(Arrays.asList(ADMIN_1, newUser, USER_1));
+        UserDto createdDto = service.create(createDtoMinFromUser(newUser));
+        newUser.setId(createdDto.getId());
+        assertThat(createDtoFromUser(newUser)).isEqualToIgnoringGivenFields(createdDto, "password");
+        assertThat(service.getAll()).usingElementComparatorIgnoringFields("password").isEqualTo(createDtosFromUsers(Arrays.asList(ADMIN_1, newUser, USER_1)));
     }
 
     @Test
