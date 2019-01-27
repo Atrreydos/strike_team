@@ -35,6 +35,8 @@
             <p class="card-text">${eventVotingDto.id}</p>
             <h6 class="card-subtitle">Описание голосования</h6>
             <p class="card-text">${eventVotingDto.description}</p>
+            <h6 class="card-subtitle">Статус голосования</h6>
+            <p class="card-text">${eventVotingDto.status}</p>
         </div>
     </div>
 </div>

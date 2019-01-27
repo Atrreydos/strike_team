@@ -27,6 +27,9 @@ $(document).ready(function () {
                 "data": "description"
             },
             {
+                "data": "status"
+            },
+            {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderEditVotingBtn,
@@ -50,9 +53,12 @@ $(document).ready(function () {
 });
 
 function saveEventVoting() {
+    let currentStatus = $("#status").val() == "" ? null : $("#status").val();
+
     let eventVoting = {
         id: $("#id").val(),
         description: $("#description").val(),
+        status: currentStatus,
         event: {
             id: $("#event_id").val(),
             name: $("#event_name").val(),
@@ -84,6 +90,7 @@ function updateVotingRow(id) {
     $.get(restUrl + id, function (data) {
         editVotingForm.find("input[name='id']").val(data.id);
         editVotingForm.find("input[name='description']").val(data.description);
+        editVotingForm.find("input[name='status']").val(data.status);
         editVotingForm.find("input[name='event.id']").val(data.event.id);
         editVotingForm.find("input[name='event.name']").val(data.event.name);
         editVotingForm.find("input[name='event.description']").val(data.event.description);

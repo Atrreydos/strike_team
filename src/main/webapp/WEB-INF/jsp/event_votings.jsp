@@ -28,6 +28,7 @@
                     <th>Название события</th>
                     <th>Описание события</th>
                     <th>Описание голосования</th>
+                    <th>Статус голосования</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -46,6 +47,7 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="status" name="status">
                     <input type="hidden" id="event_id" name="event.id">
                     <div class="form-group">
                         <label for="event_name" class="col-form-label">Название события</label>
