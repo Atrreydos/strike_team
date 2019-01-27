@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
+import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.util.VoteDayUtil;
@@ -65,7 +66,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
     @Test
     void createWithExistingEvent() {
         assertThat(eventService.getAll().size()).isEqualTo(2);
-        EventVotingDto newDto = new EventVotingDto(null, "description", createDtoFromEvent(EVENT_1));
+        EventVotingDto newDto = new EventVotingDto(null, "description", EventVotingStatus.NEW_VOTING, createDtoFromEvent(EVENT_1));
         EventVotingDto createdDto = service.createOrUpdate(newDto);
         newDto.setId(createdDto.getId());
         assertThat(newDto).isEqualToComparingFieldByField(createdDto);
@@ -77,7 +78,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
     @Test
     void createWithNewEvent() {
         assertThat(eventService.getAll().size()).isEqualTo(2);
-        EventVotingDto newDto = new EventVotingDto(null, "description", new EventDto(null, "new event name", "new event description"));
+        EventVotingDto newDto = new EventVotingDto(null, "description", EventVotingStatus.NEW_VOTING, new EventDto(null, "new event name", "new event description"));
         EventVotingDto createdDto = service.createOrUpdate(newDto);
         newDto.setId(createdDto.getId());
         newDto.getEvent().setId(createdDto.getEvent().getId());
@@ -94,6 +95,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
         assertThat(eventService.getAll().size()).isEqualTo(2);
         EventVotingDto updatedDto = service.get(EVENT_VOTING_1_ID);
         updatedDto.setDescription("updated description");
+        updatedDto.setStatus(EventVotingStatus.CLOSED_VOTING);
 
         EventDto event = updatedDto.getEvent();
         event.setName("new event name");
@@ -122,7 +124,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
         List<VoteDay> acceptedDays1 = service.getMaxAcceptedDays(EVENT_VOTING_1_ID);
         assertThat(acceptedDays1).usingElementComparatorIgnoringFields("votes", "eventVoting").isEqualTo(Collections.singletonList(VOTE_DAY_1));
 
-        EventVotingDto newDto = new EventVotingDto(null, "description", createDtoFromEvent(EVENT_1));
+        EventVotingDto newDto = new EventVotingDto(null, "description", EventVotingStatus.NEW_VOTING, createDtoFromEvent(EVENT_1));
         newDto = service.createOrUpdate(newDto);
         List<VoteDay> acceptedDays2 = service.getMaxAcceptedDays(newDto.getId());
         assertThat(acceptedDays2).isEqualTo(Collections.emptyList());

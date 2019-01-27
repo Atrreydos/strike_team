@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.vigovskiy.strike_team.TestUtil;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
+import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.VoteDay;
@@ -84,7 +85,7 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        EventVoting expected = new EventVoting(null, "new description", EVENT_1);
+        EventVoting expected = new EventVoting(null, "new description", EventVotingStatus.NEW_VOTING, EVENT_1);
         EventVotingDto expectedDto = createDtoFromEventVoting(expected);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .with(userAuth(ADMIN_1))

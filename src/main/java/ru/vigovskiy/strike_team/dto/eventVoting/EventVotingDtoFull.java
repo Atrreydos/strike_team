@@ -2,6 +2,7 @@ package ru.vigovskiy.strike_team.dto.eventVoting;
 
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.voteDay.VoteDayDto;
+import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ public class EventVotingDtoFull extends EventVotingDto {
     public EventVotingDtoFull() {
     }
 
-    public EventVotingDtoFull(Integer id, String description, EventDto event, List<VoteDayDto> voteDays) {
-        super(id, description, event);
+    public EventVotingDtoFull(Integer id, String description, EventVotingStatus status, EventDto event, List<VoteDayDto> voteDays) {
+        super(id, description, status, event);
         this.voteDays = voteDays;
     }
 

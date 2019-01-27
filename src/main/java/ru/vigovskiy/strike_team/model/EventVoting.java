@@ -1,5 +1,6 @@
 package ru.vigovskiy.strike_team.model;
 
+import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
@@ -27,12 +28,18 @@ public class EventVoting extends AbstractBaseEntity implements Identifiable<Inte
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventVoting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VoteDay> voteDays = new ArrayList<>();
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private EventVotingStatus status;
+
     public EventVoting() {
     }
 
-    public EventVoting(Integer id, String description, Event event) {
+    public EventVoting(Integer id, String description, EventVotingStatus status, Event event) {
         this.id = id;
         this.description = description;
+        this.status = status;
         this.event = event;
     }
 
@@ -68,5 +75,13 @@ public class EventVoting extends AbstractBaseEntity implements Identifiable<Inte
 
     public void setVoteDays(List<VoteDay> voteDays) {
         this.voteDays = voteDays;
+    }
+
+    public EventVotingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EventVotingStatus status) {
+        this.status = status;
     }
 }

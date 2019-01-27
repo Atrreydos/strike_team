@@ -50,6 +50,7 @@ CREATE TABLE event_votings
 (
   id          INTEGER PRIMARY KEY DEFAULT nextval('event_voting_seq'),
   description VARCHAR,
+  status      VARCHAR NOT NULL,
   event_id    INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
 );
 

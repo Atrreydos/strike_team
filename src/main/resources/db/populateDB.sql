@@ -29,9 +29,9 @@ FROM event_votings;
 ALTER SEQUENCE event_voting_seq
   RESTART WITH 1;
 
-INSERT INTO event_votings (event_id, description)
-VALUES (1, 'Описание 1'),
-       (2, 'Описание 2');
+INSERT INTO event_votings (event_id, description, status)
+VALUES (1, 'Описание 1', 'NEW_VOTING'),
+       (2, 'Описание 2', 'NEW_VOTING');
 
 DELETE
 FROM vote_days;

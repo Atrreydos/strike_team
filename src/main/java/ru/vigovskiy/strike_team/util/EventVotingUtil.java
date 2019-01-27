@@ -19,13 +19,13 @@ import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtosFromVoteDays;
 public class EventVotingUtil {
 
     public static EventVoting createEventVotingFromDto(EventVotingDto dto, Event event) {
-        return new EventVoting(dto.getId(), dto.getDescription(), event);
+        return new EventVoting(dto.getId(), dto.getDescription(), dto.getStatus(), event);
     }
 
     public static EventVotingDto createDtoFromEventVoting(EventVoting eventVoting) {
         Event event = eventVoting.getEvent();
         EventDto eventDto = createDtoFromEvent(event);
-        return new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), eventDto);
+        return new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), eventVoting.getStatus(), eventDto);
     }
 
     public static List<EventVotingDto> createDtosFromEventVotings(List<EventVoting> eventVotings) {
@@ -38,6 +38,6 @@ public class EventVotingUtil {
         EventDto eventDto = createDtoFromEvent(event);
         List<VoteDay> voteDays = Optional.ofNullable(eventVoting.getVoteDays()).orElse(Collections.emptyList());
         List<VoteDayDto> dtosFromVoteDays = createDtosFromVoteDays(voteDays);
-        return new EventVotingDtoFull(eventVoting.getId(), eventVoting.getDescription(), eventDto, dtosFromVoteDays);
+        return new EventVotingDtoFull(eventVoting.getId(), eventVoting.getDescription(), eventVoting.getStatus(), eventDto, dtosFromVoteDays);
     }
 }
