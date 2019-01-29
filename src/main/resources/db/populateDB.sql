@@ -20,9 +20,9 @@ FROM events;
 ALTER SEQUENCE event_seq
   RESTART WITH 1;
 
-INSERT INTO events (name, description)
-VALUES ('событие 1', 'описание события 1'),
-       ('событие 2', 'описание события 2');
+INSERT INTO events (name, description, status)
+VALUES ('событие 1', 'описание события 1', 'IN_VOTING'),
+       ('событие 2', 'описание события 2', 'IN_VOTING');
 
 DELETE
 FROM event_votings;

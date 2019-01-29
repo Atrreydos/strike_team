@@ -40,7 +40,8 @@ CREATE TABLE events
   id          INTEGER PRIMARY KEY DEFAULT nextval('event_seq'),
   name        VARCHAR NOT NULL,
   description VARCHAR,
-  date        DATE
+  date        DATE,
+  status      VARCHAR NOT NULL
 );
 
 CREATE SEQUENCE event_voting_seq

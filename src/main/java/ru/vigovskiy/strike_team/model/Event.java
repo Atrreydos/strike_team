@@ -1,8 +1,10 @@
 package ru.vigovskiy.strike_team.model;
 
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.model.Interfaces.Identifiable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +21,11 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
 
     @Column(name = "date")
     private LocalDate date;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private EventStatus status;
 
     public Event() {
     }
@@ -62,12 +69,21 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
         this.date = date;
     }
 
+    public EventStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EventStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", date=" + date +
+                ", status=" + status +
                 ", name='" + name + '\'' +
                 '}';
     }
