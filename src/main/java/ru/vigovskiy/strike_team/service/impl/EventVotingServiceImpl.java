@@ -106,6 +106,8 @@ public class EventVotingServiceImpl implements EventVotingService {
         if (voteDay == null) {
             throw new IllegalArgumentException(String.format("EventVoting %d don't have VoteDay %d", eventVotingId, voteDayId));
         }
+        eventVoting.setStatus(EventVotingStatus.CLOSED_VOTING);
+        repository.save(eventVoting);
         event.setDate(voteDay.getDay());
         eventRepository.save(event);
     }

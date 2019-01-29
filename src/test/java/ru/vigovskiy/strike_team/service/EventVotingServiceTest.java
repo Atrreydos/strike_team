@@ -7,6 +7,7 @@ import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
 import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 import ru.vigovskiy.strike_team.model.Event;
+import ru.vigovskiy.strike_team.model.EventVoting;
 import ru.vigovskiy.strike_team.model.VoteDay;
 import ru.vigovskiy.strike_team.util.VoteDayUtil;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
@@ -134,11 +135,17 @@ class EventVotingServiceTest extends AbstractServiceTest {
     void setupDayForEventTest() {
         Event event = eventService.find(EVENT1_ID);
         assertThat(event.getDate()).isNull();
+        EventVoting eventVoting = service.find(EVENT_VOTING_1_ID);
+        assertThat(eventVoting.getStatus()).isEqualTo(EventVotingStatus.NEW_VOTING);
 
         service.setupDayForEvent(EVENT_VOTING_1_ID, VOTE_DAY_1_ID);
         VoteDay voteDay = voteDayService.find(VOTE_DAY_1_ID);
         LocalDate day = voteDay.getDay();
+
         event = eventService.find(EVENT1_ID);
         assertThat(event.getDate()).isEqualTo(day);
+
+        eventVoting = service.find(EVENT_VOTING_1_ID);
+        assertThat(eventVoting.getStatus()).isEqualTo(EventVotingStatus.CLOSED_VOTING);
     }
 }
