@@ -31,6 +31,9 @@ $(document).ready(function () {
                 "data": "date"
             },
             {
+                "data": "status"
+            },
+            {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderEditBtn,
@@ -54,11 +57,14 @@ $(document).ready(function () {
 });
 
 function saveEvent() {
+    let currentStatus = $("#status").val() === "" ? null : $("#status").val();
+
     let newEvent = {
         id: $("#id").val(),
         name: $("#name").val(),
         description: $("#description").val(),
-        date: $("#date").val()
+        date: $("#date").val(),
+        status: currentStatus
     };
 
     $.ajax({

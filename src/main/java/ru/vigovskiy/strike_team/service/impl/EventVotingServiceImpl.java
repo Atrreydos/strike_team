@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
@@ -66,7 +67,9 @@ public class EventVotingServiceImpl implements EventVotingService {
 
     @Override
     public EventVotingDto createOrUpdate(EventVotingDto dto) {
-        EventDto eventDto = eventService.createOrUpdate(dto.getEvent());
+        EventDto eventFromDto = dto.getEvent();
+        eventFromDto.setStatus(EventStatus.IN_VOTING);
+        EventDto eventDto = eventService.createOrUpdate(eventFromDto);
         Event event = createEventFromDto(eventDto);
 
         EventVoting eventVoting = createEventVotingFromDto(dto, event);
@@ -109,6 +112,7 @@ public class EventVotingServiceImpl implements EventVotingService {
         eventVoting.setStatus(EventVotingStatus.CLOSED_VOTING);
         repository.save(eventVoting);
         event.setDate(voteDay.getDay());
+        event.setStatus(EventStatus.UPCOMING_EVENT);
         eventRepository.save(event);
     }
 

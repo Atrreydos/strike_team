@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.service.EventService;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class EventRestController {
 
     @PostMapping
     public EventDto create(@RequestBody EventDto eventDto) {
+        eventDto.setStatus(EventStatus.UPCOMING_EVENT);
         return service.createOrUpdate(eventDto);
     }
 

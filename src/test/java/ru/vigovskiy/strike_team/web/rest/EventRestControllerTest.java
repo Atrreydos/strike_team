@@ -72,7 +72,7 @@ class EventRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        Event expected = new Event(null, "new name", "new description", EventStatus.UPCOMING_EVENT);
+        Event expected = new Event(null, "new name", "new description", null);
         EventDto dto = createDtoFromEvent(expected);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .with(userAuth(USER_1))
@@ -84,6 +84,7 @@ class EventRestControllerTest extends AbstractControllerTest {
         EventDto returnedDto = TestUtil.readFromJson(action, EventDto.class);
         Event returned = createEventFromDto(returnedDto);
         expected.setId(returned.getId());
+        expected.setStatus(EventStatus.UPCOMING_EVENT);
 
         assertThat(returned).isEqualToComparingFieldByField(expected);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromEvents(Arrays.asList(expected, EVENT_1, EVENT_2)));

@@ -27,6 +27,7 @@
             <tr>
                 <th>Название события</th>
                 <th>Дата события</th>
+                <th>Статус события</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -45,6 +46,7 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="status" name="status">
 
                     <div class="form-group">
                         <label for="name" class="col-form-label"><spring:message code="common.name"/></label>
