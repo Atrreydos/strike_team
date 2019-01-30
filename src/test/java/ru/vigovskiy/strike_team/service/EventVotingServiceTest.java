@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDto;
 import ru.vigovskiy.strike_team.dto.eventVoting.EventVotingDtoFull;
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.model.Enums.EventVotingStatus;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.model.EventVoting;
@@ -79,7 +80,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
     @Test
     void createWithNewEvent() {
         assertThat(eventService.getAll().size()).isEqualTo(2);
-        EventVotingDto newDto = new EventVotingDto(null, "description", EventVotingStatus.NEW_VOTING, new EventDto(null, "new event name", "new event description"));
+        EventVotingDto newDto = new EventVotingDto(null, "description", EventVotingStatus.NEW_VOTING, new EventDto(null, "new event name", "new event description", EventStatus.IN_VOTING));
         EventVotingDto createdDto = service.createOrUpdate(newDto);
         newDto.setId(createdDto.getId());
         newDto.getEvent().setId(createdDto.getEvent().getId());

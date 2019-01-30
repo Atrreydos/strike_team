@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.vigovskiy.strike_team.TestUtil;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.service.EventService;
 import ru.vigovskiy.strike_team.web.AbstractControllerTest;
@@ -71,7 +72,7 @@ class EventRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        Event expected = new Event(null, "new name", "new description");
+        Event expected = new Event(null, "new name", "new description", EventStatus.UPCOMING_EVENT);
         EventDto dto = createDtoFromEvent(expected);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .with(userAuth(USER_1))
@@ -93,6 +94,7 @@ class EventRestControllerTest extends AbstractControllerTest {
         EventDto expectedDto = service.get(EVENT1_ID);
         expectedDto.setName("updated name");
         expectedDto.setDescription("updated description");
+        expectedDto.setStatus(EventStatus.PAST_EVENT);
         mockMvc.perform(put(REST_URL)
                 .with(userAuth(ADMIN_1))
                 .contentType(MediaType.APPLICATION_JSON)

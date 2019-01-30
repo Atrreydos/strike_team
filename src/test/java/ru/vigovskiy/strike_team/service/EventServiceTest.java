@@ -3,6 +3,7 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -38,7 +39,7 @@ class EventServiceTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        EventDto newEventDto = new EventDto(null, "new name", "new description");
+        EventDto newEventDto = new EventDto(null, "new name", "new description", EventStatus.IN_VOTING);
         EventDto createdEventDto = service.createOrUpdate(newEventDto);
         newEventDto.setId(createdEventDto.getId());
         assertThat(newEventDto).isEqualToComparingFieldByField(createdEventDto);
@@ -50,6 +51,7 @@ class EventServiceTest extends AbstractServiceTest {
         EventDto updatedEvent = service.get(EVENT1_ID);
         updatedEvent.setName("updated name");
         updatedEvent.setDescription("updated description");
+        updatedEvent.setStatus(EventStatus.PAST_EVENT);
         service.createOrUpdate(updatedEvent);
         assertThat(updatedEvent).isEqualToComparingFieldByField(service.get(EVENT1_ID));
     }

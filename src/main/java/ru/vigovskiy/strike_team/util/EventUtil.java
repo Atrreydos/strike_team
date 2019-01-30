@@ -17,7 +17,7 @@ public class EventUtil {
     public static Event createEventFromDto(EventDto dto) {
         String dateString = dto.getDate();
         LocalDate date = isNotBlank(dateString) ? LocalDate.parse(dateString, DATE_FORMATTER) : null;
-        return new Event(dto.getId(), dto.getName(), dto.getDescription(), date);
+        return new Event(dto.getId(), dto.getName(), dto.getDescription(), date, dto.getStatus());
     }
 
     public static Event updateEventFromDto(Event event, EventDto dto) {
@@ -26,13 +26,14 @@ public class EventUtil {
         event.setName(dto.getName());
         event.setDescription(dto.getDescription());
         event.setDate(date);
+        event.setStatus(dto.getStatus());
         return event;
     }
 
     public static EventDto createDtoFromEvent(Event event) {
         LocalDate date = event.getDate();
         String dateString = date == null ? null : date.format(DATE_FORMATTER);
-        return new EventDto(event.getId(), event.getName(), event.getDescription(), dateString);
+        return new EventDto(event.getId(), event.getName(), event.getDescription(), dateString, event.getStatus());
     }
 
     public static List<EventDto> createDtosFromEvents(List<Event> events) {

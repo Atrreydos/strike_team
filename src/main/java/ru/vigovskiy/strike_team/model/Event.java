@@ -30,17 +30,19 @@ public class Event extends AbstractNamedEntity implements Identifiable<Integer> 
     public Event() {
     }
 
-    public Event(Integer id, String name, String description) {
+    public Event(Integer id, String name, String description, EventStatus status) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.status = status;
     }
 
-    public Event(Integer id, String name, String description, LocalDate date) {
+    public Event(Integer id, String name, String description, LocalDate date, EventStatus status) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
+        this.status = status;
     }
 
     @Override
