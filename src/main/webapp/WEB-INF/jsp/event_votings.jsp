@@ -26,8 +26,6 @@
             <thead>
                 <tr>
                     <th>Название события</th>
-                    <th>Описание события</th>
-                    <th>Описание голосования</th>
                     <th>Статус голосования</th>
                     <th></th>
                     <th></th>
@@ -55,14 +53,12 @@
                                placeholder="<spring:message code="common.name"/>">
                     </div>
                     <div class="form-group">
-                        <label for="event_description" class="col-form-label">Описание события</label>
-                        <input type="text" class="form-control" id="event_description" name="event.description"
-                               placeholder="<spring:message code="event.description"/>">
+                        <label for="event_description">Описание события</label>
+                        <textarea class="form-control" rows="5" id="event_description" placeholder="описание события"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="col-form-label">Описание голосования по событию</label>
-                        <input type="text" class="form-control" id="description" name="description"
-                               placeholder="<spring:message code="event.description"/>">
+                        <label for="description">Описание голосования</label>
+                        <textarea class="form-control" rows="5" id="description" placeholder="описание голосования"></textarea>
                     </div>
                 </form>
             </div>

@@ -21,12 +21,6 @@ $(document).ready(function () {
                 }
             },
             {
-                "data": "event.description"
-            },
-            {
-                "data": "description"
-            },
-            {
                 "data": "status"
             },
             {
@@ -53,7 +47,7 @@ $(document).ready(function () {
 });
 
 function saveEventVoting() {
-    let currentStatus = $("#status").val() == "" ? null : $("#status").val();
+    let currentStatus = $("#status").val() === "" ? null : $("#status").val();
 
     let eventVoting = {
         id: $("#id").val(),

@@ -16,30 +16,47 @@
 <input type="hidden" id="eventVotingId" name="eventVotingId" value=${eventVotingDto.id}>
 <input type="hidden" id="enabledCount" name="enabledCount" value=${enabledCount}>
 
-<div class="card-deck">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Событие</h5>
-            <h6 class="card-subtitle">Имя события</h6>
-            <p class="card-text">${eventVotingDto.event.name}</p>
-            <h6 class="card-subtitle">Описание события</h6>
-            <p class="card-text">${eventVotingDto.event.description}</p>
-            <h6 class="card-subtitle">День события</h6>
-            <p class="card-text">${eventVotingDto.event.date}</p>
+<br>
+
+<div class="d-flex justify-content-center">
+    <div class="card-deck" style="width: 80rem;">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-header">Событие</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6 class="card-subtitle">Имя события</h6>
+                        <p class="card-text">${eventVotingDto.event.name}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="card-subtitle">Описание события</h6>
+                        <p class="card-text">${eventVotingDto.event.description}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="card-subtitle">День события</h6>
+                        <p class="card-text">${eventVotingDto.event.date}</p>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Голосование</h5>
-            <h6 class="card-subtitle">Ид голосования</h6>
-            <p class="card-text">${eventVotingDto.id}</p>
-            <h6 class="card-subtitle">Описание голосования</h6>
-            <p class="card-text">${eventVotingDto.description}</p>
-            <h6 class="card-subtitle">Статус голосования</h6>
-            <p class="card-text">${eventVotingDto.status}</p>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-header">Голосование</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h6 class="card-subtitle">Описание голосования</h6>
+                        <p class="card-text">${eventVotingDto.description}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <h6 class="card-subtitle">Статус голосования</h6>
+                        <p class="card-text">${eventVotingDto.status}</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
+
 <br>
 
 <div class="jumbotron pt-4">

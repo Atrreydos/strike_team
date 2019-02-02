@@ -11,20 +11,25 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
-<div class="card-deck">
-    <div class="card">
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 30rem;">
         <div class="card-body">
-            <h5 class="card-title">Событие</h5>
-            <h6 class="card-subtitle">Имя события</h6>
-            <p class="card-text">${eventDto.name}</p>
-            <h6 class="card-subtitle">Описание события</h6>
-            <p class="card-text">${eventDto.description}</p>
-            <h6 class="card-subtitle">День события</h6>
-            <p class="card-text">${eventDto.date}</p>
+            <h5 class="card-header">Событие</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <h6 class="card-subtitle">Имя события</h6>
+                    <p class="card-text">${eventDto.name}</p>
+                </li>
+                <li class="list-group-item">
+                    <h6 class="card-subtitle">Описание события</h6>
+                    <p class="card-text">${eventDto.description}</p>
+                </li>
+                <li class="list-group-item"><h6 class="card-subtitle">День события</h6>
+                    <p class="card-text">${eventDto.date}</p></li>
+            </ul>
         </div>
     </div>
 </div>
-<br>
 
 
 <div class="modal fade" tabindex="-1" id="editRow">

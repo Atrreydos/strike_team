@@ -55,9 +55,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description" class="col-form-label"><spring:message code="event.description"/></label>
-                        <input type="text" class="form-control" id="description" name="description"
-                               placeholder="<spring:message code="event.description"/>">
+                        <label for="description">Описание события</label>
+                        <textarea class="form-control" rows="5" id="description" placeholder="описание события"></textarea>
                     </div>
 
                     <div class="form-group">
