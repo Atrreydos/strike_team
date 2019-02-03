@@ -12,6 +12,10 @@ public interface EventService {
 
     List<EventDto> getAll();
 
+    List<EventDto> getAllUpcoming();
+
+    List<EventDto> getAllInVoting();
+
     EventDto createOrUpdate(EventDto dto);
 
     void delete(int id) throws NotFoundException;

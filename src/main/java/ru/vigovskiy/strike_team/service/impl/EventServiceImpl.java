@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vigovskiy.strike_team.dto.event.EventDto;
+import ru.vigovskiy.strike_team.model.Enums.EventStatus;
 import ru.vigovskiy.strike_team.model.Event;
 import ru.vigovskiy.strike_team.repository.EventRepository;
 import ru.vigovskiy.strike_team.service.EventService;
@@ -38,6 +39,24 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventDto> getAll() {
         return repository.getAll().stream()
+                .map(EventUtil::createDtoFromEvent)
+                .sorted(Comparator.comparing(EventDto::getName))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EventDto> getAllUpcoming() {
+        return repository.getAll().stream()
+                .filter(event -> event.getStatus().equals(EventStatus.UPCOMING_EVENT))
+                .map(EventUtil::createDtoFromEvent)
+                .sorted(Comparator.comparing(EventDto::getName))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EventDto> getAllInVoting() {
+        return repository.getAll().stream()
+                .filter(event -> event.getStatus().equals(EventStatus.IN_VOTING))
                 .map(EventUtil::createDtoFromEvent)
                 .sorted(Comparator.comparing(EventDto::getName))
                 .collect(Collectors.toList());

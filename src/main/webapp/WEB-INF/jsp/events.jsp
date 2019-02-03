@@ -13,7 +13,6 @@
 <div class="jumbotron pt-4">
     <div class="container">
         <h3 class="text-center"><spring:message code="event.title"/></h3>
-        <br/>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <button class="btn btn-primary" onclick="add()">
                 <span class="fa fa-plus"></span>
@@ -22,17 +21,46 @@
             <input type="hidden" id="roleAdmin" name="roleAdmin" value="true">
         </sec:authorize>
         <br/><br/>
-        <table class="table table-striped" id="datatable">
-            <thead>
-            <tr>
-                <th>Название события</th>
-                <th>Дата события</th>
-                <th>Статус события</th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-        </table>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true">Предстоящие</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="in-voting-tab" data-toggle="tab" href="#in-voting" role="tab" aria-controls="in-voting" aria-selected="false">На голосовании</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="container tab-pane active w-100" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+                <h4 class="text-center">Приближающиеся события</h4>
+                <table class="table table-striped" id="datatable_upcoming">
+                    <thead>
+                    <tr>
+                        <th>Название события</th>
+                        <th>Дата события</th>
+                        <th>Статус события</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="container tab-pane" id="in-voting" role="tabpanel" aria-labelledby="in-voting-tab">
+                <h4 class="text-center">События на голосовании</h4>
+                <table class="table table-striped w-100" id="datatable_in_voting">
+                    <thead>
+                    <tr>
+                        <th>Название события</th>
+                        <th>Дата события</th>
+                        <th>Статус события</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -31,6 +31,16 @@ public class EventRestController {
         return service.getAll();
     }
 
+    @GetMapping(value = "upcoming")
+    public List<EventDto> getAllUpcoming() {
+        return service.getAllUpcoming();
+    }
+
+    @GetMapping(value = "in-voting")
+    public List<EventDto> getAllInVoting() {
+        return service.getAllInVoting();
+    }
+
     @PostMapping
     public EventDto create(@RequestBody EventDto eventDto) {
         eventDto.setStatus(EventStatus.UPCOMING_EVENT);
