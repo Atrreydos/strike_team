@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static ru.vigovskiy.strike_team.util.EventUtil.createDtoFromEvent;
 import static ru.vigovskiy.strike_team.util.VoteDayUtil.createDtosFromVoteDays;
+import static ru.vigovskiy.strike_team.web.SecurityUtil.getAuthUserIdOrNull;
 
 public class EventVotingUtil {
 
@@ -23,9 +24,16 @@ public class EventVotingUtil {
     }
 
     public static EventVotingDto createDtoFromEventVoting(EventVoting eventVoting) {
+        boolean votedByAuthUser = false;
+        Integer authUserId = getAuthUserIdOrNull();
+        if (authUserId != null) {
+            votedByAuthUser = eventVoting.getVoteDays().stream().anyMatch(voteDay -> voteDay.getVotes().stream().anyMatch(vote -> vote.getUser().getId().equals(authUserId)));
+        }
+
         Event event = eventVoting.getEvent();
         EventDto eventDto = createDtoFromEvent(event);
-        return new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), eventVoting.getStatus(), eventDto);
+
+        return new EventVotingDto(eventVoting.getId(), eventVoting.getDescription(), eventVoting.getStatus(), eventDto, votedByAuthUser);
     }
 
     public static List<EventVotingDto> createDtosFromEventVotings(List<EventVoting> eventVotings) {

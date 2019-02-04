@@ -11,6 +11,7 @@ public class EventVotingDto implements Identifiable<Integer> {
     /*TODO @NotNull*/
     private EventDto event;
     private EventVotingStatus status;
+    private boolean votedByAuthUser;
 
     public EventVotingDto() {
     }
@@ -20,6 +21,14 @@ public class EventVotingDto implements Identifiable<Integer> {
         this.description = description;
         this.status = status;
         this.event = event;
+    }
+
+    public EventVotingDto(Integer id, String description, EventVotingStatus status, EventDto event, boolean votedByAuthUser) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.event = event;
+        this.votedByAuthUser = votedByAuthUser;
     }
 
     @Override
@@ -48,6 +57,22 @@ public class EventVotingDto implements Identifiable<Integer> {
         this.event = event;
     }
 
+    public EventVotingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EventVotingStatus status) {
+        this.status = status;
+    }
+
+    public boolean isVotedByAuthUser() {
+        return votedByAuthUser;
+    }
+
+    public void setVotedByAuthUser(boolean votedByAuthUser) {
+        this.votedByAuthUser = votedByAuthUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,6 +80,7 @@ public class EventVotingDto implements Identifiable<Integer> {
 
         EventVotingDto that = (EventVotingDto) o;
 
+        if (votedByAuthUser != that.votedByAuthUser) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (event != null ? !event.equals(that.event) : that.event != null) return false;
@@ -67,15 +93,18 @@ public class EventVotingDto implements Identifiable<Integer> {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (event != null ? event.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (votedByAuthUser ? 1 : 0);
         return result;
     }
 
-    public EventVotingStatus getStatus() {
-        return status;
+    @Override
+    public String toString() {
+        return "EventVotingDto{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", event=" + event +
+                ", status=" + status +
+                ", votedByAuthUser=" + votedByAuthUser +
+                '}';
     }
-
-    public void setStatus(EventVotingStatus status) {
-        this.status = status;
-    }
-
 }

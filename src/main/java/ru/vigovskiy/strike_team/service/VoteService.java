@@ -14,7 +14,7 @@ public interface VoteService {
 
     VoteDto create(VoteDto dto);
 
-    void delete(Integer voteDayId) throws NotFoundException;
+    void deleteForVoteDay(Integer voteDayId) throws NotFoundException;
 
     VoteDto createOrUpdate(VoteDto dto);
 

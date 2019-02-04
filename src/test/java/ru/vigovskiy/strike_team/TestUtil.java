@@ -1,6 +1,9 @@
 package ru.vigovskiy.strike_team;
 
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -31,5 +34,11 @@ public class TestUtil {
 
     public static RequestPostProcessor userAuth(User user) {
         return SecurityMockMvcRequestPostProcessors.authentication(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
+    }
+
+    public static void setAuthUser(User user) {
+        AuthorizedUser authorizedUser = new AuthorizedUser(user);
+        Authentication auth = new TestingAuthenticationToken(authorizedUser, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 }

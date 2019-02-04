@@ -26,6 +26,6 @@ public class VoteRestController {
     @DeleteMapping(value = "/{voteDayId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("voteDayId") int voteDayId) {
-        service.delete(voteDayId);
+        service.deleteForVoteDay(voteDayId);
     }
 }

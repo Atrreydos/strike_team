@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.vigovskiy.strike_team.EventTestData.EVENT1_ID;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.*;
+import static ru.vigovskiy.strike_team.TestUtil.setAuthUser;
 import static ru.vigovskiy.strike_team.TestUtil.userAuth;
 import static ru.vigovskiy.strike_team.UserTestData.ADMIN_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.VOTE_DAY_1_ID;
@@ -56,12 +57,16 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGet() throws Exception {
+        setAuthUser(ADMIN_1);
+        EventVotingDto expectedDto = service.get(EVENT_VOTING_1_ID);
+        String eventVotingExpectedJson = convertToJson(expectedDto);
+
         mockMvc.perform(get(REST_URL + EVENT_VOTING_1_ID)
                 .with(userAuth(ADMIN_1)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(convertToJson(createDtoFromEventVoting(EVENT_VOTING_1))));
+                .andExpect(content().json(eventVotingExpectedJson));
     }
 
     @Test
@@ -75,12 +80,17 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAll() throws Exception {
+        setAuthUser(ADMIN_1);
+        EventVotingDto expectedDto_1 = service.get(EVENT_VOTING_1_ID);
+        EventVotingDto expectedDto_2 = service.get(EVENT_VOTING_2_ID);
+        String eventVotingsExpectedJson = convertToJson(Arrays.asList(expectedDto_1, expectedDto_2));
+
         mockMvc.perform(get(REST_URL )
                 .with(userAuth(ADMIN_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(convertToJson(createDtosFromEventVotings(Arrays.asList(EVENT_VOTING_1, EVENT_VOTING_2)))));
+                .andExpect(content().json(eventVotingsExpectedJson));
     }
 
     @Test

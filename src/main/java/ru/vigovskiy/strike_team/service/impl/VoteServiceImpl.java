@@ -66,7 +66,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public void delete(Integer voteDayId) {
+    public void deleteForVoteDay(Integer voteDayId) {
         int userId = authUserId();
         Vote voteForUserByVoteDay = repository.getForUserByVoteDay(userId, voteDayId);
         if (voteForUserByVoteDay == null) {

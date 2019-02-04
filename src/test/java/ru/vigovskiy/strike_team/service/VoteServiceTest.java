@@ -3,10 +3,6 @@ package ru.vigovskiy.strike_team.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import ru.vigovskiy.strike_team.AuthorizedUser;
 import ru.vigovskiy.strike_team.dto.vote.VoteDto;
 import ru.vigovskiy.strike_team.model.Enums.DecisionType;
 import ru.vigovskiy.strike_team.model.Vote;
@@ -18,6 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.vigovskiy.strike_team.TestUtil.setAuthUser;
 import static ru.vigovskiy.strike_team.UserTestData.USER1_ID;
 import static ru.vigovskiy.strike_team.UserTestData.USER_1;
 import static ru.vigovskiy.strike_team.VoteDayTestData.*;
@@ -67,22 +64,16 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void delete() {
-        AuthorizedUser authorizedUser = new AuthorizedUser(USER_1);
-        Authentication auth = new TestingAuthenticationToken(authorizedUser, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        service.delete(VOTE_DAY_1_ID);
+        setAuthUser(USER_1);
+        service.deleteForVoteDay(VOTE_DAY_1_ID);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_2, VOTE_3)));
     }
 
     @Test
     void deleteForEmptyVote() {
-        AuthorizedUser authorizedUser = new AuthorizedUser(USER_1);
-        Authentication auth = new TestingAuthenticationToken(authorizedUser, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
+        setAuthUser(USER_1);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_1, VOTE_2, VOTE_3)));
-        service.delete(2);
+        service.deleteForVoteDay(2);
         assertThat(service.getAll()).usingFieldByFieldElementComparator().isEqualTo(createDtosFromVotes(Arrays.asList(VOTE_1, VOTE_2, VOTE_3)));
     }
 
