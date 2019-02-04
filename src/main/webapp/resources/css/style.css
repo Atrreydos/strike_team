@@ -1,11 +1,3 @@
-tr[data-mealExceed="false"] {
-    color: green;
-}
-
-tr[data-mealExceed="true"] {
-    color: red;
-}
-
 tr[data-userEnabled="false"] {
     opacity: 0.3;
 }

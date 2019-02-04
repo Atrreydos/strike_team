@@ -12,6 +12,12 @@ $(document).ready(function () {
         "info": true,
         "columns": [
             {
+                "orderable": false,
+                "data": "votedByAuthUser",
+                "defaultContent": "",
+                "render": renderVoted
+            },
+            {
                 "data": "event.name",
                 "render": function (data, type, row) {
                     if (type === "display") {
@@ -19,9 +25,6 @@ $(document).ready(function () {
                     }
                     return data;
                 }
-            },
-            {
-                "data": "status"
             },
             {
                 "orderable": false,
@@ -38,7 +41,7 @@ $(document).ready(function () {
         ],
         "order": [
             [
-                0,
+                1,
                 "asc"
             ]
         ],
@@ -63,7 +66,7 @@ function saveEventVoting() {
     $.ajax({
         type: "POST",
         url: restUrl,
-        contentType : "application/json",
+        contentType: "application/json",
         data: JSON.stringify(eventVoting)
     }).done(function () {
         $("#editRow").modal("hide");
@@ -90,5 +93,13 @@ function updateVotingRow(id) {
         editVotingForm.find("input[name='event.description']").val(data.event.description);
         $('#editRow').modal();
     });
+}
+
+function renderVoted(data, type, row) {
+    if (type === "display") {
+        if (data === false) {
+            return "<span class='w-30 badge badge-danger'>Проголосуй!</span>"
+        }
+    }
 }
 
