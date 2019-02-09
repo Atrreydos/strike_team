@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS votes;
 DROP SEQUENCE IF EXISTS vote_seq;
 DROP TABLE IF EXISTS vote_days;
 DROP SEQUENCE IF EXISTS vote_day_seq;
+DROP TABLE IF EXISTS event_members;
+DROP SEQUENCE IF EXISTS event_member_seq;
 DROP TABLE IF EXISTS event_votings;
 DROP SEQUENCE IF EXISTS event_voting_seq;
 DROP TABLE IF EXISTS events CASCADE;
@@ -77,3 +79,17 @@ CREATE TABLE votes
 );
 CREATE UNIQUE INDEX votes_unique_user_vote_day_idx
   ON votes (user_id, vote_day_id);
+
+
+CREATE SEQUENCE event_member_seq
+  START 1;
+
+CREATE TABLE event_members
+(
+  id       INTEGER PRIMARY KEY DEFAULT nextval('event_member_seq'),
+  decision VARCHAR NOT NULL,
+  user_id  INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+  event_id INTEGER NOT NULL REFERENCES events (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX event_members_unique_user_event_idx
+  ON event_members (user_id, event_id);
