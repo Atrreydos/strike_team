@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import ru.vigovskiy.strike_team.model.EventMember;
 import ru.vigovskiy.strike_team.repository.EventMemberRepository;
 
+import java.util.List;
+
 @Repository
 public class EventMemberRepositoryImpl implements EventMemberRepository {
 
@@ -13,6 +15,21 @@ public class EventMemberRepositoryImpl implements EventMemberRepository {
     @Autowired
     public EventMemberRepositoryImpl(CrudEventMemberRepository repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public EventMember get(Integer id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<EventMember> getForEvent(int eventId) {
+        return repository.findAllByEventId(eventId);
+    }
+
+    @Override
+    public EventMember getForUserByEvent(int userId, int eventId) {
+        return repository.findByUserIdAndEventId(userId, eventId);
     }
 
     @Override

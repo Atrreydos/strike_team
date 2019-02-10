@@ -43,7 +43,7 @@ class EventRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + EVENT1_ID)
+        mockMvc.perform(get(REST_URL + EVENT_1_ID)
                 .with(userAuth(USER_1)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -92,7 +92,7 @@ class EventRestControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
-        EventDto expectedDto = service.get(EVENT1_ID);
+        EventDto expectedDto = service.get(EVENT_1_ID);
         expectedDto.setName("updated name");
         expectedDto.setDescription("updated description");
         expectedDto.setStatus(EventStatus.PAST_EVENT);
@@ -102,12 +102,12 @@ class EventRestControllerTest extends AbstractControllerTest {
                 .content(Objects.requireNonNull(JsonUtil.convertToJson(expectedDto))))
                 .andExpect(status().isNoContent());
 
-        assertThat(service.get(EVENT1_ID)).isEqualToComparingFieldByField(expectedDto);
+        assertThat(service.get(EVENT_1_ID)).isEqualToComparingFieldByField(expectedDto);
     }
 
     @Test
     void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + EVENT1_ID)
+        mockMvc.perform(delete(REST_URL + EVENT_1_ID)
                 .with(userAuth(ADMIN_1)))
                 .andExpect(status().isNoContent());
 

@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static ru.vigovskiy.strike_team.EventTestData.EVENT1_ID;
+import static ru.vigovskiy.strike_team.EventTestData.EVENT_1_ID;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.*;
 import static ru.vigovskiy.strike_team.TestUtil.setAuthUser;
@@ -152,7 +152,7 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testSetupVoteDay() throws Exception {
-        Event event = eventService.find(EVENT1_ID);
+        Event event = eventService.find(EVENT_1_ID);
         assertThat(event.getDate()).isNull();
 
         mockMvc.perform(put(REST_URL + EVENT_VOTING_1_ID + "/vote-day/" + VOTE_DAY_1_ID)
@@ -161,7 +161,7 @@ class EventVotingRestControllerTest extends AbstractControllerTest {
 
         VoteDay voteDay = voteDayService.find(VOTE_DAY_1_ID);
         LocalDate day = voteDay.getDay();
-        event = eventService.find(EVENT1_ID);
+        event = eventService.find(EVENT_1_ID);
         assertThat(event.getDate()).isEqualTo(day);
     }
 

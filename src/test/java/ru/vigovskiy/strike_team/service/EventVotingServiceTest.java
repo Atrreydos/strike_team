@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.vigovskiy.strike_team.EventTestData.EVENT1_ID;
+import static ru.vigovskiy.strike_team.EventTestData.EVENT_1_ID;
 import static ru.vigovskiy.strike_team.EventTestData.EVENT_1;
 import static ru.vigovskiy.strike_team.EventVotingTestData.*;
 import static ru.vigovskiy.strike_team.VoteDayTestData.*;
@@ -134,7 +134,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
 
     @Test
     void setupDayForEventTest() {
-        Event event = eventService.find(EVENT1_ID);
+        Event event = eventService.find(EVENT_1_ID);
         assertThat(event.getDate()).isNull();
         EventVoting eventVoting = service.find(EVENT_VOTING_1_ID);
         assertThat(eventVoting.getStatus()).isEqualTo(EventVotingStatus.NEW_VOTING);
@@ -143,7 +143,7 @@ class EventVotingServiceTest extends AbstractServiceTest {
         VoteDay voteDay = voteDayService.find(VOTE_DAY_1_ID);
         LocalDate day = voteDay.getDay();
 
-        event = eventService.find(EVENT1_ID);
+        event = eventService.find(EVENT_1_ID);
         assertThat(event.getDate()).isEqualTo(day);
 
         eventVoting = service.find(EVENT_VOTING_1_ID);

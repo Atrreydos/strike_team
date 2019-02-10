@@ -53,5 +53,15 @@ VALUES ('ACCEPT', 1, 1),
        ('ACCEPT', 2, 2),
        ('REJECT', 2, 1);
 
+DELETE
+FROM event_members;
+ALTER SEQUENCE event_member_seq
+  RESTART WITH 1;
+
+INSERT INTO event_members (decision, user_id, event_id)
+VALUES ('ACCEPT', 1, 1),
+       ('REJECT', 1, 2),
+       ('REJECT', 2, 1);
+
 
 

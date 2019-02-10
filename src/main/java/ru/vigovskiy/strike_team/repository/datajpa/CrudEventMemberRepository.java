@@ -7,11 +7,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vigovskiy.strike_team.model.EventMember;
 
+import java.util.List;
+
 public interface CrudEventMemberRepository extends JpaRepository<EventMember, Integer> {
 
     @Transactional
     @Modifying
     @Query("DELETE FROM EventMember em WHERE em.id=:id")
     int delete(@Param("id") Integer id);
+
+    EventMember findByUserIdAndEventId(int userId, int eventId);
+
+    List<EventMember> findAllByEventId(int eventId);
 
 }
