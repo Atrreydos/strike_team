@@ -9,7 +9,11 @@
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
+<script type="text/javascript" src="resources/js/datatablesUtil.js" defer></script>
+<script type="text/javascript" src="resources/js/eventMembersDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
+
+<input type="hidden" id="eventId" name="eventId" value=${eventDto.id}>
 
 <div class="d-flex justify-content-center">
     <div class="card" style="width: 30rem;">
@@ -24,10 +28,27 @@
                     <h6 class="card-subtitle">Описание события</h6>
                     <p class="card-text">${eventDto.description}</p>
                 </li>
-                <li class="list-group-item"><h6 class="card-subtitle">День события</h6>
+                <li class="list-group-item">
+                    <h6 class="card-subtitle">День события</h6>
                     <p class="card-text">${eventDto.date}</p></li>
             </ul>
         </div>
+    </div>
+</div>
+
+<div class="jumbotron pt-4">
+    <div class="container">
+        <h3 class="text-center">Участники</h3>
+        <br/>
+        <table class="table table-striped" id="membersDatatable">
+            <thead>
+            <tr>
+                <th>ID участника</th>
+                <th>ID user</th>
+                <th>Решение</th>
+            </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
